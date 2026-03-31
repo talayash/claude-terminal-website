@@ -36,7 +36,9 @@ const { title, description = 'A Modern Multi-Instance Terminal Manager for Claud
     <slot />
     <script>
       import { inject } from '@vercel/analytics';
+      import { injectSpeedInsights } from '@vercel/speed-insights';
       inject();
+      injectSpeedInsights();
     </script>
   </body>
 </html>
