@@ -1,5 +1,26 @@
 [
   {
+    "version": "1.17.5",
+    "date": "2026-03-30",
+    "features": [
+      { "title": "macOS Installer Improvements", "description": "Improved DMG installers for both Apple Silicon and Intel Macs" }
+    ]
+  },
+  {
+    "version": "1.17.4",
+    "date": "2026-03-30",
+    "features": [
+      { "title": "Build & Packaging Fixes", "description": "Fixed cross-platform build pipeline and installer signing" }
+    ]
+  },
+  {
+    "version": "1.17.3",
+    "date": "2026-03-29",
+    "features": [
+      { "title": "Stability Improvements", "description": "Bug fixes and performance improvements across platforms" }
+    ]
+  },
+  {
     "version": "1.17.2",
     "date": "2026-03-29",
     "features": [

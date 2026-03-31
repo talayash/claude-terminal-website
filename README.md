@@ -1,43 +1,60 @@
-# Astro Starter Kit: Minimal
+# ClaudeTerminal Website
 
-```sh
-npm create astro@latest -- --template minimal
+Official website for [ClaudeTerminal](https://github.com/talayash/claude-terminal) — a modern multi-instance terminal manager for Claude Code.
+
+**Live:** [https://claude-terminal.dev](https://claude-terminal.dev)
+
+## Tech Stack
+
+- [Astro](https://astro.build/) — static site generator
+- [Tailwind CSS v4](https://tailwindcss.com/) — styling
+- [Vercel](https://vercel.com/) — hosting & deployment
+
+## Development
+
+```bash
+npm install
+npm run dev       # Start dev server at localhost:4321
+npm run build     # Build production site to ./dist/
+npm run preview   # Preview production build locally
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## How It Stays Updated
 
-## 🚀 Project Structure
+- **Version number** is fetched from the [GitHub Releases API](https://api.github.com/repos/talayash/claude-terminal/releases/latest) at build time
+- **Download links** are dynamically constructed from the latest version
+- **Changelog** is sourced from `src/data/changelog.json`, synced from the main repo via the `sync-release.yml` workflow
+- A **repository dispatch** from the main repo's release workflow triggers a rebuild on each new release
 
-Inside of your Astro project, you'll see the following folders and files:
+## Project Structure
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```
+src/
+  layouts/Layout.astro        # Base HTML layout with SEO meta
+  components/
+    Navbar.astro              # Fixed navigation bar
+    Hero.astro                # Hero section with version badge & demo
+    Features.astro            # Feature grid
+    Screenshots.astro         # Screenshot gallery
+    Download.astro            # Download section with installer links
+    TechStack.astro           # Technology badges
+    Footer.astro              # Site footer
+  pages/
+    index.astro               # Landing page
+    changelog.astro           # Release history timeline
+  data/
+    changelog.json            # Release notes data
+    features.json             # Feature descriptions
+  styles/global.css           # Tailwind config & custom styles
+public/
+  screenshots/                # App screenshots & demo GIF
+  icons/                      # App icon
+vercel.json                   # Vercel deployment config
+.github/workflows/
+  deploy.yml                  # Build verification
+  sync-release.yml            # Changelog sync from main repo
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## License
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+MIT
