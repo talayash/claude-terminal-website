@@ -1,0 +1,36 @@
+name: Deploy Website
+
+on:
+  # Rebuild when pushing to main
+  push:
+    branches: [main]
+
+  # Rebuild when triggered by the main repo's release workflow
+  repository_dispatch:
+    types: [new-release]
+
+  # Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      # Vercel handles deployment via its GitHub integration,
+      # so we just verify the build succeeds here.
+      # If you want GitHub Pages instead, uncomment below:
+      # - uses: peaceiris/actions-gh-pages@v3
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     publish_dir: ./dist

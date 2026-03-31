@@ -1,0 +1,55 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import changelog from '../data/changelog.json';
+---
+
+<Layout title="Changelog — ClaudeTerminal" description="Release history and changelog for ClaudeTerminal.">
+  <Navbar />
+
+  <main class="pt-24 pb-16">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-4xl font-bold text-white mb-2">Changelog</h1>
+      <p class="text-slate-400 mb-12">All notable changes to ClaudeTerminal.</p>
+
+      <div class="space-y-12">
+        {changelog.map((release, index) => (
+          <div class="relative">
+            {/* Timeline line */}
+            {index < changelog.length - 1 && (
+              <div class="absolute left-[11px] top-8 bottom-0 w-px bg-slate-800"></div>
+            )}
+
+            <div class="flex items-start gap-4">
+              {/* Timeline dot */}
+              <div class="mt-1.5 w-6 h-6 rounded-full bg-primary/20 border-2 border-primary flex-shrink-0 flex items-center justify-center">
+                <div class="w-2 h-2 rounded-full bg-primary"></div>
+              </div>
+
+              <div class="flex-1 min-w-0">
+                <div class="flex items-baseline gap-3 mb-3 flex-wrap">
+                  <h2 class="text-xl font-bold text-white font-mono">v{release.version}</h2>
+                  <time class="text-sm text-slate-500">{release.date}</time>
+                </div>
+
+                <ul class="space-y-2">
+                  {release.features.map((feature) => (
+                    <li class="glass-light rounded-lg p-3">
+                      <span class="text-sm font-medium text-white">{feature.title}</span>
+                      {feature.description && (
+                        <p class="text-xs text-slate-400 mt-1">{feature.description}</p>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

@@ -1,0 +1,42 @@
+---
+const screenshots = [
+  { src: '/screenshots/main-view.png', title: 'Main View', description: 'Tabbed terminal interface with sidebar' },
+  { src: '/screenshots/grid-view.png', title: 'Grid View', description: 'View up to 8 terminals simultaneously' },
+  { src: '/screenshots/new-terminal.png', title: 'New Terminal', description: 'Create terminals with custom configurations' },
+  { src: '/screenshots/profiles.png', title: 'Profiles', description: 'Save and load configuration profiles' },
+  { src: '/screenshots/settings.png', title: 'Settings', description: 'Customize your experience' },
+  { src: '/screenshots/welcome.png', title: 'Setup Wizard', description: 'Guided first-run setup' },
+];
+---
+
+<section id="screenshots" class="py-24 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">
+        See it in action
+      </h2>
+      <p class="text-lg text-slate-400 max-w-2xl mx-auto">
+        A sleek dark glassmorphic interface designed for focus and productivity.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {screenshots.map((shot) => (
+        <div class="group glass-light rounded-xl overflow-hidden hover:border-primary/30 transition-all duration-300">
+          <div class="overflow-hidden">
+            <img
+              src={shot.src}
+              alt={shot.title}
+              class="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-500"
+              loading="lazy"
+            />
+          </div>
+          <div class="p-4">
+            <h3 class="text-sm font-semibold text-white">{shot.title}</h3>
+            <p class="text-xs text-slate-400 mt-1">{shot.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

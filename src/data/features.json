@@ -1,0 +1,32 @@
+[
+  {
+    "icon": "terminal",
+    "title": "Multi-Terminal Management",
+    "description": "Create, manage, and monitor multiple Claude Code instances simultaneously with tab-based interface and drag-and-drop reordering."
+  },
+  {
+    "icon": "grid",
+    "title": "Smart Grid View",
+    "description": "View up to 8 terminals simultaneously with intelligent auto-layout. Navigate with keyboard arrows and context menus."
+  },
+  {
+    "icon": "settings",
+    "title": "Configuration Profiles",
+    "description": "Save and load custom terminal configurations with pre-configured CLI flags, environment variables, and working directories."
+  },
+  {
+    "icon": "refresh",
+    "title": "Auto-Updates",
+    "description": "Automatic update checks on startup with background downloads and one-click installation. Never miss a release."
+  },
+  {
+    "icon": "keyboard",
+    "title": "Keyboard Shortcuts",
+    "description": "Comprehensive keyboard shortcuts for power users. Command palette (F1), session history (F2), and more."
+  },
+  {
+    "icon": "users",
+    "title": "Agent Teams Panel",
+    "description": "Monitor Claude Code multi-agent team sessions with real-time team structure, member details, and task tracking."
+  }
+]

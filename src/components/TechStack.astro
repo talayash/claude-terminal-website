@@ -1,0 +1,26 @@
+---
+const techs = [
+  { name: 'Tauri 2.x', category: 'Framework' },
+  { name: 'Rust', category: 'Backend' },
+  { name: 'React 18', category: 'Frontend' },
+  { name: 'TypeScript', category: 'Language' },
+  { name: 'xterm.js', category: 'Terminal' },
+  { name: 'Tailwind CSS', category: 'Styling' },
+  { name: 'Zustand', category: 'State' },
+  { name: 'SQLite', category: 'Database' },
+];
+---
+
+<section class="py-16 border-t border-slate-800/50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <p class="text-center text-sm text-slate-500 mb-8">Built with</p>
+    <div class="flex flex-wrap items-center justify-center gap-6">
+      {techs.map((tech) => (
+        <div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700/50">
+          <span class="text-xs text-slate-500">{tech.category}</span>
+          <span class="text-sm text-slate-300 font-medium">{tech.name}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
