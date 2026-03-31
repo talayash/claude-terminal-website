@@ -3,7 +3,13 @@
   "framework": "astro",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "dev": true
+    }
+  },
   "github": {
-    "silent": true
+    "silent": false
   }
 }
