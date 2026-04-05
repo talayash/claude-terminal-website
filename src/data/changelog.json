@@ -1,23 +1,37 @@
 [
   {
+    "version": "1.18.0",
+    "date": "2026-04-05",
+    "features": [
+      { "title": "Elevation Design System", "description": "New 5-level surface hierarchy with refined color tokens, desaturated accents, and glow shadows for improved visual depth" },
+      { "title": "App Status Bar", "description": "Persistent bottom bar showing terminal count, active status, model indicator, notification toggle, Claude version, and app version" },
+      { "title": "Enhanced Command Palette", "description": "Prefix filtering (> commands, @ terminals, # snippets), icons, keyboard shortcut badges, ranked fuzzy search, and smooth animations" },
+      { "title": "Collapsible Sidebar", "description": "Sidebar now collapses to a 48px icon rail with terminal status dots, unread indicators, and quick-action buttons" },
+      { "title": "Tab Scroll Indicators", "description": "Gradient fade arrows appear when tabs overflow, with hidden scrollbar for a cleaner look" },
+      { "title": "Modal Backdrop Blur", "description": "All modals now use a subtle backdrop blur effect for improved visual layering" }
+    ]
+  },
+  {
     "version": "1.17.5",
     "date": "2026-03-30",
     "features": [
-      { "title": "macOS Installer Improvements", "description": "Improved DMG installers for both Apple Silicon and Intel Macs" }
+      { "title": "Fix Terminal Keyboard Input", "description": "Terminals now auto-focus on creation so keyboard input works immediately — fixes issue where Enter, Esc, arrow keys, and number keys were unresponsive on first-time trust prompts" }
     ]
   },
   {
     "version": "1.17.4",
     "date": "2026-03-30",
     "features": [
-      { "title": "Build & Packaging Fixes", "description": "Fixed cross-platform build pipeline and installer signing" }
+      { "title": "Git Worktree Support", "description": "Manage git worktrees directly from the app with a dedicated modal (Ctrl+Shift+W), inline creation in New Terminal, and branch/worktree badges in sidebar and tabs" }
     ]
   },
   {
     "version": "1.17.3",
     "date": "2026-03-29",
     "features": [
-      { "title": "Stability Improvements", "description": "Bug fixes and performance improvements across platforms" }
+      { "title": "Terminal Status Bar", "description": "Persistent bar at the bottom of each terminal showing session duration, model/effort badges, working directory, and quick actions" },
+      { "title": "Drag & Drop Terminal Management", "description": "Drag terminals from sidebar into grid cells, swap grid cells, and drop onto tabs for split view" },
+      { "title": "Fix URL Click", "description": "Clicking URLs in terminal output now correctly opens them in your system browser" }
     ]
   },
   {
