@@ -9,7 +9,7 @@ import TechStack from '../components/TechStack.astro';
 import Footer from '../components/Footer.astro';
 
 // Fetch latest version from GitHub releases at build time
-let version = '1.17.2'; // fallback
+let version = '1.18.1'; // fallback — keep in sync with latest release
 try {
   const res = await fetch('https://api.github.com/repos/talayash/claude-terminal/releases/latest', {
     headers: { 'Accept': 'application/vnd.github.v3+json' },
@@ -17,9 +17,11 @@ try {
   if (res.ok) {
     const data = await res.json();
     version = data.tag_name?.replace(/^v/, '') || version;
+  } else {
+    console.warn(`GitHub API returned ${res.status} — using fallback version ${version}`);
   }
-} catch {
-  // Use fallback version
+} catch (e) {
+  console.warn(`Failed to fetch latest version: ${e} — using fallback ${version}`);
 }
 ---
 
