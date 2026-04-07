@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css'
+import SpeedInsights from '@vercel/speed-insights/astro'
 
 interface Props {
   title: string;
@@ -34,11 +35,10 @@ const { title, description = 'A Modern Multi-Instance Terminal Manager for Claud
   </head>
   <body class="min-h-screen antialiased">
     <slot />
+    <SpeedInsights />
     <script>
       import { inject } from '@vercel/analytics';
-      import { injectSpeedInsights } from '@vercel/speed-insights';
       inject();
-      injectSpeedInsights();
     </script>
   </body>
 </html>
