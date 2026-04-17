@@ -1,0 +1,321 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const STATS_URL = 'https://ct-analytics.claude-terminal.workers.dev/stats';
+---
+
+<Layout title="Stats — ClaudeTerminal" description="Internal telemetry dashboard.">
+  <Fragment slot="head">
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+  </Fragment>
+
+  <main class="min-h-screen pt-10 pb-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header -->
+      <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
+        <div>
+          <div class="flex items-center gap-3 mb-2">
+            <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-primary/15 border border-primary/30 text-primary-light text-xs font-mono">
+              <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-light opacity-60"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-primary-light"></span>
+              </span>
+              LIVE
+            </span>
+            <span class="text-xs text-slate-500 font-mono">/stat</span>
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-bold text-white">Telemetry</h1>
+          <p class="text-slate-400 text-sm mt-1">Real-time stats from ClaudeTerminal installations.</p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <div id="status-pill" class="text-xs font-mono px-3 py-1.5 rounded-md glass-light text-slate-400">
+            connecting…
+          </div>
+          <button
+            id="refresh-btn"
+            type="button"
+            class="text-xs font-mono px-3 py-1.5 rounded-md bg-primary/20 hover:bg-primary/30 border border-primary/40 text-primary-light transition-colors"
+          >
+            refresh
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI cards -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="glass rounded-xl p-5">
+          <div class="text-xs font-mono uppercase tracking-wider text-slate-500 mb-2">Date</div>
+          <div id="kpi-date" class="text-2xl font-bold text-white font-mono tabular-nums">—</div>
+        </div>
+        <div class="glass rounded-xl p-5">
+          <div class="text-xs font-mono uppercase tracking-wider text-slate-500 mb-2">Daily Active Users</div>
+          <div id="kpi-dau" class="text-3xl font-bold gradient-text tabular-nums">—</div>
+        </div>
+        <div class="glass rounded-xl p-5">
+          <div class="text-xs font-mono uppercase tracking-wider text-slate-500 mb-2">Heartbeats Today</div>
+          <div id="kpi-hb" class="text-3xl font-bold text-white tabular-nums">—</div>
+        </div>
+        <div class="glass rounded-xl p-5">
+          <div class="text-xs font-mono uppercase tracking-wider text-slate-500 mb-2">Update Checks Today</div>
+          <div id="kpi-uc" class="text-3xl font-bold text-white tabular-nums">—</div>
+        </div>
+      </div>
+
+      <!-- Total installs banner -->
+      <div class="glass rounded-xl p-5 mb-8 flex items-center justify-between flex-wrap gap-4">
+        <div>
+          <div class="text-xs font-mono uppercase tracking-wider text-slate-500 mb-1">Total Installations</div>
+          <div id="kpi-installs" class="text-4xl font-bold text-white tabular-nums">—</div>
+        </div>
+        <div class="text-right">
+          <div class="text-xs font-mono uppercase tracking-wider text-slate-500 mb-1">Last Refreshed</div>
+          <div id="last-updated" class="text-sm font-mono text-slate-300">—</div>
+        </div>
+      </div>
+
+      <!-- Distributions -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <section class="glass rounded-xl p-5">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-sm font-mono uppercase tracking-wider text-slate-400">Versions</h2>
+            <span id="count-versions" class="text-xs font-mono text-slate-600">0</span>
+          </div>
+          <div id="dist-versions" class="space-y-2.5"></div>
+        </section>
+
+        <section class="glass rounded-xl p-5">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-sm font-mono uppercase tracking-wider text-slate-400">Operating Systems</h2>
+            <span id="count-os" class="text-xs font-mono text-slate-600">0</span>
+          </div>
+          <div id="dist-os" class="space-y-2.5"></div>
+        </section>
+
+        <section class="glass rounded-xl p-5">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-sm font-mono uppercase tracking-wider text-slate-400">Countries</h2>
+            <span id="count-countries" class="text-xs font-mono text-slate-600">0</span>
+          </div>
+          <div id="dist-countries" class="space-y-2.5"></div>
+        </section>
+      </div>
+
+      <!-- Raw payload (debug) -->
+      <details class="mt-8 glass-light rounded-xl p-4">
+        <summary class="text-xs font-mono uppercase tracking-wider text-slate-500 cursor-pointer select-none hover:text-slate-300">Raw payload</summary>
+        <pre id="raw-payload" class="mt-3 text-xs text-slate-400 font-mono overflow-x-auto whitespace-pre-wrap break-words">—</pre>
+      </details>
+
+      <p class="mt-8 text-center text-xs text-slate-600 font-mono">
+        auto-refresh every 15s · endpoint: <span class="text-slate-500">{STATS_URL}</span>
+      </p>
+    </div>
+  </main>
+
+  <script define:vars={{ STATS_URL }}>
+  const $ = (id) => document.getElementById(id);
+  const POLL_MS = 15000;
+
+  // ISO 3166-1 alpha-2 → display name (partial; falls back to the code itself).
+  const COUNTRY_NAMES = {
+    US: 'United States', IL: 'Israel', GB: 'United Kingdom', DE: 'Germany',
+    FR: 'France', CA: 'Canada', AU: 'Australia', JP: 'Japan', CN: 'China',
+    IN: 'India', BR: 'Brazil', RU: 'Russia', NL: 'Netherlands', ES: 'Spain',
+    IT: 'Italy', SE: 'Sweden', NO: 'Norway', FI: 'Finland', DK: 'Denmark',
+    PL: 'Poland', UA: 'Ukraine', MX: 'Mexico', AR: 'Argentina', ZA: 'South Africa',
+    KR: 'South Korea', TR: 'Turkey', SG: 'Singapore', CH: 'Switzerland',
+    AT: 'Austria', BE: 'Belgium', IE: 'Ireland', PT: 'Portugal', GR: 'Greece',
+    CZ: 'Czechia', RO: 'Romania', HU: 'Hungary', NZ: 'New Zealand',
+    HK: 'Hong Kong', TW: 'Taiwan', TH: 'Thailand', VN: 'Vietnam', ID: 'Indonesia',
+    PH: 'Philippines', MY: 'Malaysia', AE: 'UAE', SA: 'Saudi Arabia',
+    EG: 'Egypt', NG: 'Nigeria', KE: 'Kenya', CL: 'Chile', CO: 'Colombia',
+  };
+
+  function countryFlag(code) {
+    if (typeof code !== 'string' || code.length !== 2) return '🏳️';
+    const cc = code.toUpperCase();
+    if (!/^[A-Z]{2}$/.test(cc)) return '🏳️';
+    const base = 127397; // regional indicator offset
+    return String.fromCodePoint(base + cc.charCodeAt(0), base + cc.charCodeAt(1));
+  }
+
+  function osIcon(os) {
+    const key = String(os || '').toLowerCase();
+    if (key.includes('win')) return '🪟';
+    if (key.includes('mac') || key.includes('darwin') || key.includes('osx')) return '🍎';
+    if (key.includes('linux')) return '🐧';
+    if (key.includes('bsd')) return '😈';
+    return '💻';
+  }
+
+  function osLabel(os) {
+    const key = String(os || '').toLowerCase();
+    if (key.includes('win')) return 'Windows';
+    if (key.includes('darwin')) return 'macOS';
+    if (key.includes('mac')) return 'macOS';
+    if (key.includes('linux')) return 'Linux';
+    return String(os || 'Unknown');
+  }
+
+  function formatNumber(n) {
+    if (typeof n !== 'number' || !Number.isFinite(n)) return '—';
+    return n.toLocaleString('en-US');
+  }
+
+  function emptyState(message) {
+    const el = document.createElement('div');
+    el.className = 'text-sm text-slate-500 italic py-4 text-center';
+    el.textContent = message;
+    return el;
+  }
+
+  function errorState(message) {
+    const el = document.createElement('div');
+    el.className = 'text-sm text-red-400 py-4 text-center font-mono';
+    el.textContent = message;
+    return el;
+  }
+
+  /**
+   * Render a distribution bar row.
+   * @param {string} label    Visible label (may include a leading icon/flag).
+   * @param {string} subLabel Secondary label (e.g. raw code).
+   * @param {number} value    Count for this row.
+   * @param {number} max      Highest count across the distribution (for bar scaling).
+   * @param {number} total    Sum of all counts (for percentage).
+   */
+  function renderBar(label, subLabel, value, max, total) {
+    const pct = total > 0 ? (value / total) * 100 : 0;
+    const widthPct = max > 0 ? (value / max) * 100 : 0;
+
+    const row = document.createElement('div');
+    row.className = 'group';
+    row.innerHTML = `
+      <div class="flex items-baseline justify-between gap-2 mb-1">
+        <span class="text-sm text-slate-200 truncate">${label}${subLabel ? `<span class="text-slate-600 ml-1.5 text-xs font-mono">${subLabel}</span>` : ''}</span>
+        <span class="text-xs font-mono text-slate-400 tabular-nums flex-shrink-0">${formatNumber(value)} <span class="text-slate-600">(${pct.toFixed(1)}%)</span></span>
+      </div>
+      <div class="h-2 rounded-full bg-slate-800/60 overflow-hidden">
+        <div class="h-full rounded-full bg-gradient-to-r from-primary to-accent transition-all duration-500" style="width: ${widthPct}%"></div>
+      </div>
+    `;
+    return row;
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+    }[c]));
+  }
+
+  function renderDistribution(containerId, countId, dist, formatter) {
+    const container = $(containerId);
+    const countEl = $(countId);
+    container.innerHTML = '';
+
+    const entries = dist && typeof dist === 'object'
+      ? Object.entries(dist).filter(([, v]) => typeof v === 'number' && v > 0)
+      : [];
+
+    countEl.textContent = entries.length.toString();
+
+    if (entries.length === 0) {
+      container.appendChild(emptyState('No data yet'));
+      return;
+    }
+
+    entries.sort((a, b) => b[1] - a[1]);
+    const total = entries.reduce((sum, [, v]) => sum + v, 0);
+    const max = entries[0][1];
+
+    for (const [key, value] of entries) {
+      const { label, sub } = formatter(key);
+      container.appendChild(renderBar(label, sub, value, max, total));
+    }
+  }
+
+  function setStatus(state, detail) {
+    const pill = $('status-pill');
+    pill.classList.remove('text-slate-400', 'text-emerald-300', 'text-red-400', 'text-amber-300');
+    pill.classList.add(
+      state === 'ok' ? 'text-emerald-300'
+      : state === 'error' ? 'text-red-400'
+      : state === 'loading' ? 'text-amber-300'
+      : 'text-slate-400'
+    );
+    pill.textContent = detail;
+  }
+
+  let inFlight = false;
+
+  async function fetchStats() {
+    if (inFlight) return;
+    inFlight = true;
+    setStatus('loading', 'fetching…');
+
+    try {
+      const res = await fetch(STATS_URL, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      render(data);
+      setStatus('ok', `ok · ${new Date().toLocaleTimeString()}`);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      setStatus('error', `error: ${msg}`);
+      const rawEl = $('raw-payload');
+      if (rawEl.textContent === '—') {
+        $('dist-versions').replaceChildren(errorState('Failed to load'));
+        $('dist-os').replaceChildren(errorState('Failed to load'));
+        $('dist-countries').replaceChildren(errorState('Failed to load'));
+      }
+    } finally {
+      inFlight = false;
+    }
+  }
+
+  function render(data) {
+    if (!data || typeof data !== 'object') {
+      setStatus('error', 'malformed payload');
+      return;
+    }
+
+    $('kpi-date').textContent = data.date || '—';
+    $('kpi-dau').textContent = formatNumber(data.daily_active_users);
+    $('kpi-hb').textContent = formatNumber(data.total_heartbeats_today);
+    $('kpi-uc').textContent = formatNumber(data.total_update_checks_today);
+    $('kpi-installs').textContent = formatNumber(data.total_installations);
+    $('last-updated').textContent = new Date().toLocaleString();
+
+    renderDistribution('dist-versions', 'count-versions', data.version_distribution, (v) => ({
+      label: `<span class="font-mono">v${escapeHtml(v)}</span>`,
+      sub: '',
+    }));
+
+    renderDistribution('dist-os', 'count-os', data.os_distribution, (os) => ({
+      label: `${osIcon(os)} ${escapeHtml(osLabel(os))}`,
+      sub: '',
+    }));
+
+    renderDistribution('dist-countries', 'count-countries', data.country_distribution, (code) => ({
+      label: `${countryFlag(code)} ${escapeHtml(COUNTRY_NAMES[code.toUpperCase()] || code)}`,
+      sub: escapeHtml(code),
+    }));
+
+    $('raw-payload').textContent = JSON.stringify(data, null, 2);
+  }
+
+  $('refresh-btn').addEventListener('click', fetchStats);
+
+  fetchStats();
+  const pollId = setInterval(() => {
+    if (document.visibilityState === 'visible') fetchStats();
+  }, POLL_MS);
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') fetchStats();
+  });
+
+  window.addEventListener('beforeunload', () => clearInterval(pollId));
+  </script>
+</Layout>

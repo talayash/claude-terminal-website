@@ -32,6 +32,7 @@ const { title, description = 'A Modern Multi-Instance Terminal Manager for Claud
     <meta name="twitter:image" content="/screenshots/main-view.png" />
 
     <title>{title}</title>
+    <slot name="head" />
   </head>
   <body class="min-h-screen antialiased">
     <slot />
