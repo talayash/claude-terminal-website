@@ -12,34 +12,63 @@ const { version } = Astro.props;
         Ready to get started?
       </h2>
       <p class="text-lg text-slate-400 mb-2">
-        Download ClaudeTerminal <span class="text-primary-light font-mono">v{version}</span> for Windows
+        Download ClaudeTerminal <span class="text-primary-light font-mono">v{version}</span> for Windows or macOS
       </p>
       <p class="text-sm text-slate-500 mb-8">
         Requires Node.js v18+ and Claude Code installed via npm
       </p>
 
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-        <a
-          href={`https://github.com/talayash/claude-terminal/releases/latest/download/ClaudeTerminal_${version}_x64-setup.exe`}
-          class="inline-flex items-center px-8 py-3 rounded-lg bg-primary text-white font-semibold hover:bg-primary-dark transition-colors w-full sm:w-auto justify-center"
-        >
-          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-          </svg>
-          NSIS Installer (.exe)
-        </a>
-        <a
-          href={`https://github.com/talayash/claude-terminal/releases/latest/download/ClaudeTerminal_${version}_x64_en-US.msi`}
-          class="inline-flex items-center px-8 py-3 rounded-lg border border-slate-700 text-slate-300 font-semibold hover:border-slate-500 hover:text-white transition-colors w-full sm:w-auto justify-center"
-        >
-          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-          </svg>
-          MSI Installer (.msi)
-        </a>
+      <div class="mb-8 space-y-6">
+        <div>
+          <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-3">Windows</h3>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href={`https://github.com/talayash/claude-terminal/releases/latest/download/ClaudeTerminal_${version}_x64-setup.exe`}
+              class="inline-flex items-center px-8 py-3 rounded-lg bg-primary text-white font-semibold hover:bg-primary-dark transition-colors w-full sm:w-auto justify-center"
+            >
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              NSIS Installer (.exe)
+            </a>
+            <a
+              href={`https://github.com/talayash/claude-terminal/releases/latest/download/ClaudeTerminal_${version}_x64_en-US.msi`}
+              class="inline-flex items-center px-8 py-3 rounded-lg border border-slate-700 text-slate-300 font-semibold hover:border-slate-500 hover:text-white transition-colors w-full sm:w-auto justify-center"
+            >
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              MSI Installer (.msi)
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-3">macOS</h3>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href={`https://github.com/talayash/claude-terminal/releases/latest/download/ClaudeTerminal_${version}_aarch64.dmg`}
+              class="inline-flex items-center px-8 py-3 rounded-lg bg-primary text-white font-semibold hover:bg-primary-dark transition-colors w-full sm:w-auto justify-center"
+            >
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Apple Silicon (.dmg)
+            </a>
+            <a
+              href={`https://github.com/talayash/claude-terminal/releases/latest/download/ClaudeTerminal_${version}_x64.dmg`}
+              class="inline-flex items-center px-8 py-3 rounded-lg border border-slate-700 text-slate-300 font-semibold hover:border-slate-500 hover:text-white transition-colors w-full sm:w-auto justify-center"
+            >
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Intel (.dmg)
+            </a>
+          </div>
+        </div>
       </div>
 
-      <div class="flex items-center justify-center gap-6 text-sm text-slate-500">
+      <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-slate-500">
         <span class="flex items-center gap-1">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -50,7 +79,7 @@ const { version } = Astro.props;
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          x64 Architecture
+          macOS 11+
         </span>
         <span class="flex items-center gap-1">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
