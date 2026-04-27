@@ -3,91 +3,138 @@ interface Props {
   version: string;
 }
 const { version } = Astro.props;
+
+const windowsArtifacts = [
+  { label: 'NSIS', file: `ClaudeTerminal_${version}_x64-setup.exe` },
+  { label: 'MSI',  file: `ClaudeTerminal_${version}_x64_en-US.msi` },
+];
+const macosArtifacts = [
+  { label: 'ARM64', file: `ClaudeTerminal_${version}_aarch64.dmg` },
+  { label: 'INTEL', file: `ClaudeTerminal_${version}_x64.dmg` },
+];
+
+const releaseBase = 'https://github.com/talayash/claude-terminal/releases/latest/download';
 ---
 
-<section id="download" class="py-24 relative">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="glass rounded-2xl p-8 sm:p-12 text-center">
-      <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">
-        Ready to get started?
-      </h2>
-      <p class="text-lg text-slate-400 mb-2">
-        Download ClaudeTerminal <span class="text-primary-light font-mono">v{version}</span> for Windows or macOS
-      </p>
-      <p class="text-sm text-slate-500 mb-8">
-        Requires Node.js v18+ and Claude Code installed via npm
-      </p>
+<section id="download" class="dl-section">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <h2 class="dl-h2"><span class="num">[04]</span>INSTALL</h2>
+    <p class="dl-sub">// requires windows 10+ / macos 11+ · node.js 18+ · claude code via npm</p>
 
-      <div class="mb-8 space-y-6">
-        <div>
-          <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-3">Windows</h3>
-          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href={`https://github.com/talayash/claude-terminal/releases/latest/download/ClaudeTerminal_${version}_x64-setup.exe`}
-              class="inline-flex items-center px-8 py-3 rounded-lg bg-primary text-white font-semibold hover:bg-primary-dark transition-colors w-full sm:w-auto justify-center"
-            >
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-              </svg>
-              NSIS Installer (.exe)
-            </a>
-            <a
-              href={`https://github.com/talayash/claude-terminal/releases/latest/download/ClaudeTerminal_${version}_x64_en-US.msi`}
-              class="inline-flex items-center px-8 py-3 rounded-lg border border-slate-700 text-slate-300 font-semibold hover:border-slate-500 hover:text-white transition-colors w-full sm:w-auto justify-center"
-            >
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-              </svg>
-              MSI Installer (.msi)
-            </a>
-          </div>
-        </div>
+    <div class="dl-tabs" role="tablist">
+      <button class="dl-tab active" data-tab="windows" role="tab" aria-selected="true">[ windows ]</button>
+      <button class="dl-tab" data-tab="macos" role="tab" aria-selected="false">[ macos ]</button>
+    </div>
 
-        <div>
-          <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-3">macOS</h3>
-          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href={`https://github.com/talayash/claude-terminal/releases/latest/download/ClaudeTerminal_${version}_aarch64.dmg`}
-              class="inline-flex items-center px-8 py-3 rounded-lg bg-primary text-white font-semibold hover:bg-primary-dark transition-colors w-full sm:w-auto justify-center"
-            >
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-              </svg>
-              Apple Silicon (.dmg)
+    <div class="dl-panel" data-panel="windows">
+      <pre class="dl-cmd">$ ls releases/v{version}/windows</pre>
+      <ul class="dl-list">
+        {windowsArtifacts.map(a => (
+          <li>
+            <a href={`${releaseBase}/${a.file}`}>
+              <span class="arrow">→</span>
+              <span class="filename">{a.file}</span>
+              <span class="tag">[{a.label}]</span>
+              <span class="dl">↓</span>
             </a>
-            <a
-              href={`https://github.com/talayash/claude-terminal/releases/latest/download/ClaudeTerminal_${version}_x64.dmg`}
-              class="inline-flex items-center px-8 py-3 rounded-lg border border-slate-700 text-slate-300 font-semibold hover:border-slate-500 hover:text-white transition-colors w-full sm:w-auto justify-center"
-            >
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-              </svg>
-              Intel (.dmg)
-            </a>
-          </div>
-        </div>
-      </div>
+          </li>
+        ))}
+      </ul>
+    </div>
 
-      <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-slate-500">
-        <span class="flex items-center gap-1">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          Windows 10+
-        </span>
-        <span class="flex items-center gap-1">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          macOS 11+
-        </span>
-        <span class="flex items-center gap-1">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          MIT License
-        </span>
-      </div>
+    <div class="dl-panel hidden" data-panel="macos">
+      <pre class="dl-cmd">$ ls releases/v{version}/macos</pre>
+      <ul class="dl-list">
+        {macosArtifacts.map(a => (
+          <li>
+            <a href={`${releaseBase}/${a.file}`}>
+              <span class="arrow">→</span>
+              <span class="filename">{a.file}</span>
+              <span class="tag">[{a.label}]</span>
+              <span class="dl">↓</span>
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
   </div>
 </section>
+
+<style>
+  .dl-h2 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .dl-h2 .num { color: #a3e635; margin-right: 10px; }
+  .dl-sub {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 28px;
+  }
+  .dl-tabs {
+    display: flex;
+    gap: 12px;
+    border-bottom: 1px solid #1a1a1a;
+    margin-bottom: 16px;
+  }
+  .dl-tab {
+    background: transparent;
+    border: none;
+    color: #888;
+    font-family: inherit;
+    font-size: 12px;
+    letter-spacing: 2px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: color 120ms;
+  }
+  .dl-tab:hover { color: #ededed; }
+  .dl-tab.active { color: #a3e635; border-bottom: 2px solid #a3e635; margin-bottom: -1px; }
+  .dl-cmd {
+    color: #555;
+    font-size: 12px;
+    margin: 6px 0 12px;
+    letter-spacing: 1px;
+  }
+  .dl-list { list-style: none; padding: 0; margin: 0; }
+  .dl-list li { padding: 0; margin-bottom: 6px; }
+  .dl-list a {
+    display: grid;
+    grid-template-columns: 24px 1fr 80px 24px;
+    gap: 12px;
+    align-items: center;
+    text-decoration: none;
+    padding: 10px 14px;
+    border: 1px solid transparent;
+    transition: background 120ms, border-color 120ms;
+    font-size: 12px;
+  }
+  .dl-list a:hover {
+    background: rgba(163, 230, 53, 0.06);
+    border-color: rgba(163, 230, 53, 0.3);
+  }
+  .dl-list .arrow { color: #555; }
+  .dl-list .filename { color: #ededed; letter-spacing: 1px; }
+  .dl-list .tag { color: #06b6d4; font-size: 10px; letter-spacing: 2px; }
+  .dl-list .dl { color: #555; text-align: right; }
+  .dl-list a:hover .dl, .dl-list a:hover .arrow { color: #a3e635; }
+</style>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLButtonElement>('.dl-tab');
+  const panels = document.querySelectorAll<HTMLDivElement>('.dl-panel');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.tab;
+      tabs.forEach(t => {
+        const active = t === tab;
+        t.classList.toggle('active', active);
+        t.setAttribute('aria-selected', String(active));
+      });
+      panels.forEach(p => p.classList.toggle('hidden', p.dataset.panel !== target));
+    });
+  });
+</script>
