@@ -3,48 +3,64 @@ import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import changelog from '../data/changelog.json';
+
+function fakeHash(version: string): string {
+  let h = 0;
+  for (const c of version) h = (h * 31 + c.charCodeAt(0)) | 0;
+  return Math.abs(h).toString(16).padStart(7, '0').slice(0, 7);
+}
+
+const totalCommits = changelog.reduce((acc, r) => acc + r.features.length, 0);
+const latest = changelog[0];
 ---
 
 <Layout title="Changelog — ClaudeTerminal" description="Release history and changelog for ClaudeTerminal.">
   <Navbar />
 
-  <main class="pt-24 pb-16">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h1 class="text-4xl font-bold text-white mb-2">Changelog</h1>
-      <p class="text-slate-400 mb-12">All notable changes to ClaudeTerminal.</p>
+  <main class="cl-main">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+      <div class="cl-marquee">
+        <div class="marquee-track">
+          {Array.from({ length: 2 }).map(() => (
+            <span class="m-row">
+              <span class="m-ok">LATEST</span>
+              <span class="m-sep">·</span>
+              <span class="m-mag">v{latest.version}</span>
+              <span class="m-sep">·</span>
+              <span class="m-cy">{latest.date}</span>
+              <span class="m-sep">·</span>
+              <span class="m-ok">{totalCommits} commits</span>
+              <span class="m-sep">·</span>
+              <span class="m-mag">▓▒░</span>
+              <span class="m-sep">·</span>
+            </span>
+          ))}
+        </div>
+      </div>
 
-      <div class="space-y-12">
-        {changelog.map((release, index) => (
-          <div class="relative">
-            {/* Timeline line */}
-            {index < changelog.length - 1 && (
-              <div class="absolute left-[11px] top-8 bottom-0 w-px bg-slate-800"></div>
-            )}
+      <h1 class="cl-h1"><span class="num">$</span> git log --oneline</h1>
+      <p class="cl-sub">// release history · {changelog.length} versions · {totalCommits} entries</p>
 
-            <div class="flex items-start gap-4">
-              {/* Timeline dot */}
-              <div class="mt-1.5 w-6 h-6 rounded-full bg-primary/20 border-2 border-primary flex-shrink-0 flex items-center justify-center">
-                <div class="w-2 h-2 rounded-full bg-primary"></div>
-              </div>
-
-              <div class="flex-1 min-w-0">
-                <div class="flex items-baseline gap-3 mb-3 flex-wrap">
-                  <h2 class="text-xl font-bold text-white font-mono">v{release.version}</h2>
-                  <time class="text-sm text-slate-500">{release.date}</time>
-                </div>
-
-                <ul class="space-y-2">
-                  {release.features.map((feature) => (
-                    <li class="glass-light rounded-lg p-3">
-                      <span class="text-sm font-medium text-white">{feature.title}</span>
-                      {feature.description && (
-                        <p class="text-xs text-slate-400 mt-1">{feature.description}</p>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+      <div class="cl-list">
+        {changelog.map(release => (
+          <div class="cl-release">
+            <div class="cl-row">
+              <span class="cl-star">*</span>
+              <span class="cl-hash">{fakeHash(release.version)}</span>
+              <span class="cl-sep">·</span>
+              <span class="cl-date">{release.date}</span>
+              <span class="cl-sep">·</span>
+              <span class="cl-ver">v{release.version}</span>
             </div>
+            <ul class="cl-features">
+              {release.features.map(f => (
+                <li>
+                  <span class="bullet">●</span>
+                  <span class="cl-title">{f.title}</span>
+                  {f.description && <span class="cl-desc"> — {f.description}</span>}
+                </li>
+              ))}
+            </ul>
           </div>
         ))}
       </div>
@@ -53,3 +69,66 @@ import changelog from '../data/changelog.json';
 
   <Footer />
 </Layout>
+
+<style>
+  .cl-main { min-height: 100vh; }
+  .cl-marquee {
+    border-top: 1px solid #1a1a1a;
+    border-bottom: 1px solid #1a1a1a;
+    background: #060606;
+    overflow: hidden;
+    padding: 6px 0;
+    font-size: 10px;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+  }
+  .m-row { display: inline-flex; gap: 24px; padding-right: 24px; }
+  .m-ok { color: #a3e635; }
+  .m-sep { color: #333; }
+  .m-mag { color: #ec4899; }
+  .m-cy { color: #06b6d4; }
+
+  .cl-h1 {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .cl-h1 .num { color: #a3e635; margin-right: 10px; }
+  .cl-sub {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 36px;
+  }
+  .cl-release {
+    margin-bottom: 28px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #1a1a1a;
+  }
+  .cl-row {
+    font-size: 13px;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .cl-star { color: #a3e635; font-weight: 700; }
+  .cl-hash { color: #ec4899; font-weight: 700; }
+  .cl-sep { color: #333; }
+  .cl-date { color: #06b6d4; }
+  .cl-ver { color: #a3e635; font-weight: 700; }
+
+  .cl-features { list-style: none; padding-left: 16px; margin: 0; }
+  .cl-features li {
+    font-size: 12px;
+    color: #aaa;
+    line-height: 1.7;
+    padding: 4px 0;
+  }
+  .cl-features .bullet { color: #a3e635; margin-right: 8px; }
+  .cl-features .cl-title { color: #ededed; }
+  .cl-features .cl-desc { color: #888; }
+</style>
