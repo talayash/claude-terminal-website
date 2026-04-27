@@ -1,26 +1,41 @@
 ---
-const techs = [
-  { name: 'Tauri 2.x', category: 'Framework' },
-  { name: 'Rust', category: 'Backend' },
-  { name: 'React 18', category: 'Frontend' },
-  { name: 'TypeScript', category: 'Language' },
-  { name: 'xterm.js', category: 'Terminal' },
-  { name: 'Tailwind CSS', category: 'Styling' },
-  { name: 'Zustand', category: 'State' },
-  { name: 'SQLite', category: 'Database' },
-];
+const stack = ['tauri 2', 'rust', 'react 18', 'typescript', 'xterm.js', 'tailwind', 'zustand', 'sqlite'];
 ---
 
-<section class="py-16 border-t border-slate-800/50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <p class="text-center text-sm text-slate-500 mb-8">Built with</p>
-    <div class="flex flex-wrap items-center justify-center gap-6">
-      {techs.map((tech) => (
-        <div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700/50">
-          <span class="text-xs text-slate-500">{tech.category}</span>
-          <span class="text-sm text-slate-300 font-medium">{tech.name}</span>
-        </div>
+<section class="stack-section">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="stack-line">
+      <span class="num">[05]</span>
+      <span class="label">STACK</span>
+      <span class="rule">───</span>
+      {stack.map((t, i) => (
+        <>
+          <span class="tech">{t}</span>
+          {i < stack.length - 1 && <span class="sep">·</span>}
+        </>
       ))}
+      <span class="rule">───</span>
     </div>
   </div>
 </section>
+
+<style>
+  .stack-section { border-top: 1px solid #1a1a1a; border-bottom: 1px solid #1a1a1a; }
+  .stack-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #888;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 4px;
+  }
+  .stack-line .num { color: #a3e635; }
+  .stack-line .label { color: #ededed; font-weight: 700; }
+  .stack-line .rule { color: #333; letter-spacing: 0; }
+  .stack-line .tech { color: #aaa; }
+  .stack-line .sep { color: #333; }
+  .stack-line::-webkit-scrollbar { height: 4px; }
+</style>
