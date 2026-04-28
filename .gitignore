@@ -25,3 +25,5 @@ pnpm-debug.log*
 
 # superpowers brainstorming companion
 .superpowers/
+
+.vercel

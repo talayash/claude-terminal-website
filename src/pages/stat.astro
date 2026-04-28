@@ -1,7 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-const STATS_URL = 'https://ct-analytics.claude-terminal.workers.dev/stats';
+// Hits a same-origin Vercel Edge function (api/stats.js) which holds the
+// STATS_TOKEN server-side and forwards to the ct-analytics Worker.
+const STATS_URL = '/api/stats';
 ---
 
 <Layout title="Stats — ClaudeTerminal" description="Internal telemetry dashboard.">
