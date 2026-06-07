@@ -1,0 +1,49 @@
+---
+interface Props {
+  version: string;
+}
+const { version } = Astro.props;
+const releaseBase = 'https://github.com/talayash/claude-terminal/releases/latest/download';
+const winInstaller = `${releaseBase}/ClaudeTerminal_${version}_x64-setup.exe`;
+const macInstaller = `${releaseBase}/ClaudeTerminal_${version}_aarch64.dmg`;
+---
+
+<section class="cta-sec">
+  <div class="panel glass reveal">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="inner">
+      <div class="eyebrow">▶ stop juggling tabs</div>
+      <h2 class="display cta-h2">Give your agents<br />a <span class="acc">command center</span>.</h2>
+      <p class="cta-sub">Free, open source, and built for the way you actually use Claude&nbsp;Code.</p>
+      <div class="cta-btns">
+        <a id="cta-dl" class="btn btn-primary" href="#install" data-win={winInstaller} data-mac={macInstaller}>↓&nbsp;Download ClaudeTerminal</a>
+        <a class="btn btn-ghost" href="https://github.com/talayash/claude-terminal" target="_blank" rel="noopener noreferrer">★ Star on GitHub</a>
+      </div>
+      <div class="cta-meta">Free · Open source · MIT · Windows &amp; macOS · v{version}</div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-sec { padding: 40px 16px 90px; }
+  .panel { max-width: 880px; margin: 0 auto; border-radius: 24px; position: relative; overflow: hidden; }
+  .glow { position: absolute; inset: -40% -10% auto -10%; height: 300px; pointer-events: none;
+    background: radial-gradient(50% 100% at 50% 0%, rgba(217,119,87,0.22), transparent 70%); }
+  .inner { position: relative; padding: 56px 28px; text-align: center; }
+  .eyebrow { justify-content: center; margin-bottom: 18px; }
+  .cta-h2 { font-size: clamp(28px, 5vw, 48px); margin: 0 0 16px; }
+  .cta-sub { font-size: 13.5px; color: #a6a6b4; max-width: 440px; margin: 0 auto 28px; line-height: 1.7; }
+  .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 18px; }
+  .cta-meta { font-size: 10.5px; color: #5f5f6b; letter-spacing: 1.5px; }
+</style>
+
+<script>
+  const el = document.getElementById('cta-dl');
+  if (el) {
+    const plat = (navigator.platform || '') + ' ' + navigator.userAgent;
+    const isMac = /Mac|iPhone|iPad/i.test(plat);
+    const isWin = /Win/i.test(plat);
+    if (isMac) { const m = el.getAttribute('data-mac'); if (m) { el.setAttribute('href', m); el.textContent = '↓ Download for macOS'; } }
+    else if (isWin) { const w = el.getAttribute('data-win'); if (w) { el.setAttribute('href', w); el.textContent = '↓ Download for Windows'; } }
+  }
+</script>

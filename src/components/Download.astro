@@ -5,136 +5,167 @@ interface Props {
 const { version } = Astro.props;
 
 const windowsArtifacts = [
-  { label: 'NSIS', file: `ClaudeTerminal_${version}_x64-setup.exe` },
+  { label: 'NSIS · recommended', file: `ClaudeTerminal_${version}_x64-setup.exe` },
   { label: 'MSI',  file: `ClaudeTerminal_${version}_x64_en-US.msi` },
 ];
 const macosArtifacts = [
-  { label: 'ARM64', file: `ClaudeTerminal_${version}_aarch64.dmg` },
-  { label: 'INTEL', file: `ClaudeTerminal_${version}_x64.dmg` },
+  { label: 'Apple Silicon', file: `ClaudeTerminal_${version}_aarch64.dmg` },
+  { label: 'Intel', file: `ClaudeTerminal_${version}_x64.dmg` },
 ];
-
 const releaseBase = 'https://github.com/talayash/claude-terminal/releases/latest/download';
 ---
 
-<section id="download" class="dl-section">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-    <h2 class="dl-h2"><span class="num">[04]</span>INSTALL</h2>
-    <p class="dl-sub">// requires windows 10+ / macos 11+ · node.js 18+ · claude code via npm</p>
-
-    <div class="dl-tabs" role="tablist">
-      <button class="dl-tab active" data-tab="windows" role="tab" aria-selected="true">[ windows ]</button>
-      <button class="dl-tab" data-tab="macos" role="tab" aria-selected="false">[ macos ]</button>
+<section id="install" class="inst">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="gutter-label">[ 04 ] / install</div>
+      <h2 class="display inst-h2">Up and running in two steps.</h2>
+      <p class="inst-sub">Requires Windows 10+ or macOS 11+. Node.js 18+ recommended.</p>
     </div>
 
-    <div class="dl-panel" data-panel="windows">
-      <pre class="dl-cmd">$ ls releases/v{version}/windows</pre>
-      <ul class="dl-list">
-        {windowsArtifacts.map(a => (
-          <li>
-            <a href={`${releaseBase}/${a.file}`}>
-              <span class="arrow">→</span>
-              <span class="filename">{a.file}</span>
-              <span class="tag">[{a.label}]</span>
-              <span class="dl">↓</span>
-            </a>
-          </li>
-        ))}
-      </ul>
+    <div class="steps reveal">
+      <div class="step glass">
+        <div class="step-n">01</div>
+        <div class="step-body">
+          <div class="step-t">Install Claude Code</div>
+          <div class="code-line">
+            <code>npm i -g @anthropic-ai/claude-code</code>
+            <button class="copy" data-copy="npm i -g @anthropic-ai/claude-code" aria-label="Copy command">copy</button>
+          </div>
+          <p class="step-note">Already have it? Skip ahead — ClaudeTerminal’s wizard can install it for you too.</p>
+        </div>
+      </div>
+
+      <div class="step glass">
+        <div class="step-n">02</div>
+        <div class="step-body">
+          <div class="step-t">Download ClaudeTerminal · <span class="acc">v{version}</span></div>
+
+          <div class="tabs" role="tablist">
+            <button class="tab active" data-tab="windows" role="tab" aria-selected="true">windows</button>
+            <button class="tab" data-tab="macos" role="tab" aria-selected="false">macos</button>
+          </div>
+
+          <div class="panel" data-panel="windows">
+            {windowsArtifacts.map(a => (
+              <a class="art" href={`${releaseBase}/${a.file}`}>
+                <span class="art-arrow">→</span>
+                <span class="art-file">{a.file}</span>
+                <span class="art-tag">{a.label}</span>
+                <span class="art-dl">↓</span>
+              </a>
+            ))}
+          </div>
+          <div class="panel hidden" data-panel="macos">
+            {macosArtifacts.map(a => (
+              <a class="art" href={`${releaseBase}/${a.file}`}>
+                <span class="art-arrow">→</span>
+                <span class="art-file">{a.file}</span>
+                <span class="art-tag">{a.label}</span>
+                <span class="art-dl">↓</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="dl-panel hidden" data-panel="macos">
-      <pre class="dl-cmd">$ ls releases/v{version}/macos</pre>
-      <ul class="dl-list">
-        {macosArtifacts.map(a => (
-          <li>
-            <a href={`${releaseBase}/${a.file}`}>
-              <span class="arrow">→</span>
-              <span class="filename">{a.file}</span>
-              <span class="tag">[{a.label}]</span>
-              <span class="dl">↓</span>
-            </a>
-          </li>
-        ))}
-      </ul>
+    <div class="firstrun reveal">
+      <span class="fr-icon">⚠</span>
+      <div>
+        <strong>First launch:</strong> builds aren’t code-signed yet, so the OS may warn you.
+        On <b>macOS</b>, right-click the app → <em>Open</em> (or run
+        <code>xattr -dr com.apple.quarantine /Applications/ClaudeTerminal.app</code>).
+        On <b>Windows</b>, SmartScreen → <em>More info → Run anyway</em>. It’s safe — the source is open on GitHub.
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  .dl-h2 {
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: -1px;
-    color: #fff;
-    margin-bottom: 6px;
+  .inst { padding: 80px 16px; }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  .head { margin-bottom: 30px; }
+  .gutter-label { margin-bottom: 16px; }
+  .inst-h2 { font-size: clamp(26px, 4.5vw, 40px); margin: 0 0 10px; }
+  .inst-sub { font-size: 12.5px; color: #9a9aa8; }
+
+  .steps { display: flex; flex-direction: column; gap: 16px; }
+  .step { border-radius: 16px; padding: 22px; display: grid; grid-template-columns: 40px 1fr; gap: 16px; }
+  .step-n { font-size: 13px; color: #d97757; font-weight: 800; letter-spacing: 1px; }
+  .step-t { font-size: 14px; color: #fff; font-weight: 700; margin-bottom: 14px; }
+
+  .code-line { display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: 9px; padding: 11px 14px; }
+  .code-line code { color: #e89878; font-size: 12.5px; letter-spacing: 0.3px; }
+  .copy { font-family: inherit; font-size: 10px; letter-spacing: 1px; color: #9a9aa8; background: transparent;
+    border: 1px solid rgba(255,255,255,0.14); border-radius: 6px; padding: 5px 10px; cursor: pointer; transition: all 140ms; flex-shrink: 0; }
+  .copy:hover { color: #d97757; border-color: rgba(217,119,87,0.5); }
+  .copy.done { color: #d97757; border-color: rgba(217,119,87,0.5); }
+  .step-note { font-size: 11px; color: #6f6f7b; margin-top: 10px; }
+
+  .tabs { display: flex; gap: 6px; margin-bottom: 14px; }
+  .tab { font-family: inherit; font-size: 11px; letter-spacing: 1.5px; color: #9a9aa8; background: transparent;
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 6px 16px; cursor: pointer; transition: all 140ms; }
+  .tab:hover { color: #fff; }
+  .tab.active { color: #1a0d07; background: #d97757; border-color: #d97757; font-weight: 700; }
+
+  .art { display: grid; grid-template-columns: 18px 1fr auto 18px; gap: 12px; align-items: center;
+    text-decoration: none; padding: 12px 14px; border: 1px solid rgba(255,255,255,0.07); border-radius: 9px;
+    margin-bottom: 8px; transition: all 140ms; }
+  .art:hover { border-color: rgba(217,119,87,0.5); background: rgba(217,119,87,0.06); }
+  .art-arrow { color: #5f5f6b; }
+  .art-file { color: #e9e9f0; font-size: 12px; letter-spacing: 0.3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .art-tag { color: #9a9aa8; font-size: 10px; letter-spacing: 1px; }
+  .art-dl { color: #5f5f6b; text-align: right; }
+  .art:hover .art-dl, .art:hover .art-arrow { color: #d97757; }
+
+  .firstrun { display: grid; grid-template-columns: 24px 1fr; gap: 12px; margin-top: 18px;
+    padding: 16px 18px; border-radius: 12px; border: 1px solid rgba(217,119,87,0.25); background: rgba(217,119,87,0.05);
+    font-size: 12px; color: #b8b8c4; line-height: 1.65; }
+  .firstrun .fr-icon { color: #d97757; font-size: 14px; }
+  .firstrun strong { color: #fff; }
+  .firstrun code { color: #e89878; font-size: 11px; background: rgba(0,0,0,0.3); padding: 1px 5px; border-radius: 4px; }
+  .firstrun b { color: #e9e9f0; }
+  .firstrun em { color: #e9e9f0; font-style: normal; border-bottom: 1px dotted rgba(255,255,255,0.3); }
+
+  @media (max-width: 560px) {
+    .step { grid-template-columns: 1fr; gap: 10px; }
+    .art-tag { display: none; }
   }
-  .dl-h2 .num { color: #a3e635; margin-right: 10px; }
-  .dl-sub {
-    font-size: 12px;
-    color: #888;
-    margin-bottom: 28px;
-  }
-  .dl-tabs {
-    display: flex;
-    gap: 12px;
-    border-bottom: 1px solid #1a1a1a;
-    margin-bottom: 16px;
-  }
-  .dl-tab {
-    background: transparent;
-    border: none;
-    color: #888;
-    font-family: inherit;
-    font-size: 12px;
-    letter-spacing: 2px;
-    padding: 8px 12px;
-    cursor: pointer;
-    transition: color 120ms;
-  }
-  .dl-tab:hover { color: #ededed; }
-  .dl-tab.active { color: #a3e635; border-bottom: 2px solid #a3e635; margin-bottom: -1px; }
-  .dl-cmd {
-    color: #555;
-    font-size: 12px;
-    margin: 6px 0 12px;
-    letter-spacing: 1px;
-  }
-  .dl-list { list-style: none; padding: 0; margin: 0; }
-  .dl-list li { padding: 0; margin-bottom: 6px; }
-  .dl-list a {
-    display: grid;
-    grid-template-columns: 24px 1fr 80px 24px;
-    gap: 12px;
-    align-items: center;
-    text-decoration: none;
-    padding: 10px 14px;
-    border: 1px solid transparent;
-    transition: background 120ms, border-color 120ms;
-    font-size: 12px;
-  }
-  .dl-list a:hover {
-    background: rgba(163, 230, 53, 0.06);
-    border-color: rgba(163, 230, 53, 0.3);
-  }
-  .dl-list .arrow { color: #555; }
-  .dl-list .filename { color: #ededed; letter-spacing: 1px; }
-  .dl-list .tag { color: #06b6d4; font-size: 10px; letter-spacing: 2px; }
-  .dl-list .dl { color: #555; text-align: right; }
-  .dl-list a:hover .dl, .dl-list a:hover .arrow { color: #a3e635; }
 </style>
 
 <script>
-  const tabs = document.querySelectorAll<HTMLButtonElement>('.dl-tab');
-  const panels = document.querySelectorAll<HTMLDivElement>('.dl-panel');
-  tabs.forEach(tab => {
+  // download tabs
+  const tabs = document.querySelectorAll('.inst .tab');
+  const panels = document.querySelectorAll('.inst .panel');
+  tabs.forEach((tab) => {
     tab.addEventListener('click', () => {
-      const target = tab.dataset.tab;
-      tabs.forEach(t => {
+      const target = tab.getAttribute('data-tab');
+      tabs.forEach((t) => {
         const active = t === tab;
         t.classList.toggle('active', active);
         t.setAttribute('aria-selected', String(active));
       });
-      panels.forEach(p => p.classList.toggle('hidden', p.dataset.panel !== target));
+      panels.forEach((p) => p.classList.toggle('hidden', p.getAttribute('data-panel') !== target));
+    });
+  });
+
+  // default tab to detected OS
+  const isMac = /Mac|iPhone|iPad/i.test((navigator.platform || '') + ' ' + navigator.userAgent);
+  if (isMac) (document.querySelector('.inst .tab[data-tab="macos"]') as HTMLButtonElement | null)?.click();
+
+  // copy button
+  document.querySelectorAll('.inst .copy').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const text = btn.getAttribute('data-copy') || '';
+      try {
+        await navigator.clipboard.writeText(text);
+        const prev = btn.textContent;
+        btn.textContent = 'copied';
+        btn.classList.add('done');
+        setTimeout(() => { btn.textContent = prev; btn.classList.remove('done'); }, 1400);
+      } catch { /* clipboard blocked — no-op */ }
     });
   });
 </script>

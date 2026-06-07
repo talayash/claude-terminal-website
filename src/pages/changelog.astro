@@ -10,58 +10,46 @@ function fakeHash(version: string): string {
   return Math.abs(h).toString(16).padStart(7, '0').slice(0, 7);
 }
 
-const totalCommits = changelog.reduce((acc, r) => acc + r.features.length, 0);
+const totalEntries = changelog.reduce((acc, r) => acc + r.features.length, 0);
 const latest = changelog[0];
 ---
 
 <Layout title="Changelog — ClaudeTerminal" description="Release history and changelog for ClaudeTerminal.">
-  <Navbar />
+  <Navbar version={latest.version} />
 
   <main class="cl-main">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
-      <div class="cl-marquee">
-        <div class="marquee-track">
-          {Array.from({ length: 2 }).map(() => (
-            <span class="m-row">
-              <span class="m-ok">LATEST</span>
-              <span class="m-sep">·</span>
-              <span class="m-mag">v{latest.version}</span>
-              <span class="m-sep">·</span>
-              <span class="m-cy">{latest.date}</span>
-              <span class="m-sep">·</span>
-              <span class="m-ok">{totalCommits} commits</span>
-              <span class="m-sep">·</span>
-              <span class="m-mag">▓▒░</span>
-              <span class="m-sep">·</span>
-            </span>
-          ))}
-        </div>
+    <div class="wrap">
+      <div class="cl-head">
+        <div class="eyebrow">▶ git log --oneline</div>
+        <h1 class="display cl-h1">Changelog</h1>
+        <p class="cl-sub">
+          <span class="acc">{changelog.length}</span> releases · <span class="acc">{totalEntries}</span> entries ·
+          latest <span class="acc">v{latest.version}</span> ({latest.date})
+        </p>
       </div>
 
-      <h1 class="cl-h1"><span class="num">$</span> git log --oneline</h1>
-      <p class="cl-sub">// release history · {changelog.length} versions · {totalCommits} entries</p>
-
       <div class="cl-list">
-        {changelog.map(release => (
-          <div class="cl-release">
+        {changelog.map((release, ri) => (
+          <article class="cl-release glass">
             <div class="cl-row">
-              <span class="cl-star">*</span>
-              <span class="cl-hash">{fakeHash(release.version)}</span>
-              <span class="cl-sep">·</span>
-              <span class="cl-date">{release.date}</span>
-              <span class="cl-sep">·</span>
+              <span class="cl-star">{ri === 0 ? '◆' : '◇'}</span>
               <span class="cl-ver">v{release.version}</span>
+              <span class="cl-hash">{fakeHash(release.version)}</span>
+              <span class="cl-date">{release.date}</span>
+              {ri === 0 && <span class="cl-latest">latest</span>}
             </div>
             <ul class="cl-features">
               {release.features.map(f => (
                 <li>
                   <span class="bullet">●</span>
-                  <span class="cl-title">{f.title}</span>
-                  {f.description && <span class="cl-desc"> — {f.description}</span>}
+                  <span class="cl-detail">
+                    <span class="cl-title">{f.title}</span>
+                    {f.description && <span class="cl-desc">{f.description}</span>}
+                  </span>
                 </li>
               ))}
             </ul>
-          </div>
+          </article>
         ))}
       </div>
     </div>
@@ -72,63 +60,26 @@ const latest = changelog[0];
 
 <style>
   .cl-main { min-height: 100vh; }
-  .cl-marquee {
-    border-top: 1px solid #1a1a1a;
-    border-bottom: 1px solid #1a1a1a;
-    background: #060606;
-    overflow: hidden;
-    padding: 6px 0;
-    font-size: 10px;
-    letter-spacing: 2px;
-    margin-bottom: 30px;
-  }
-  .m-row { display: inline-flex; gap: 24px; padding-right: 24px; }
-  .m-ok { color: #a3e635; }
-  .m-sep { color: #333; }
-  .m-mag { color: #ec4899; }
-  .m-cy { color: #06b6d4; }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 150px 16px 40px; }
+  .cl-head { margin-bottom: 40px; }
+  .eyebrow { margin-bottom: 18px; }
+  .cl-h1 { font-size: clamp(34px, 6vw, 56px); margin: 0 0 12px; }
+  .cl-sub { font-size: 12.5px; color: #9a9aa8; letter-spacing: 0.5px; }
 
-  .cl-h1 {
-    font-size: 32px;
-    font-weight: 800;
-    letter-spacing: -1px;
-    color: #fff;
-    margin-bottom: 6px;
-  }
-  .cl-h1 .num { color: #a3e635; margin-right: 10px; }
-  .cl-sub {
-    font-size: 12px;
-    color: #888;
-    margin-bottom: 36px;
-  }
-  .cl-release {
-    margin-bottom: 28px;
-    padding-bottom: 18px;
-    border-bottom: 1px solid #1a1a1a;
-  }
-  .cl-row {
-    font-size: 13px;
-    letter-spacing: 1px;
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .cl-star { color: #a3e635; font-weight: 700; }
-  .cl-hash { color: #ec4899; font-weight: 700; }
-  .cl-sep { color: #333; }
-  .cl-date { color: #06b6d4; }
-  .cl-ver { color: #a3e635; font-weight: 700; }
+  .cl-list { display: flex; flex-direction: column; gap: 16px; }
+  .cl-release { border-radius: 14px; padding: 22px; }
+  .cl-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+  .cl-star { color: #d97757; }
+  .cl-ver { color: #fff; font-weight: 800; font-size: 15px; }
+  .cl-hash { color: #6f6f7b; font-size: 11px; }
+  .cl-date { color: #8a8a96; font-size: 11px; letter-spacing: 1px; }
+  .cl-latest { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: #1a0d07;
+    background: #d97757; border-radius: 20px; padding: 2px 9px; font-weight: 700; }
 
-  .cl-features { list-style: none; padding-left: 16px; margin: 0; }
-  .cl-features li {
-    font-size: 12px;
-    color: #aaa;
-    line-height: 1.7;
-    padding: 4px 0;
-  }
-  .cl-features .bullet { color: #a3e635; margin-right: 8px; }
-  .cl-features .cl-title { color: #ededed; }
-  .cl-features .cl-desc { color: #888; }
+  .cl-features { list-style: none; padding: 0; margin: 0; }
+  .cl-features li { display: grid; grid-template-columns: 16px 1fr; gap: 10px; padding: 7px 0; align-items: start; }
+  .cl-features .bullet { color: #d97757; font-size: 8px; padding-top: 5px; }
+  .cl-detail { display: block; }
+  .cl-title { color: #e9e9f0; font-size: 13px; font-weight: 600; }
+  .cl-desc { display: block; color: #8a8a96; font-size: 12px; line-height: 1.6; margin-top: 4px; }
 </style>

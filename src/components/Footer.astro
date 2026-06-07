@@ -8,86 +8,64 @@ const buildDate = `${dd}.${mm}.${yy}`;
 ---
 
 <footer class="ft">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div class="ft-inner">
     <div class="ft-grid">
       <div class="ft-brand">
-        <pre class="ascii">{`
-  ┌──────────────────────┐
-  │  CLAUDE-TERMINAL     │
-  │  > one operator,     │
-  │    n parallel ses.   │
-  └──────────────────────┘
-`}</pre>
+        <div class="ft-logo"><span class="br">[</span>claude·terminal<span class="br">]</span></div>
+        <p class="ft-tag">One operator, <span class="acc">n</span> parallel sessions.<br />A terminal manager for Claude&nbsp;Code.</p>
       </div>
 
+      <nav class="ft-links" aria-label="Footer">
+        <a href="/#features">features</a>
+        <a href="/#tour">tour</a>
+        <a href="/#compare">compare</a>
+        <a href="/#install">install</a>
+        <a href="/changelog">changelog</a>
+      </nav>
+
       <div class="ft-links">
-        <a href="#features">/features</a>
-        <a href="#screenshots">/screenshots</a>
-        <a href="#download">/download</a>
-        <a href="/changelog">/changelog</a>
         <a href="https://github.com/talayash/claude-terminal" target="_blank" rel="noopener noreferrer">github ↗</a>
-        <a href="https://github.com/talayash/claude-terminal/blob/master/LICENSE" target="_blank" rel="noopener noreferrer">mit ↗</a>
+        <a href="https://github.com/talayash/claude-terminal/releases" target="_blank" rel="noopener noreferrer">releases ↗</a>
+        <a href="https://github.com/talayash/claude-terminal/blob/master/LICENSE" target="_blank" rel="noopener noreferrer">mit license ↗</a>
+        <a href="https://code.claude.com/docs" target="_blank" rel="noopener noreferrer">claude code ↗</a>
       </div>
 
       <div class="ft-meta">
         <div>built by <span class="acc">@talayash</span></div>
-        <div>license · <span class="acc-cy">MIT</span></div>
-        <div>build · <span class="acc-mag">{buildDate}</span></div>
+        <div>license · MIT</div>
+        <div>build · {buildDate}</div>
         <div class="copy">© {year}</div>
       </div>
     </div>
 
-    <div class="ft-rule">░▒▓ thanks for stopping by ▓▒░</div>
+    <div class="ft-rule">
+      <span class="rl"></span>
+      <span class="sign">// thanks for stopping by</span>
+      <span class="rl"></span>
+    </div>
   </div>
 </footer>
 
 <style>
-  .ft { border-top: 1px solid #1a1a1a; }
-  .ft-grid {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr 1fr;
-    gap: 30px;
-    align-items: start;
-  }
-  .ft-brand .ascii {
-    font-size: 10px;
-    color: #555;
-    line-height: 1.3;
-    margin: 0;
-    white-space: pre;
-    font-family: inherit;
-  }
-  .ft-links {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    font-size: 12px;
-    letter-spacing: 1px;
-  }
-  .ft-links a {
-    color: #888;
-    text-decoration: none;
-    transition: color 120ms;
-  }
-  .ft-links a:hover { color: #ededed; }
-  .ft-meta {
-    font-size: 11px;
-    color: #888;
-    letter-spacing: 1px;
-    line-height: 1.7;
-  }
-  .ft-meta .acc { color: #a3e635; }
-  .ft-meta .acc-cy { color: #06b6d4; }
-  .ft-meta .acc-mag { color: #ec4899; }
-  .ft-meta .copy { margin-top: 10px; color: #555; }
-  .ft-rule {
-    margin-top: 30px;
-    text-align: center;
-    font-size: 10px;
-    color: #555;
-    letter-spacing: 4px;
-  }
-  @media (max-width: 768px) {
-    .ft-grid { grid-template-columns: 1fr; }
+  .ft { border-top: 1px solid rgba(255,255,255,0.07); margin-top: 20px; }
+  .ft-inner { max-width: 1120px; margin: 0 auto; padding: 50px 16px 36px; }
+  .ft-grid { display: grid; grid-template-columns: 1fr; gap: 30px; align-items: start; }
+  .ft-logo { font-size: 14px; font-weight: 700; color: #fff; letter-spacing: 0.5px; }
+  .ft-logo .br { color: #d97757; }
+  .ft-tag { font-size: 11.5px; color: #8a8a96; line-height: 1.7; margin-top: 12px; }
+  .ft-tag .acc { color: #d97757; }
+  .ft-links { display: flex; flex-direction: column; gap: 9px; font-size: 12px; letter-spacing: 0.5px; }
+  .ft-links a { color: #9a9aa8; text-decoration: none; transition: color 140ms; width: fit-content; }
+  .ft-links a:hover { color: #e89878; }
+  .ft-meta { font-size: 11px; color: #8a8a96; letter-spacing: 1px; line-height: 1.9; }
+  .ft-meta .acc { color: #d97757; }
+  .ft-meta .copy { margin-top: 10px; color: #5f5f6b; }
+
+  .ft-rule { display: flex; align-items: center; gap: 16px; margin-top: 44px; }
+  .ft-rule .rl { flex: 1; height: 1px; background: rgba(255,255,255,0.07); }
+  .ft-rule .sign { font-size: 10px; color: #5f5f6b; letter-spacing: 2px; }
+
+  @media (min-width: 760px) {
+    .ft-grid { grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 40px; }
   }
 </style>

@@ -7,7 +7,7 @@ interface Props {
   description?: string;
 }
 
-const { title, description = 'A Modern Multi-Instance Terminal Manager for Claude Code. Manage multiple Claude Code CLI sessions from one unified interface.' } = Astro.props;
+const { title, description = 'A modern multi-instance terminal manager for Claude Code. Run, monitor, and switch between parallel Claude Code sessions from one window — on Windows and macOS.' } = Astro.props;
 ---
 
 <!doctype html>
@@ -16,7 +16,7 @@ const { title, description = 'A Modern Multi-Instance Terminal Manager for Claud
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#060606" />
+    <meta name="theme-color" content="#08080c" />
     <link rel="icon" type="image/png" sizes="128x128" href="/icons/icon.png" />
 
     <!-- JetBrains Mono Variable -->
@@ -24,7 +24,7 @@ const { title, description = 'A Modern Multi-Instance Terminal Manager for Claud
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
     />
 
     <!-- Open Graph -->
@@ -48,6 +48,23 @@ const { title, description = 'A Modern Multi-Instance Terminal Manager for Claud
     <script>
       import { inject } from '@vercel/analytics';
       inject();
+
+      // Surgical scroll reveals — one pass, then disconnect per element.
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const els = document.querySelectorAll('.reveal');
+      if (reduce || !('IntersectionObserver' in window)) {
+        els.forEach((el) => el.classList.add('in'));
+      } else {
+        const io = new IntersectionObserver((entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              e.target.classList.add('in');
+              io.unobserve(e.target);
+            }
+          }
+        }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
+        els.forEach((el) => io.observe(el));
+      }
     </script>
   </body>
 </html>

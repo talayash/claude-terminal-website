@@ -1,72 +1,49 @@
 ---
-const screenshots = [
-  { src: '/screenshots/main-view.png', title: 'main-view.png', description: 'Tabbed terminal interface with sidebar' },
-  { src: '/screenshots/grid-view.png', title: 'grid-view.png', description: 'Up to 8 terminals simultaneously' },
-  { src: '/screenshots/new-terminal.png', title: 'new-terminal.png', description: 'Create terminals with custom configurations' },
-  { src: '/screenshots/profiles.png', title: 'profiles.png', description: 'Save and load configuration profiles' },
-  { src: '/screenshots/settings.png', title: 'settings.png', description: 'Customize your experience' },
-  { src: '/screenshots/welcome.png', title: 'welcome.png', description: 'Guided first-run setup' },
+const shots = [
+  { src: '/screenshots/new-terminal.png', file: 'new-terminal', cls: 'wide',
+    cap: 'Launch a session: pick a profile, set a nickname, working directory, and Claude arguments.' },
+  { src: '/screenshots/settings.png', file: 'settings', cls: '',
+    cap: 'Deep settings — appearance, behavior, and per-feature control.' },
+  { src: '/screenshots/welcome.png', file: 'welcome', cls: '',
+    cap: 'Guided first-run wizard gets you from install to running in minutes.' },
 ];
-
-const big = (i: number) => i % 3 === 0;
 ---
 
-<section id="screenshots" class="shots-section glow-section">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative">
-    <h2 class="shots-h2"><span class="num">[03]</span>CAPTURES <span class="meta">// last sync 0xFF</span></h2>
+<section id="tour" class="tour">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="gutter-label">[ 03 ] / tour</div>
+      <h2 class="display tour-h2">A closer look.</h2>
+    </div>
 
-    <div class="shots-grid">
-      {screenshots.map((shot, i) => (
-        <div class={`twin shot${big(i) ? ' shot-big' : ''}`}>
-          <div class="twin-bar">
-            <span><span class="twin-dots"><span></span><span></span><span></span></span></span>
-            <span class="filename">{shot.title}</span>
+    <div class="tour-grid">
+      {shots.map(s => (
+        <figure class={`win ${s.cls} reveal`}>
+          <div class="win-bar">
+            <span class="win-dots"><span></span><span></span><span></span></span>
+            <span>{s.file}.png</span>
           </div>
-          <img src={shot.src} alt={shot.description} class="block w-full" loading="lazy" />
-          <div class="caption">// {shot.description}</div>
-        </div>
+          <img src={s.src} alt={s.cap} loading="lazy" decoding="async" class="block w-full" />
+          <figcaption>// {s.cap}</figcaption>
+        </figure>
       ))}
     </div>
   </div>
 </section>
 
 <style>
-  .shots-h2 {
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: -1px;
-    color: #fff;
-    margin-bottom: 28px;
-  }
-  .shots-h2 .num { color: #a3e635; margin-right: 10px; }
-  .shots-h2 .meta {
-    color: #555;
-    font-size: 11px;
-    margin-left: 10px;
-    letter-spacing: 2px;
-  }
-  .shots-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-  .shot.shot-big {
-    grid-column: span 2;
-    grid-row: span 2;
-  }
-  .shot .filename { color: #888; }
-  .shot .caption {
-    padding: 10px 12px;
-    font-size: 11px;
-    color: #888;
-    border-top: 1px solid #1a1a1a;
-  }
-  @media (max-width: 1024px) {
-    .shots-grid { grid-template-columns: 1fr 1fr; }
-    .shot.shot-big { grid-column: span 2; grid-row: auto; }
-  }
-  @media (max-width: 640px) {
-    .shots-grid { grid-template-columns: 1fr; }
-    .shot.shot-big { grid-column: auto; }
+  .tour { padding: 80px 16px; }
+  .wrap { max-width: 1120px; margin: 0 auto; }
+  .head { margin-bottom: 34px; }
+  .gutter-label { margin-bottom: 16px; }
+  .tour-h2 { font-size: clamp(26px, 4.5vw, 40px); margin: 0; }
+
+  .tour-grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
+  .win img { display: block; }
+  .win figcaption { padding: 12px 14px; font-size: 11px; color: #8a8a96; line-height: 1.55; border-top: 1px solid rgba(255,255,255,0.06); }
+
+  @media (min-width: 820px) {
+    .tour-grid { grid-template-columns: 1fr 1fr; }
+    .win.wide { grid-column: span 2; }
   }
 </style>
