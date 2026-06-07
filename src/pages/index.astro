@@ -2,35 +2,55 @@
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Hero from '../components/Hero.astro';
+import Trust from '../components/Trust.astro';
+import Parallel from '../components/Parallel.astro';
 import Features from '../components/Features.astro';
 import Screenshots from '../components/Screenshots.astro';
 import Download from '../components/Download.astro';
+import Compare from '../components/Compare.astro';
+import ChangelogPreview from '../components/ChangelogPreview.astro';
+import CallToAction from '../components/CallToAction.astro';
 import TechStack from '../components/TechStack.astro';
 import Footer from '../components/Footer.astro';
 
-// Fetch latest version from GitHub releases at build time
-let version = '1.18.1'; // fallback — keep in sync with latest release
+// Fetch latest version + star count from GitHub at build time.
+let version = '1.26.0'; // fallback — keep in sync with latest release
+let stars: number | undefined;
 try {
-  const res = await fetch('https://api.github.com/repos/talayash/claude-terminal/releases/latest', {
-    headers: { 'Accept': 'application/vnd.github.v3+json' },
-  });
-  if (res.ok) {
-    const data = await res.json();
+  const [relRes, repoRes] = await Promise.all([
+    fetch('https://api.github.com/repos/talayash/claude-terminal/releases/latest', {
+      headers: { Accept: 'application/vnd.github.v3+json' },
+    }),
+    fetch('https://api.github.com/repos/talayash/claude-terminal', {
+      headers: { Accept: 'application/vnd.github.v3+json' },
+    }),
+  ]);
+  if (relRes.ok) {
+    const data = await relRes.json();
     version = data.tag_name?.replace(/^v/, '') || version;
   } else {
-    console.warn(`GitHub API returned ${res.status} — using fallback version ${version}`);
+    console.warn(`GitHub releases API returned ${relRes.status} — using fallback version ${version}`);
+  }
+  if (repoRes.ok) {
+    const repo = await repoRes.json();
+    if (typeof repo.stargazers_count === 'number') stars = repo.stargazers_count;
   }
 } catch (e) {
-  console.warn(`Failed to fetch latest version: ${e} — using fallback ${version}`);
+  console.warn(`Failed to fetch GitHub metadata: ${e} — using fallback version ${version}`);
 }
 ---
 
-<Layout title="ClaudeTerminal">
-  <Navbar />
-  <Hero version={version} />
+<Layout title="ClaudeTerminal — run a grid of Claude Code agents">
+  <Navbar version={version} />
+  <Hero version={version} stars={stars} />
+  <Trust version={version} stars={stars} />
+  <Parallel />
   <Features />
   <Screenshots />
   <Download version={version} />
+  <Compare />
+  <ChangelogPreview />
+  <CallToAction version={version} />
   <TechStack />
   <Footer />
 </Layout>

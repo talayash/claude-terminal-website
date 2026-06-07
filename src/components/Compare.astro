@@ -1,0 +1,75 @@
+---
+const cols = ['ClaudeTerminal', 'Conductor', 'Claude Squad'];
+const rows = [
+  { label: 'Windows + macOS', vals: ['yes', 'macOS only', 'terminal-based'] },
+  { label: 'Visual grid — up to 8 sessions', vals: ['yes', 'no', 'no'] },
+  { label: 'Real xterm terminals', vals: ['yes', 'partial', 'yes'] },
+  { label: 'Config profiles & env presets', vals: ['yes', 'partial', 'no'] },
+  { label: 'Native desktop GUI', vals: ['yes', 'yes', 'TUI'] },
+  { label: 'Open source · free', vals: ['MIT', 'free (BYO)', 'yes'] },
+];
+
+function cell(v: string) {
+  if (v === 'yes') return { t: '✓', k: 'y' };
+  if (v === 'no') return { t: '—', k: 'n' };
+  return { t: v, k: 'p' };
+}
+---
+
+<section id="compare" class="cmp">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="gutter-label">[ 05 ] / compare</div>
+      <h2 class="display cmp-h2">Where it fits.</h2>
+      <p class="cmp-sub">The parallel-agent space is crowded. ClaudeTerminal’s edge: a true cross-platform terminal multiplexer with a glanceable grid — not a Mac-only review dashboard.</p>
+    </div>
+
+    <div class="table-wrap reveal glass">
+      <table>
+        <thead>
+          <tr>
+            <th class="rowlabel"></th>
+            {cols.map((c, i) => <th class={i === 0 ? 'me' : ''}>{c}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(r => (
+            <tr>
+              <td class="rowlabel">{r.label}</td>
+              {r.vals.map((v, i) => {
+                const c = cell(v);
+                return <td class={`val ${c.k} ${i === 0 ? 'me' : ''}`}>{c.t}</td>;
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="disclaimer reveal">Reflects publicly available info, mid-2026 — these tools move fast. Corrections welcome via GitHub.</p>
+  </div>
+</section>
+
+<style>
+  .cmp { padding: 80px 16px; }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  .head { margin-bottom: 28px; }
+  .gutter-label { margin-bottom: 16px; }
+  .cmp-h2 { font-size: clamp(26px, 4.5vw, 40px); margin: 0 0 12px; }
+  .cmp-sub { font-size: 12.5px; color: #9a9aa8; line-height: 1.7; max-width: 600px; }
+
+  .table-wrap { border-radius: 14px; overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th, td { padding: 13px 14px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  thead th { color: #9a9aa8; font-weight: 700; letter-spacing: 0.5px; font-size: 11px; }
+  thead th.me { color: #fff; }
+  .rowlabel { text-align: left; color: #c8c8d2; font-size: 11.5px; }
+  td.rowlabel { color: #9a9aa8; }
+  .me { background: rgba(217,119,87,0.07); }
+  thead th.me { border-bottom: 2px solid #d97757; }
+  .val.y { color: #d97757; font-weight: 700; }
+  .val.n { color: #4a4a54; }
+  .val.p { color: #8a8a96; font-size: 11px; }
+  tbody tr:last-child td { border-bottom: none; }
+
+  .disclaimer { font-size: 10.5px; color: #5f5f6b; margin-top: 14px; text-align: center; }
+</style>

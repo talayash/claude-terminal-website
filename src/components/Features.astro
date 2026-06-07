@@ -1,116 +1,102 @@
 ---
-import features from '../data/features.json';
-
-const statuses = ['OK', 'LIVE', 'OK', 'READY', 'OK', 'LIVE'];
-const statusColors: Record<string, string> = {
-  OK: '#a3e635',
-  LIVE: '#ec4899',
-  READY: '#06b6d4',
-};
+const cells = [
+  {
+    cls: 'b-grid', span: 'hero', key: 'GRID',
+    title: 'Smart Grid View',
+    desc: 'See up to 8 Claude Code sessions at once with intelligent auto-layouts (1×1 → 2×4). Arrow-key navigation, color-coded tiles. Toggle with Ctrl+G.',
+    img: '/screenshots/grid-view.png', alt: 'Grid view showing multiple Claude Code sessions',
+  },
+  {
+    cls: 'b-multi', span: 'wide', key: 'MUX',
+    title: 'Multi-Terminal Management',
+    desc: 'Tabbed terminals with drag-and-drop reorder, custom nicknames, and color tags. Sessions persist across restarts.',
+    img: '/screenshots/main-view.png', alt: 'Main tabbed terminal interface',
+  },
+  {
+    cls: 'b-profiles', span: 'tall', key: 'CFG',
+    title: 'Configuration Profiles',
+    desc: 'Saved CLI flag sets (--model opus, --verbose), per-session env vars and working directories. Quick-launch any setup.',
+    img: '/screenshots/profiles.png', alt: 'Configuration profiles panel',
+  },
+  {
+    cls: 'b-hints', span: '', key: 'F1',
+    title: 'Command Hints',
+    desc: 'Searchable, categorized tips panel (F1) with one-click copy. Plus full keyboard shortcuts for power users.',
+  },
+  {
+    cls: 'b-setup', span: '', key: 'INIT',
+    title: 'Auto-Setup Wizard',
+    desc: 'Detects Node.js & Claude Code, installs what’s missing — one click to a working environment.',
+  },
+  {
+    cls: 'b-update', span: '', key: 'OTA',
+    title: 'Auto-Updates',
+    desc: 'Background download, one-click install. Never miss a release.',
+  },
+  {
+    cls: 'b-teams', span: '', key: 'TEAM',
+    title: 'Agent Teams Panel',
+    desc: 'Monitor Claude Code multi-agent team sessions — live structure, members, and task tracking.',
+  },
+];
 ---
 
-<section id="features" class="feat-section">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative">
-    <div class="gut">[02] /FEATURES</div>
-    <h2 class="feat-h2"><span class="num">[02]</span>FEATURES</h2>
-    <p class="feat-sub">// six things, no card-grid, no rounded purple icon-squares.</p>
+<section id="features" class="feat">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="gutter-label">[ 02 ] / features</div>
+      <h2 class="display feat-h2">Everything you need to run a <span class="acc">fleet</span>.</h2>
+    </div>
 
-    <div class="feat-list">
-      {features.map((feature, i) => {
-        const status = statuses[i] ?? 'OK';
-        const indent = i % 2 === 1;
-        return (
-          <div class={`feat-row row-flash${indent ? ' indent' : ''}`}>
-            <div class="idx">02.{String(i + 1).padStart(2, '0')}</div>
-            <div class="name">{feature.title}</div>
-            <div class="desc">{feature.description}</div>
-            <div class="row-status" style={`color:${statusColors[status]}`}>[ {status} ]</div>
+    <div class="bento reveal">
+      {cells.map(c => (
+        <article class={`cell glass glass-hover ${c.cls}`}>
+          <div class="cell-top">
+            <span class="cell-key">{c.key}</span>
+            <h3 class="cell-title">{c.title}</h3>
+            <p class="cell-desc">{c.desc}</p>
           </div>
-        );
-      })}
+          {c.img && (
+            <div class="cell-img">
+              <img src={c.img} alt={c.alt} loading="lazy" decoding="async" />
+            </div>
+          )}
+        </article>
+      ))}
     </div>
   </div>
 </section>
 
 <style>
-  .feat-section { position: relative; }
-  .gut {
-    position: absolute;
-    left: -8px;
-    top: 80px;
-    font-size: 10px;
-    letter-spacing: 4px;
-    color: #555;
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-  }
-  @media (max-width: 768px) {
-    .gut { display: none; }
-  }
-  .feat-h2 {
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: -1px;
-    color: #fff;
-    margin-bottom: 6px;
-  }
-  .feat-h2 .num { color: #a3e635; margin-right: 10px; }
-  .feat-sub {
-    font-size: 12px;
-    color: #888;
-    margin-bottom: 28px;
-  }
-  .feat-list { margin-top: 20px; }
-  .feat-row {
-    display: grid;
-    grid-template-columns: 70px 1fr 2fr 90px;
-    gap: 18px;
-    align-items: start;
-    padding: 18px 0;
-    border-top: 1px solid rgba(236, 72, 153, 0.25);
-    transition: background 120ms ease-out;
-    cursor: default;
-  }
-  .feat-row:first-child {
-    border-top: 1px solid #a3e635;
-  }
-  .feat-row.indent {
-    padding-left: 60px;
-  }
-  .feat-row:hover {
-    background: rgba(163, 230, 53, 0.06);
-  }
-  .feat-row .idx {
-    font-size: 10px;
-    color: #555;
-    letter-spacing: 2px;
-    padding-top: 2px;
-  }
-  .feat-row .name {
-    font-size: 13px;
-    font-weight: 700;
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-  }
-  .feat-row .desc {
-    font-size: 12px;
-    color: #888;
-    line-height: 1.6;
-  }
-  .feat-row .row-status {
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-align: right;
-    padding-top: 2px;
-  }
-  @media (max-width: 768px) {
-    .feat-row {
-      grid-template-columns: 1fr;
-      gap: 6px;
+  .feat { padding: 80px 16px; }
+  .wrap { max-width: 1120px; margin: 0 auto; }
+  .head { margin-bottom: 34px; }
+  .gutter-label { margin-bottom: 16px; }
+  .feat-h2 { font-size: clamp(28px, 5vw, 46px); margin: 0; }
+
+  .bento { display: grid; grid-template-columns: 1fr; gap: 14px; }
+
+  .cell { border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; min-height: 168px; }
+  .cell-top { padding: 20px 20px 14px; }
+  .cell-key { font-size: 9.5px; letter-spacing: 2.5px; color: #d97757; }
+  .cell-title { font-size: 15px; color: #fff; font-weight: 700; margin: 9px 0 7px; letter-spacing: -0.2px; }
+  .cell-desc { font-size: 12px; color: #9a9aa8; line-height: 1.6; }
+  .cell-img { margin-top: auto; padding: 0 16px 16px; }
+  .cell-img img { width: 100%; border-radius: 9px; border: 1px solid rgba(255,255,255,0.08); display: block; }
+
+  @media (min-width: 760px) {
+    .bento {
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: minmax(150px, auto);
     }
-    .feat-row.indent { padding-left: 0; }
-    .feat-row .idx { font-size: 9px; }
-    .feat-row .row-status { text-align: left; }
+    .b-grid   { grid-column: span 2; grid-row: span 2; }
+    .b-multi  { grid-column: span 2; }
+    .b-profiles { grid-column: span 1; grid-row: span 1; }
+    .b-hints  { grid-column: span 1; }
+    .b-setup  { grid-column: span 2; }
+    .b-update { grid-column: span 1; }
+    .b-teams  { grid-column: span 1; }
+    .b-grid .cell-title { font-size: 18px; }
+    .b-grid .cell-desc { font-size: 12.5px; }
   }
 </style>

@@ -2,40 +2,26 @@
 const stack = ['tauri 2', 'rust', 'react 18', 'typescript', 'xterm.js', 'tailwind', 'zustand', 'sqlite'];
 ---
 
-<section class="stack-section">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="stack-line">
-      <span class="num">[05]</span>
-      <span class="label">STACK</span>
-      <span class="rule">───</span>
-      {stack.map((t, i) => (
-        <>
-          <span class="tech">{t}</span>
-          {i < stack.length - 1 && <span class="sep">·</span>}
-        </>
-      ))}
-      <span class="rule">───</span>
-    </div>
+<section class="stack">
+  <div class="line">
+    <span class="lbl"><span class="acc">/</span> built with</span>
+    {stack.map((t, i) => (
+      <>
+        <span class="t">{t}</span>
+        {i < stack.length - 1 && <span class="sep">·</span>}
+      </>
+    ))}
   </div>
 </section>
 
 <style>
-  .stack-section { border-top: 1px solid #1a1a1a; border-bottom: 1px solid #1a1a1a; }
-  .stack-line {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 11px;
-    letter-spacing: 2px;
-    color: #888;
-    overflow-x: auto;
-    white-space: nowrap;
-    padding-bottom: 4px;
-  }
-  .stack-line .num { color: #a3e635; }
-  .stack-line .label { color: #ededed; font-weight: 700; }
-  .stack-line .rule { color: #333; letter-spacing: 0; }
-  .stack-line .tech { color: #aaa; }
-  .stack-line .sep { color: #333; }
-  .stack-line::-webkit-scrollbar { height: 4px; }
+  .stack { border-top: 1px solid rgba(255,255,255,0.06); }
+  .line { max-width: 1120px; margin: 0 auto; padding: 18px 16px;
+    display: flex; align-items: center; gap: 12px; font-size: 11px; letter-spacing: 1.5px;
+    color: #9a9aa8; overflow-x: auto; white-space: nowrap; }
+  .lbl { color: #e9e9f0; font-weight: 700; }
+  .lbl .acc { color: #d97757; }
+  .t { color: #8a8a96; }
+  .sep { color: rgba(255,255,255,0.16); }
+  .line::-webkit-scrollbar { height: 3px; }
 </style>

@@ -1,113 +1,93 @@
 ---
 interface Props {
   version: string;
+  stars?: number;
 }
-const { version } = Astro.props;
+const { version, stars } = Astro.props;
+
+const releaseBase = 'https://github.com/talayash/claude-terminal/releases/latest/download';
+const winInstaller = `${releaseBase}/ClaudeTerminal_${version}_x64-setup.exe`;
+const macInstaller = `${releaseBase}/ClaudeTerminal_${version}_aarch64.dmg`;
 ---
 
-<section class="hero-section glow-section load-sweep">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
-      <div>
-        <div class="crumb">~/index · ● ● ●</div>
-        <span class="hero-tag">▶ EXEC // V{version} — LATEST</span>
-        <h1 class="hero-h1 aberration glitch">
-          CLAUDE-T̷E̷RM<span class="strike">INAL</span>
-        </h1>
-        <p class="hero-sub">
-          // a multi-instance terminal manager for <span style="color:#06b6d4">claude-code</span>.<br/>
-          // <span class="hl">n parallel sessions</span>, one operator, zero context-switching.
-        </p>
-        <div class="hero-ctas">
-          <a href="#download" class="cta-primary">./INSTALL ⏎</a>
-          <a href="https://github.com/talayash/claude-terminal" target="_blank" rel="noopener noreferrer" class="cta-secondary">$ git clone</a>
-          <a href="https://github.com/talayash/claude-terminal" target="_blank" rel="noopener noreferrer" class="cta-ghost">view source</a>
-        </div>
+<section class="hero">
+  <div class="wrap">
+    <div class="col-text">
+      <div class="eyebrow rise d1">▶ multi-instance manager for claude&#8209;code</div>
+
+      <h1 class="display rise d2">
+        Run a <span class="acc">grid</span> of<br />Claude&nbsp;Code agents.
+      </h1>
+
+      <p class="sub rise d3">
+        Spinning up 3–5 Claude Code sessions across terminal tabs and git worktrees gets
+        expensive to track. ClaudeTerminal puts every session in <span class="hl">one window</span> —
+        watch, switch, and steer them at a glance. Windows&nbsp;&amp;&nbsp;macOS.
+      </p>
+
+      <div class="ctas rise d4">
+        <a id="primary-dl" class="btn btn-primary" href="#install"
+           data-win={winInstaller} data-mac={macInstaller}>↓&nbsp;Download</a>
+        <a class="btn btn-ghost" href="https://github.com/talayash/claude-terminal" target="_blank" rel="noopener noreferrer">
+          ★ View on GitHub{stars ? ` · ${stars}` : ''}
+        </a>
       </div>
 
-      <div class="twin">
-        <div class="twin-bar">
-          <span><span class="twin-dots"><span></span><span></span><span></span></span></span>
-          <span>main-view.png · loaded</span>
-        </div>
-        <img src="/screenshots/main-view.png" alt="ClaudeTerminal main view" class="block w-full" loading="eager" />
+      <div class="meta-row rise d5">
+        <span class="pill pill-acc"><span class="live-dot">●</span> v{version} · active</span>
+        <span class="pill">Windows + macOS</span>
+        <span class="pill">Open source · MIT</span>
       </div>
     </div>
-  </div>
 
-  <div class="marquee">
-    <div class="marquee-track">
-      {Array.from({ length: 2 }).map(() => (
-        <span class="m-row">
-          <span class="m-ok">SIG_OK</span>
-          <span class="m-sep">·</span>
-          <span class="m-ok">200</span>
-          <span class="m-sep">·</span>
-          <span class="m-mag">UPTIME 99.97%</span>
-          <span class="m-sep">·</span>
-          <span class="m-ok">BUILD #341</span>
-          <span class="m-sep">·</span>
-          <span class="m-cy">MEM 64%</span>
-          <span class="m-sep">·</span>
-          <span class="m-ok">LATENCY 12ms</span>
-          <span class="m-sep">·</span>
-          <span class="m-mag">▓▒░ 0xFF.{version} ░▒▓</span>
-          <span class="m-sep">·</span>
-        </span>
-      ))}
+    <div class="col-shot rise d3">
+      <div class="win">
+        <div class="win-bar">
+          <span class="win-dots"><span></span><span></span><span></span></span>
+          <span>claude-terminal — grid view</span>
+        </div>
+        <img src="/screenshots/demo.gif" alt="ClaudeTerminal running multiple Claude Code sessions in a grid" class="block w-full" loading="eager" decoding="async" />
+      </div>
+      <div class="shot-cap">// live demo · n parallel sessions, one operator</div>
     </div>
   </div>
 </section>
 
 <style>
-  .hero-section { position: relative; overflow: hidden; }
-  .crumb {
-    font-size: 10px;
-    color: #555;
-    letter-spacing: 2px;
-    margin-bottom: 18px;
+  .hero { position: relative; padding: 150px 16px 70px; }
+  .wrap {
+    max-width: 1120px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr; gap: 44px; align-items: center;
   }
-  .hero-tag {
-    color: #a3e635;
-    font-size: 10px;
-    letter-spacing: 2px;
-    border-left: 2px solid #a3e635;
-    padding-left: 8px;
-    display: inline-block;
+  .col-text { max-width: 560px; }
+  .eyebrow { margin-bottom: 22px; }
+  h1.display { font-size: clamp(38px, 7vw, 72px); margin: 0 0 22px; }
+  .sub { font-size: 14px; color: #a6a6b4; line-height: 1.75; max-width: 500px; margin: 0 0 30px; }
+  .ctas { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 24px; }
+  .meta-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .meta-row .live-dot { color: #d97757; font-size: 8px; }
+
+  .col-shot { position: relative; }
+  .shot-cap { margin-top: 12px; font-size: 10.5px; letter-spacing: 1px; color: #5f5f6b; text-align: right; }
+
+  @media (min-width: 980px) {
+    .wrap { grid-template-columns: 1.05fr 1fr; gap: 56px; }
+    .hero { padding-top: 170px; }
   }
-  .hero-h1 {
-    font-size: clamp(40px, 8vw, 88px);
-    font-weight: 800;
-    letter-spacing: -2px;
-    line-height: 1;
-    color: #fff;
-    margin: 16px 0 18px;
-  }
-  .hero-sub {
-    font-size: 13px;
-    color: #aaa;
-    line-height: 1.7;
-    max-width: 460px;
-  }
-  .hero-ctas {
-    margin-top: 26px;
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .marquee {
-    border-top: 1px solid #1a1a1a;
-    border-bottom: 1px solid #1a1a1a;
-    background: #060606;
-    overflow: hidden;
-    padding: 6px 0;
-    font-size: 10px;
-    letter-spacing: 2px;
-  }
-  .m-row { display: inline-flex; gap: 24px; padding-right: 24px; }
-  .m-ok { color: #a3e635; }
-  .m-sep { color: #333; }
-  .m-mag { color: #ec4899; }
-  .m-cy { color: #06b6d4; }
 </style>
+
+<script>
+  // OS-detecting primary download — upgrades label + link, falls back to #install.
+  const el = document.getElementById('primary-dl');
+  if (el) {
+    const ua = navigator.userAgent;
+    const plat = (navigator.platform || '') + ' ' + ua;
+    const isMac = /Mac|iPhone|iPad/i.test(plat);
+    const isWin = /Win/i.test(plat);
+    const win = el.getAttribute('data-win');
+    const mac = el.getAttribute('data-mac');
+    if (isMac && mac) { el.setAttribute('href', mac); el.textContent = '↓ Download for macOS'; }
+    else if (isWin && win) { el.setAttribute('href', win); el.textContent = '↓ Download for Windows'; }
+    // otherwise: leave as "Download" → scrolls to #install with all options
+  }
+</script>

@@ -22,10 +22,10 @@ const HISTORY_DAYS = 30;
       <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
         <div>
           <div class="flex items-center gap-3 mb-2">
-            <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#a3e635]/15 border border-[#a3e635]/30 text-[#a3e635] text-xs font-mono">
+            <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#d97757]/15 border border-[#d97757]/30 text-[#d97757] text-xs font-mono">
               <span class="relative flex h-2 w-2">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#a3e635] opacity-60"></span>
-                <span class="relative inline-flex rounded-full h-2 w-2 bg-[#a3e635]"></span>
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#d97757] opacity-60"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-[#d97757]"></span>
               </span>
               LIVE
             </span>
@@ -42,7 +42,7 @@ const HISTORY_DAYS = 30;
           <button
             id="refresh-btn"
             type="button"
-            class="text-xs font-mono px-3 py-1.5 rounded-md bg-[#a3e635]/20 hover:bg-[#a3e635]/30 border border-[#a3e635]/40 text-[#a3e635] transition-colors"
+            class="text-xs font-mono px-3 py-1.5 rounded-md bg-[#d97757]/20 hover:bg-[#d97757]/30 border border-[#d97757]/40 text-[#d97757] transition-colors"
           >
             refresh
           </button>
@@ -50,13 +50,13 @@ const HISTORY_DAYS = 30;
       </div>
 
       <!-- Live now banner -->
-      <div class="surface rounded-xl p-5 mb-6 border border-[#a3e635]/20">
+      <div class="surface rounded-xl p-5 mb-6 border border-[#d97757]/20">
         <div class="flex items-center justify-between flex-wrap gap-4">
           <div class="flex items-baseline gap-4">
             <div>
               <div class="text-xs font-mono uppercase tracking-wider text-slate-500 mb-1">Active Now</div>
               <div class="flex items-baseline gap-2">
-                <span id="kpi-active-now" class="text-4xl font-bold text-[#a3e635] tabular-nums">—</span>
+                <span id="kpi-active-now" class="text-4xl font-bold text-[#d97757] tabular-nums">—</span>
                 <span class="text-xs font-mono text-slate-500">in last <span id="kpi-active-window">15</span> min</span>
               </div>
             </div>
@@ -77,7 +77,7 @@ const HISTORY_DAYS = 30;
         </div>
         <div class="surface rounded-xl p-5">
           <div class="text-xs font-mono uppercase tracking-wider text-slate-500 mb-2">Daily Active Users</div>
-          <div id="kpi-dau" class="text-3xl font-bold text-[#a3e635] tabular-nums">—</div>
+          <div id="kpi-dau" class="text-3xl font-bold text-[#d97757] tabular-nums">—</div>
         </div>
         <div class="surface rounded-xl p-5">
           <div class="text-xs font-mono uppercase tracking-wider text-slate-500 mb-2">Heartbeats Today</div>
@@ -194,7 +194,7 @@ const HISTORY_DAYS = 30;
   // newest/biggest series; subsequent slots cover up to ~6 versions before
   // wrapping. Order matters — newest version sorts to the bottom of the stack
   // (rendered first, painted underneath the older ones above it).
-  const SERIES_COLORS = ['#a3e635', '#60a5fa', '#f472b6', '#fbbf24', '#a78bfa', '#34d399'];
+  const SERIES_COLORS = ['#d97757', '#60a5fa', '#f472b6', '#fbbf24', '#a78bfa', '#34d399'];
 
   // ISO 3166-1 alpha-2 → display name (partial; falls back to the code itself).
   const COUNTRY_NAMES = {
@@ -387,7 +387,7 @@ const HISTORY_DAYS = 30;
         <span class="text-xs font-mono text-slate-400 tabular-nums flex-shrink-0">${formatNumber(value)} <span class="text-slate-600">(${pct.toFixed(1)}%)</span></span>
       </div>
       <div class="h-2 rounded-full bg-slate-800/60 overflow-hidden">
-        <div class="h-full rounded-full bg-[#a3e635] transition-all duration-500" style="width: ${widthPct}%"></div>
+        <div class="h-full rounded-full bg-[#d97757] transition-all duration-500" style="width: ${widthPct}%"></div>
       </div>
     `;
     return row;
@@ -520,7 +520,7 @@ const HISTORY_DAYS = 30;
       ]);
       const [dau, hb, ver] = await Promise.all([dauRes.json(), hbRes.json(), verRes.json()]);
 
-      renderLineArea('chart-dau', dau.series ?? [], '#a3e635', 'chart-dau-peak', 'chart-dau-from', 'chart-dau-to');
+      renderLineArea('chart-dau', dau.series ?? [], '#d97757', 'chart-dau-peak', 'chart-dau-from', 'chart-dau-to');
       renderLineArea('chart-hb', hb.series ?? [], '#60a5fa', 'chart-hb-peak', 'chart-hb-from', 'chart-hb-to');
       renderStackedArea('chart-versions', 'chart-versions-legend', 'chart-version-buckets', 'chart-versions-from', 'chart-versions-to', ver.series ?? []);
     } catch (err) {
