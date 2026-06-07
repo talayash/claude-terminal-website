@@ -12,6 +12,11 @@ function fakeHash(version: string): string {
 
 const totalEntries = changelog.reduce((acc, r) => acc + r.features.length, 0);
 const latest = changelog[0];
+
+// Normalize glyphs that JetBrains Mono can't render (e.g. ⇕ U+21D5 → ↕ U+2195).
+const GLYPH_FIX: Record<string, string> = { '⇕': '↕', '⇔': '↔' };
+const clean = (s: string | undefined) =>
+  s ? s.replace(/[⇔⇕]/g, (c) => GLYPH_FIX[c] ?? c) : s;
 ---
 
 <Layout title="Changelog — ClaudeTerminal" description="Release history and changelog for ClaudeTerminal.">
@@ -43,8 +48,8 @@ const latest = changelog[0];
                 <li>
                   <span class="bullet">●</span>
                   <span class="cl-detail">
-                    <span class="cl-title">{f.title}</span>
-                    {f.description && <span class="cl-desc">{f.description}</span>}
+                    <span class="cl-title">{clean(f.title)}</span>
+                    {f.description && <span class="cl-desc">{clean(f.description)}</span>}
                   </span>
                 </li>
               ))}
