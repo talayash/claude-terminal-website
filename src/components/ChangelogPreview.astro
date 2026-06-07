@@ -1,6 +1,9 @@
 ---
 import changelog from '../data/changelog.json';
 const recent = changelog.slice(0, 3);
+
+// Normalize glyphs JetBrains Mono can't render (e.g. ⇕ U+21D5 → ↕ U+2195).
+const clean = (s: string) => s.replace(/⇕/g, '↕').replace(/⇔/g, '↔');
 ---
 
 <section class="clp">
@@ -22,7 +25,7 @@ const recent = changelog.slice(0, 3);
           </div>
           <ul class="rel-feats">
             {rel.features.slice(0, 3).map(f => (
-              <li><span class="b">●</span>{f.title}</li>
+              <li><span class="b">●</span>{clean(f.title)}</li>
             ))}
             {rel.features.length > 3 && <li class="more">+ {rel.features.length - 3} more</li>}
           </ul>
