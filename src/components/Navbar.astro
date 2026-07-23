@@ -3,96 +3,124 @@ interface Props {
   version?: string;
 }
 const { version } = Astro.props;
-
-const navLinks = [
-  { href: '/#features', label: 'features' },
-  { href: '/#tour', label: 'tour' },
-  { href: '/#compare', label: 'compare' },
-  { href: '/#install', label: 'install' },
-  { href: '/changelog', label: 'changelog' },
-];
 ---
 
-<nav class="nav-wrap" id="navbar">
-  <div class="nav-inner glass">
-    <a href="/" class="brand" aria-label="ClaudeTerminal home">
-      <span class="br">[</span><span class="bt">claude·terminal</span><span class="br">]</span>
-    </a>
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="wordmark">Claude Terminal</a>
 
-    <div class="links">
-      {navLinks.map(link => <a href={link.href}>{link.label}</a>)}
+    <div class="nav-links" id="nav-links">
+      <a href="#features" class="underline-link nav-link">Features</a>
+      <a href="#download" class="underline-link nav-link">Download</a>
+      <a href="/changelog" class="underline-link nav-link">Changelog</a>
+      <a href="https://github.com/talayash/claude-terminal" target="_blank" rel="noopener noreferrer" class="underline-link nav-link">
+        GitHub <span aria-hidden="true">&nearr;</span>
+      </a>
+      {version && (
+        <span class="nav-version">
+          <span class="coral-dot" aria-hidden="true"></span>v{version}
+        </span>
+      )}
     </div>
 
-    <div class="meta">
-      <a class="ghs" href="https://github.com/talayash/claude-terminal" target="_blank" rel="noopener noreferrer" aria-label="GitHub repository">★&nbsp;star</a>
-      {version && <span class="vpill">v{version}</span>}
-      <a class="dl" href="/#install">↓ download</a>
-    </div>
-
-    <button id="mobile-menu-btn" class="burger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span></button>
-  </div>
-
-  <div id="mobile-menu" class="mobile glass">
-    {navLinks.map(link => <a href={link.href}>{link.label}</a>)}
-    <a href="https://github.com/talayash/claude-terminal" target="_blank" rel="noopener noreferrer">github ↗</a>
-    <a class="m-dl" href="/#install">↓ download</a>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
 <style>
-  .nav-wrap { position: fixed; top: 14px; left: 0; right: 0; z-index: 50; padding: 0 16px; }
-  .nav-inner {
-    max-width: 1120px; margin: 0 auto;
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 18px; height: 50px; padding: 0 14px 0 18px;
-    border-radius: 14px;
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: var(--paper);
+    border-bottom: 1px solid var(--hairline);
   }
-  .brand { display: inline-flex; align-items: center; gap: 1px; text-decoration: none; font-size: 13px; font-weight: 700; letter-spacing: 0.5px; }
-  .brand .br { color: #d97757; }
-  .brand .bt { color: #fff; }
-  .brand:hover .bt { color: #e89878; }
+  .nav-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  @media (min-width: 768px) {
+    .nav-inner { padding: 0 32px; }
+  }
 
-  .links { display: none; gap: 22px; font-size: 12px; letter-spacing: 1px; }
-  .links a { color: #9a9aa8; text-decoration: none; transition: color 140ms; position: relative; }
-  .links a:hover { color: #fff; }
-  .links a::after { content: ""; position: absolute; left: 0; bottom: -6px; width: 0; height: 1px; background: #d97757; transition: width 180ms ease; }
-  .links a:hover::after { width: 100%; }
+  .wordmark {
+    color: var(--ink);
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -0.1px;
+  }
 
-  .meta { display: none; align-items: center; gap: 12px; font-size: 11px; letter-spacing: 1px; }
-  .meta .ghs { color: #9a9aa8; text-decoration: none; transition: color 140ms; }
-  .meta .ghs:hover { color: #e89878; }
-  .vpill { color: #d97757; border: 1px solid rgba(217,119,87,0.4); border-radius: 20px; padding: 2px 9px; font-size: 10px; }
-  .meta .dl { color: #fff; background: rgba(217,119,87,0.16); border: 1px solid rgba(217,119,87,0.4); border-radius: 8px; padding: 6px 12px; text-decoration: none; transition: background 140ms, border-color 140ms; }
-  .meta .dl:hover { background: rgba(217,119,87,0.28); border-color: rgba(217,119,87,0.7); }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
+  .nav-link {
+    color: var(--muted-body);
+    font-size: 13px;
+    font-weight: 400;
+  }
+  .nav-version {
+    color: var(--muted-label);
+    font-size: 12px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+  }
 
-  .burger { display: inline-flex; flex-direction: column; gap: 4px; background: transparent; border: none; cursor: pointer; padding: 8px; }
-  .burger span { width: 18px; height: 1.5px; background: #cfcfda; display: block; transition: transform 160ms; }
+  .nav-hamburger {
+    display: none;
+    background: transparent;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+  }
+  .nav-hamburger span {
+    display: block;
+    width: 18px;
+    height: 1.5px;
+    background: var(--ink);
+    margin: 4px 0;
+    transition: transform 150ms ease-out, opacity 150ms ease-out;
+  }
 
-  .mobile { display: none; flex-direction: column; gap: 4px; max-width: 1120px; margin: 8px auto 0; border-radius: 12px; padding: 10px 14px; }
-  .mobile a { color: #b8b8c4; text-decoration: none; padding: 8px 4px; font-size: 13px; letter-spacing: 1px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-  .mobile a:last-child { border-bottom: none; }
-  .mobile .m-dl { color: #d97757; }
-  .mobile.open { display: flex; }
-
-  @media (min-width: 880px) {
-    .links { display: flex; }
-    .meta { display: flex; }
-    .burger { display: none; }
+  @media (max-width: 767px) {
+    .nav-hamburger { display: block; }
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 56px;
+      left: 0;
+      right: 0;
+      background: var(--paper);
+      border-bottom: 1px solid var(--hairline);
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+      padding: 8px 20px 16px;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links .nav-link,
+    .nav-links .nav-version {
+      padding: 10px 0;
+      width: 100%;
+    }
   }
 </style>
 
 <script>
-  const btn = document.getElementById('mobile-menu-btn');
-  const menu = document.getElementById('mobile-menu');
-  btn?.addEventListener('click', () => {
-    const open = menu?.classList.toggle('open');
-    btn.setAttribute('aria-expanded', String(!!open));
+  const hamburger = document.getElementById('nav-hamburger');
+  const links = document.getElementById('nav-links');
+  hamburger?.addEventListener('click', () => {
+    const open = links?.classList.toggle('open') ?? false;
+    hamburger.setAttribute('aria-expanded', String(open));
   });
-  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.classList.remove('open')));
-
-  // subtle elevation once scrolled
-  const nav = document.getElementById('navbar');
-  const onScroll = () => nav?.classList.toggle('scrolled', window.scrollY > 12);
-  onScroll();
-  window.addEventListener('scroll', onScroll, { passive: true });
 </script>
