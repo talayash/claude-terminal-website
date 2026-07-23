@@ -1,70 +1,39 @@
 ---
-import '../styles/global.css'
-import SpeedInsights from '@vercel/speed-insights/astro'
+import '../styles/global.css';
+import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
 
 interface Props {
-  title: string;
+  title?: string;
   description?: string;
 }
-
-const { title, description = 'A modern multi-instance terminal manager for Claude Code. Run, monitor, and switch between parallel Claude Code sessions from one window - on Windows and macOS.' } = Astro.props;
+const {
+  title = 'Claude Terminal - a terminal manager for Claude Code',
+  description = 'Run Claude Code in parallel. A terminal manager for developers who spawn many Claude sessions at once.',
+} = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#08080c" />
-    <link rel="icon" type="image/png" sizes="128x128" href="/icons/icon.png" />
+    <meta name="theme-color" content="#faf9f5" />
 
-    <!-- JetBrains Mono Variable -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
-    />
+    <link rel="preconnect" href="https://rsms.me/" crossorigin />
+    <link rel="preload" as="style" href="https://rsms.me/inter/inter.css" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
 
-    <!-- Open Graph -->
+    <title>{title}</title>
+
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/screenshots/main-view.png" />
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="/screenshots/main-view.png" />
-
-    <title>{title}</title>
-    <slot name="head" />
   </head>
-  <body class="min-h-screen antialiased">
+  <body>
     <slot />
+    <Analytics />
     <SpeedInsights />
-    <script>
-      import { inject } from '@vercel/analytics';
-      inject();
-
-      // Surgical scroll reveals - one pass, then disconnect per element.
-      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const els = document.querySelectorAll('.reveal');
-      if (reduce || !('IntersectionObserver' in window)) {
-        els.forEach((el) => el.classList.add('in'));
-      } else {
-        const io = new IntersectionObserver((entries) => {
-          for (const e of entries) {
-            if (e.isIntersecting) {
-              e.target.classList.add('in');
-              io.unobserve(e.target);
-            }
-          }
-        }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
-        els.forEach((el) => io.observe(el));
-      }
-    </script>
   </body>
 </html>
