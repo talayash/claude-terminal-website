@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ============================================================
-   [01] DESIGN TOKENS — aurora · glass · coral · mono
+   [01] DESIGN TOKENS - aurora · glass · coral · mono
    ============================================================ */
 @theme {
   /* surfaces */
@@ -11,7 +11,7 @@
   --color-muted: #9a9aa8;
   --color-muted-dim: #5f5f6b;
 
-  /* single accent — Claude-adjacent coral */
+  /* single accent - Claude-adjacent coral */
   --color-acc: #d97757;
   --color-acc-soft: #e89878;
   --color-ink: #1a0d07;
@@ -45,7 +45,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Aurora glow — fixed, behind everything */
+/* Aurora glow - fixed, behind everything */
 body::before {
   content: "";
   position: fixed;
@@ -58,7 +58,7 @@ body::before {
     radial-gradient(50% 45% at 50% 108%, rgba(217, 119, 87, 0.10), transparent 60%);
 }
 
-/* Fine film grain — fixed overlay for tactile depth */
+/* Fine film grain - fixed overlay for tactile depth */
 body::after {
   content: "";
   position: fixed;
@@ -85,7 +85,7 @@ a { color: inherit; }
    [03] UTILITY PRIMITIVES
    ============================================================ */
 
-/* Glass surface — restrained, for nav / cards */
+/* Glass surface - restrained, for nav / cards */
 .glass {
   background: rgba(255, 255, 255, 0.045);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -221,7 +221,7 @@ a { color: inherit; }
 .section-num { color: #d97757; }
 
 /* ============================================================
-   [06] ANIMATIONS — surgical only
+   [06] ANIMATIONS - surgical only
    ============================================================ */
 @keyframes rise {
   from { opacity: 0; transform: translateY(16px); }

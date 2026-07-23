@@ -11,7 +11,7 @@ const ENDPOINTS = {
 const HISTORY_DAYS = 30;
 ---
 
-<Layout title="Stats — ClaudeTerminal" description="Internal telemetry dashboard.">
+<Layout title="Stats - ClaudeTerminal" description="Internal telemetry dashboard.">
   <Fragment slot="head">
     <meta name="robots" content="noindex, nofollow, noarchive" />
   </Fragment>
@@ -56,15 +56,15 @@ const HISTORY_DAYS = 30;
             <div>
               <div class="text-xs font-mono uppercase tracking-wider text-slate-500 mb-1">Active Now</div>
               <div class="flex items-baseline gap-2">
-                <span id="kpi-active-now" class="text-4xl font-bold text-[#d97757] tabular-nums">—</span>
+                <span id="kpi-active-now" class="text-4xl font-bold text-[#d97757] tabular-nums">-</span>
                 <span class="text-xs font-mono text-slate-500">in last <span id="kpi-active-window">15</span> min</span>
               </div>
             </div>
           </div>
           <div class="flex flex-wrap gap-x-6 gap-y-1 text-xs font-mono text-slate-400">
-            <span>versions: <span id="kpi-active-versions" class="text-slate-200">—</span></span>
-            <span>os: <span id="kpi-active-os" class="text-slate-200">—</span></span>
-            <span>countries: <span id="kpi-active-countries" class="text-slate-200">—</span></span>
+            <span>versions: <span id="kpi-active-versions" class="text-slate-200">-</span></span>
+            <span>os: <span id="kpi-active-os" class="text-slate-200">-</span></span>
+            <span>countries: <span id="kpi-active-countries" class="text-slate-200">-</span></span>
           </div>
         </div>
       </div>
@@ -73,19 +73,19 @@ const HISTORY_DAYS = 30;
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div class="surface rounded-xl p-5">
           <div class="text-xs font-mono uppercase tracking-wider text-slate-500 mb-2">Date</div>
-          <div id="kpi-date" class="text-2xl font-bold text-white font-mono tabular-nums">—</div>
+          <div id="kpi-date" class="text-2xl font-bold text-white font-mono tabular-nums">-</div>
         </div>
         <div class="surface rounded-xl p-5">
           <div class="text-xs font-mono uppercase tracking-wider text-slate-500 mb-2">Daily Active Users</div>
-          <div id="kpi-dau" class="text-3xl font-bold text-[#d97757] tabular-nums">—</div>
+          <div id="kpi-dau" class="text-3xl font-bold text-[#d97757] tabular-nums">-</div>
         </div>
         <div class="surface rounded-xl p-5">
           <div class="text-xs font-mono uppercase tracking-wider text-slate-500 mb-2">Heartbeats Today</div>
-          <div id="kpi-hb" class="text-3xl font-bold text-white tabular-nums">—</div>
+          <div id="kpi-hb" class="text-3xl font-bold text-white tabular-nums">-</div>
         </div>
         <div class="surface rounded-xl p-5">
           <div class="text-xs font-mono uppercase tracking-wider text-slate-500 mb-2">Update Checks Today</div>
-          <div id="kpi-uc" class="text-3xl font-bold text-white tabular-nums">—</div>
+          <div id="kpi-uc" class="text-3xl font-bold text-white tabular-nums">-</div>
         </div>
       </div>
 
@@ -93,11 +93,11 @@ const HISTORY_DAYS = 30;
       <div class="surface rounded-xl p-5 mb-8 flex items-center justify-between flex-wrap gap-4">
         <div>
           <div class="text-xs font-mono uppercase tracking-wider text-slate-500 mb-1">Total Installations</div>
-          <div id="kpi-installs" class="text-4xl font-bold text-white tabular-nums">—</div>
+          <div id="kpi-installs" class="text-4xl font-bold text-white tabular-nums">-</div>
         </div>
         <div class="text-right">
           <div class="text-xs font-mono uppercase tracking-wider text-slate-500 mb-1">Last Refreshed</div>
-          <div id="last-updated" class="text-sm font-mono text-slate-300">—</div>
+          <div id="last-updated" class="text-sm font-mono text-slate-300">-</div>
         </div>
       </div>
 
@@ -106,26 +106,26 @@ const HISTORY_DAYS = 30;
         <section class="surface rounded-xl p-5">
           <div class="flex items-center justify-between mb-1">
             <h2 class="text-sm font-mono uppercase tracking-wider text-slate-400">DAU · last 30 days</h2>
-            <span id="chart-dau-peak" class="text-xs font-mono text-slate-600">peak —</span>
+            <span id="chart-dau-peak" class="text-xs font-mono text-slate-600">peak -</span>
           </div>
           <p class="text-xs text-slate-500 mb-3">Unique installations sending a heartbeat per UTC day.</p>
           <svg id="chart-dau" viewBox="0 0 1000 200" preserveAspectRatio="none" class="w-full h-32 block"></svg>
           <div class="flex items-center justify-between text-[10px] font-mono text-slate-600 mt-2">
-            <span id="chart-dau-from">—</span>
-            <span id="chart-dau-to">—</span>
+            <span id="chart-dau-from">-</span>
+            <span id="chart-dau-to">-</span>
           </div>
         </section>
 
         <section class="surface rounded-xl p-5">
           <div class="flex items-center justify-between mb-1">
             <h2 class="text-sm font-mono uppercase tracking-wider text-slate-400">Heartbeats · last 30 days</h2>
-            <span id="chart-hb-peak" class="text-xs font-mono text-slate-600">peak —</span>
+            <span id="chart-hb-peak" class="text-xs font-mono text-slate-600">peak -</span>
           </div>
           <p class="text-xs text-slate-500 mb-3">Total heartbeat pings ingested per UTC day.</p>
           <svg id="chart-hb" viewBox="0 0 1000 200" preserveAspectRatio="none" class="w-full h-32 block"></svg>
           <div class="flex items-center justify-between text-[10px] font-mono text-slate-600 mt-2">
-            <span id="chart-hb-from">—</span>
-            <span id="chart-hb-to">—</span>
+            <span id="chart-hb-from">-</span>
+            <span id="chart-hb-to">-</span>
           </div>
         </section>
       </div>
@@ -140,8 +140,8 @@ const HISTORY_DAYS = 30;
         <svg id="chart-versions" viewBox="0 0 1000 220" preserveAspectRatio="none" class="w-full h-40 block"></svg>
         <div id="chart-versions-legend" class="flex flex-wrap gap-x-4 gap-y-1.5 text-xs font-mono mt-3"></div>
         <div class="flex items-center justify-between text-[10px] font-mono text-slate-600 mt-2">
-          <span id="chart-versions-from">—</span>
-          <span id="chart-versions-to">—</span>
+          <span id="chart-versions-from">-</span>
+          <span id="chart-versions-to">-</span>
         </div>
       </section>
 
@@ -176,7 +176,7 @@ const HISTORY_DAYS = 30;
       <!-- Raw payload (debug) -->
       <details class="mt-8 surface rounded-xl p-4">
         <summary class="text-xs font-mono uppercase tracking-wider text-slate-500 cursor-pointer select-none hover:text-slate-300">Raw payload</summary>
-        <pre id="raw-payload" class="mt-3 text-xs text-slate-400 font-mono overflow-x-auto whitespace-pre-wrap break-words">—</pre>
+        <pre id="raw-payload" class="mt-3 text-xs text-slate-400 font-mono overflow-x-auto whitespace-pre-wrap break-words">-</pre>
       </details>
 
       <p class="mt-8 text-center text-xs text-slate-600 font-mono">
@@ -192,7 +192,7 @@ const HISTORY_DAYS = 30;
 
   // Chart series colors. First (lime) is the primary brand color and the
   // newest/biggest series; subsequent slots cover up to ~6 versions before
-  // wrapping. Order matters — newest version sorts to the bottom of the stack
+  // wrapping. Order matters - newest version sorts to the bottom of the stack
   // (rendered first, painted underneath the older ones above it).
   const SERIES_COLORS = ['#d97757', '#60a5fa', '#f472b6', '#fbbf24', '#a78bfa', '#34d399'];
 
@@ -237,7 +237,7 @@ const HISTORY_DAYS = 30;
   }
 
   function formatNumber(n) {
-    if (typeof n !== 'number' || !Number.isFinite(n)) return '—';
+    if (typeof n !== 'number' || !Number.isFinite(n)) return '-';
     return n.toLocaleString('en-US');
   }
 
@@ -271,7 +271,7 @@ const HISTORY_DAYS = 30;
     if (!svg) return;
     if (!Array.isArray(series) || series.length === 0) {
       svg.innerHTML = '<text x="500" y="100" text-anchor="middle" fill="#475569" font-family="monospace" font-size="14">No data yet</text>';
-      if (peakElId) $(peakElId).textContent = 'peak —';
+      if (peakElId) $(peakElId).textContent = 'peak -';
       return;
     }
     const W = 1000, H = 200;
@@ -456,7 +456,7 @@ const HISTORY_DAYS = 30;
       const msg = err instanceof Error ? err.message : String(err);
       setStatus('error', `error: ${msg}`);
       const rawEl = $('raw-payload');
-      if (rawEl.textContent === '—') {
+      if (rawEl.textContent === '-') {
         $('dist-versions').replaceChildren(errorState('Failed to load'));
         $('dist-os').replaceChildren(errorState('Failed to load'));
         $('dist-countries').replaceChildren(errorState('Failed to load'));
@@ -469,7 +469,7 @@ const HISTORY_DAYS = 30;
   function renderToday(data) {
     if (!data || typeof data !== 'object') return;
 
-    $('kpi-date').textContent = data.date || '—';
+    $('kpi-date').textContent = data.date || '-';
     $('kpi-dau').textContent = formatNumber(data.daily_active_users);
     $('kpi-hb').textContent = formatNumber(data.total_heartbeats_today);
     $('kpi-uc').textContent = formatNumber(data.total_update_checks_today);
@@ -494,7 +494,7 @@ const HISTORY_DAYS = 30;
 
   function renderLive(data) {
     if (!data || typeof data !== 'object') {
-      $('kpi-active-now').textContent = '—';
+      $('kpi-active-now').textContent = '-';
       return;
     }
     $('kpi-active-now').textContent = formatNumber(data.active_now ?? 0);

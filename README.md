@@ -1,14 +1,14 @@
 # ClaudeTerminal Website
 
-Official website for [ClaudeTerminal](https://github.com/talayash/claude-terminal) — a modern multi-instance terminal manager for Claude Code.
+Official website for [ClaudeTerminal](https://github.com/talayash/claude-terminal) - a modern multi-instance terminal manager for Claude Code.
 
 **Live:** [https://claude-terminal.dev](https://claude-terminal.dev)
 
 ## Tech Stack
 
-- [Astro](https://astro.build/) — static site generator
-- [Tailwind CSS v4](https://tailwindcss.com/) — styling
-- [Vercel](https://vercel.com/) — hosting & deployment
+- [Astro](https://astro.build/) - static site generator
+- [Tailwind CSS v4](https://tailwindcss.com/) - styling
+- [Vercel](https://vercel.com/) - hosting & deployment
 
 ## Development
 

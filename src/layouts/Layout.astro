@@ -7,7 +7,7 @@ interface Props {
   description?: string;
 }
 
-const { title, description = 'A modern multi-instance terminal manager for Claude Code. Run, monitor, and switch between parallel Claude Code sessions from one window — on Windows and macOS.' } = Astro.props;
+const { title, description = 'A modern multi-instance terminal manager for Claude Code. Run, monitor, and switch between parallel Claude Code sessions from one window - on Windows and macOS.' } = Astro.props;
 ---
 
 <!doctype html>
@@ -49,7 +49,7 @@ const { title, description = 'A modern multi-instance terminal manager for Claud
       import { inject } from '@vercel/analytics';
       inject();
 
-      // Surgical scroll reveals — one pass, then disconnect per element.
+      // Surgical scroll reveals - one pass, then disconnect per element.
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const els = document.querySelectorAll('.reveal');
       if (reduce || !('IntersectionObserver' in window)) {
