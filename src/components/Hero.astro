@@ -3,7 +3,7 @@ interface Props {
   version: string;
   stars?: number;
 }
-const { version, stars } = Astro.props;
+const { version } = Astro.props;
 
 const releaseBase = 'https://github.com/talayash/claude-terminal/releases/latest/download';
 const winInstaller = `${releaseBase}/ClaudeTerminal_${version}_x64-setup.exe`;
@@ -11,74 +11,63 @@ const macInstaller = `${releaseBase}/ClaudeTerminal_${version}_aarch64.dmg`;
 ---
 
 <section class="hero">
-  <div class="wrap">
-    <div class="col-text">
-      <div class="eyebrow rise d1">▶ multi-instance manager for claude&#8209;code</div>
+  <div class="container-text hero-inner">
+    <p class="kicker hero-kicker">
+      <span class="coral-dot" aria-hidden="true"></span>v{version} · macOS + Windows
+    </p>
 
-      <h1 class="display rise d2">
-        Run a <span class="acc">grid</span> of<br />Claude&nbsp;Code agents.
-      </h1>
+    <h1 class="h1 hero-h1">
+      Run Claude Code <em>in parallel.</em>
+    </h1>
 
-      <p class="sub rise d3">
-        Spinning up 3–5 Claude Code sessions across terminal tabs and git worktrees gets
-        expensive to track. ClaudeTerminal puts every session in <span class="hl">one window</span> -
-        watch, switch, and steer them at a glance. Windows&nbsp;&amp;&nbsp;macOS.
-      </p>
+    <p class="subhead hero-sub">
+      A terminal manager for developers who spawn many Claude sessions at once.
+    </p>
 
-      <div class="ctas rise d4">
-        <a id="primary-dl" class="btn btn-primary" href="#install"
-           data-win={winInstaller} data-mac={macInstaller}>↓&nbsp;Download</a>
-        <a class="btn btn-ghost" href="https://github.com/talayash/claude-terminal" target="_blank" rel="noopener noreferrer">
-          ★ View on GitHub{stars ? ` · ${stars}` : ''}
-        </a>
-      </div>
-
-      <div class="meta-row rise d5">
-        <span class="pill pill-acc"><span class="live-dot">●</span> v{version} · active</span>
-        <span class="pill">Windows + macOS</span>
-        <span class="pill">Open source · MIT</span>
-      </div>
-    </div>
-
-    <div class="col-shot rise d3">
-      <div class="win">
-        <div class="win-bar">
-          <span class="win-dots"><span></span><span></span><span></span></span>
-          <span>claude-terminal - grid view</span>
-        </div>
-        <img src="/screenshots/demo.gif" alt="ClaudeTerminal running multiple Claude Code sessions in a grid" class="block w-full" loading="eager" decoding="async" />
-      </div>
-      <div class="shot-cap">// live demo · n parallel sessions, one operator</div>
+    <div class="hero-cta">
+      <a
+        id="hero-primary-dl"
+        class="btn-primary"
+        href="#download"
+        data-win={winInstaller}
+        data-mac={macInstaller}
+      >
+        Download
+      </a>
+      <a
+        class="btn-ghost"
+        href="https://github.com/talayash/claude-terminal"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        GitHub <span aria-hidden="true">&rarr;</span>
+      </a>
     </div>
   </div>
 </section>
 
 <style>
-  .hero { position: relative; padding: 150px 16px 70px; }
-  .wrap {
-    max-width: 1120px; margin: 0 auto;
-    display: grid; grid-template-columns: 1fr; gap: 44px; align-items: center;
-  }
-  .col-text { max-width: 560px; }
-  .eyebrow { margin-bottom: 22px; }
-  h1.display { font-size: clamp(38px, 7vw, 72px); margin: 0 0 22px; }
-  .sub { font-size: 14px; color: #a6a6b4; line-height: 1.75; max-width: 500px; margin: 0 0 30px; }
-  .ctas { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 24px; }
-  .meta-row { display: flex; gap: 8px; flex-wrap: wrap; }
-  .meta-row .live-dot { color: #d97757; font-size: 8px; }
+  .hero { padding: 120px 0 96px; }
+  @media (max-width: 767px) { .hero { padding: 64px 0 48px; } }
 
-  .col-shot { position: relative; }
-  .shot-cap { margin-top: 12px; font-size: 10.5px; letter-spacing: 1px; color: #5f5f6b; text-align: right; }
-
-  @media (min-width: 980px) {
-    .wrap { grid-template-columns: 1.05fr 1fr; gap: 56px; }
-    .hero { padding-top: 170px; }
+  .hero-inner { text-align: center; }
+  .hero-kicker { margin-bottom: 18px; }
+  .hero-h1 { margin-bottom: 20px; max-width: 18ch; margin-left: auto; margin-right: auto; }
+  .hero-sub { margin: 0 auto 32px; }
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 </style>
 
 <script>
-  // OS-detecting primary download - upgrades label + link, falls back to #install.
-  const el = document.getElementById('primary-dl');
+  // Preserved from the aurora design: primary CTA auto-updates to the
+  // detected OS installer. Falls back to scrolling to #download when
+  // the platform is unknown.
+  const el = document.getElementById('hero-primary-dl');
   if (el) {
     const ua = navigator.userAgent;
     const plat = (navigator.platform || '') + ' ' + ua;
@@ -86,8 +75,13 @@ const macInstaller = `${releaseBase}/ClaudeTerminal_${version}_aarch64.dmg`;
     const isWin = /Win/i.test(plat);
     const win = el.getAttribute('data-win');
     const mac = el.getAttribute('data-mac');
-    if (isMac && mac) { el.setAttribute('href', mac); el.textContent = '↓ Download for macOS'; }
-    else if (isWin && win) { el.setAttribute('href', win); el.textContent = '↓ Download for Windows'; }
-    // otherwise: leave as "Download" → scrolls to #install with all options
+    if (isMac && mac) {
+      el.setAttribute('href', mac);
+      el.textContent = 'Download for macOS';
+    } else if (isWin && win) {
+      el.setAttribute('href', win);
+      el.textContent = 'Download for Windows';
+    }
+    // otherwise leave as "Download" - scrolls to #download with all options
   }
 </script>
