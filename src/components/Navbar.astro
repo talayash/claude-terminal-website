@@ -24,7 +24,7 @@ const { version } = Astro.props;
     </div>
 
     <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle navigation" aria-expanded="false">
-      <span></span><span></span><span></span>
+      <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
     </button>
   </div>
 </nav>
@@ -119,8 +119,21 @@ const { version } = Astro.props;
 <script>
   const hamburger = document.getElementById('nav-hamburger');
   const links = document.getElementById('nav-links');
-  hamburger?.addEventListener('click', () => {
-    const open = links?.classList.toggle('open') ?? false;
+
+  function setOpen(open: boolean) {
+    if (!links || !hamburger) return;
+    links.classList.toggle('open', open);
     hamburger.setAttribute('aria-expanded', String(open));
+  }
+
+  hamburger?.addEventListener('click', () => {
+    const nowOpen = !(links?.classList.contains('open') ?? false);
+    setOpen(nowOpen);
+  });
+
+  // Close the drawer when any link inside it is tapped, so the user isn't
+  // left staring at an open sheet after navigating to #features.
+  links?.querySelectorAll('a').forEach((a) => {
+    a.addEventListener('click', () => setOpen(false));
   });
 </script>

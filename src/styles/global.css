@@ -220,6 +220,13 @@ a.underline-link:hover {
 /* ---------- Hairlines ---------- */
 .hr { border: 0; border-top: 1px solid var(--hairline); }
 
+/* ---------- Surface (card / panel used by /stat) ---------- */
+.surface {
+  background: color-mix(in oklab, var(--ink) 3%, var(--paper));
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+}
+
 /* ---------- Focus rings ---------- */
 :focus { outline: none; }
 :focus-visible {

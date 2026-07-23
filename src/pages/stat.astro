@@ -190,10 +190,10 @@ const HISTORY_DAYS = 30;
   const LIVE_POLL_MS = 15_000;
   const HISTORY_POLL_MS = 5 * 60_000;
 
-  // Chart series colors. First (lime) is the primary brand color and the
-  // newest/biggest series; subsequent slots cover up to ~6 versions before
-  // wrapping. Order matters - newest version sorts to the bottom of the stack
-  // (rendered first, painted underneath the older ones above it).
+  // Chart series colors. First (coral) is the primary brand accent and the
+  // newest/biggest series; subsequent slots are neutral ink tones covering
+  // up to ~6 versions before wrapping. Order matters - newest version sorts
+  // to the bottom of the stack (rendered first, painted underneath).
   const SERIES_COLORS = ['#c86a4a', '#252525', '#6b7280', '#a3a09a', '#8b6f5e', '#4a4a4a'];
 
   // ISO 3166-1 alpha-2 → display name (partial; falls back to the code itself).
@@ -270,7 +270,7 @@ const HISTORY_DAYS = 30;
     const svg = $(svgId);
     if (!svg) return;
     if (!Array.isArray(series) || series.length === 0) {
-      svg.innerHTML = '<text x="500" y="100" text-anchor="middle" fill="#e8e7e1" font-size="14">No data yet</text>';
+      svg.innerHTML = '<text x="500" y="100" text-anchor="middle" fill="#8a8a85" font-size="14">No data yet</text>';
       if (peakElId) $(peakElId).textContent = 'peak -';
       return;
     }
@@ -303,7 +303,7 @@ const HISTORY_DAYS = 30;
     if (!svg) return;
 
     if (!Array.isArray(series) || series.length === 0) {
-      svg.innerHTML = '<text x="500" y="110" text-anchor="middle" fill="#e8e7e1" font-size="14">No data yet</text>';
+      svg.innerHTML = '<text x="500" y="110" text-anchor="middle" fill="#8a8a85" font-size="14">No data yet</text>';
       if (legend) legend.innerHTML = '';
       if (bucketsCountElId) $(bucketsCountElId).textContent = '0 versions';
       return;
@@ -371,7 +371,8 @@ const HISTORY_DAYS = 30;
 
   function errorState(message) {
     const el = document.createElement('div');
-    el.className = 'text-sm text-red-400 py-4 text-center';
+    el.className = 'text-sm py-4 text-center';
+    el.style.color = 'var(--coral)';
     el.textContent = message;
     return el;
   }
@@ -424,13 +425,16 @@ const HISTORY_DAYS = 30;
 
   function setStatus(state, detail) {
     const pill = $('status-pill');
-    pill.classList.remove('text-slate-400', 'text-emerald-300', 'text-red-400', 'text-amber-300');
-    pill.classList.add(
-      state === 'ok' ? 'text-emerald-300'
-      : state === 'error' ? 'text-red-400'
-      : state === 'loading' ? 'text-amber-300'
-      : 'text-slate-400'
-    );
+    // Functional state colors mapped onto Quiet Product tokens:
+    //   ok      -> ink   (positive but restrained)
+    //   error   -> coral (the site's single emphasis accent)
+    //   loading -> muted-label
+    //   idle    -> muted-label
+    pill.style.color =
+      state === 'ok'      ? 'var(--ink)'
+    : state === 'error'   ? 'var(--coral)'
+    : state === 'loading' ? 'var(--muted-label)'
+    :                       'var(--muted-label)';
     pill.textContent = detail;
   }
 
