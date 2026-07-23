@@ -22,27 +22,27 @@ const HISTORY_DAYS = 30;
       <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
         <div>
           <div class="flex items-center gap-3 mb-2">
-            <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#d97757]/15 border border-[#d97757]/30 text-[#d97757] text-xs font-mono">
+            <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-[var(--coral)]/15 border border-[var(--coral)]/30 text-[var(--coral)] text-xs">
               <span class="relative flex h-2 w-2">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#d97757] opacity-60"></span>
-                <span class="relative inline-flex rounded-full h-2 w-2 bg-[#d97757]"></span>
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--coral)] opacity-60"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-[var(--coral)]"></span>
               </span>
               LIVE
             </span>
-            <span class="text-xs text-slate-500 font-mono">/stat</span>
+            <span class="text-xs text-[var(--muted-label)]">/stat</span>
           </div>
-          <h1 class="text-3xl sm:text-4xl font-bold text-white">Telemetry</h1>
-          <p class="text-slate-400 text-sm mt-1">Real-time stats from ClaudeTerminal installations.</p>
+          <h1 class="text-3xl sm:text-4xl font-bold text-[var(--ink)]">Telemetry</h1>
+          <p class="text-[var(--muted-body)] text-sm mt-1">Real-time stats from ClaudeTerminal installations.</p>
         </div>
 
         <div class="flex items-center gap-3">
-          <div id="status-pill" class="text-xs font-mono px-3 py-1.5 rounded-md surface text-slate-400">
+          <div id="status-pill" class="text-xs px-3 py-1.5 rounded-md surface text-[var(--muted-label)]">
             connecting…
           </div>
           <button
             id="refresh-btn"
             type="button"
-            class="text-xs font-mono px-3 py-1.5 rounded-md bg-[#d97757]/20 hover:bg-[#d97757]/30 border border-[#d97757]/40 text-[#d97757] transition-colors"
+            class="text-xs px-3 py-1.5 rounded-md bg-[var(--coral)]/20 hover:bg-[var(--coral)]/30 border border-[var(--coral)]/40 text-[var(--coral)] transition-colors"
           >
             refresh
           </button>
@@ -50,21 +50,21 @@ const HISTORY_DAYS = 30;
       </div>
 
       <!-- Live now banner -->
-      <div class="surface rounded-xl p-5 mb-6 border border-[#d97757]/20">
+      <div class="surface rounded-xl p-5 mb-6 border border-[var(--coral)]/20">
         <div class="flex items-center justify-between flex-wrap gap-4">
           <div class="flex items-baseline gap-4">
             <div>
-              <div class="text-xs font-mono uppercase tracking-wider text-slate-500 mb-1">Active Now</div>
+              <div class="text-xs uppercase tracking-wider text-[var(--muted-label)] mb-1">Active Now</div>
               <div class="flex items-baseline gap-2">
-                <span id="kpi-active-now" class="text-4xl font-bold text-[#d97757] tabular-nums">-</span>
-                <span class="text-xs font-mono text-slate-500">in last <span id="kpi-active-window">15</span> min</span>
+                <span id="kpi-active-now" class="text-4xl font-bold text-[var(--coral)] tabular-nums">-</span>
+                <span class="text-xs text-[var(--muted-label)]">in last <span id="kpi-active-window">15</span> min</span>
               </div>
             </div>
           </div>
-          <div class="flex flex-wrap gap-x-6 gap-y-1 text-xs font-mono text-slate-400">
-            <span>versions: <span id="kpi-active-versions" class="text-slate-200">-</span></span>
-            <span>os: <span id="kpi-active-os" class="text-slate-200">-</span></span>
-            <span>countries: <span id="kpi-active-countries" class="text-slate-200">-</span></span>
+          <div class="flex flex-wrap gap-x-6 gap-y-1 text-xs text-[var(--muted-body)]">
+            <span>versions: <span id="kpi-active-versions" class="text-[var(--muted-body)]">-</span></span>
+            <span>os: <span id="kpi-active-os" class="text-[var(--muted-body)]">-</span></span>
+            <span>countries: <span id="kpi-active-countries" class="text-[var(--muted-body)]">-</span></span>
           </div>
         </div>
       </div>
@@ -72,32 +72,32 @@ const HISTORY_DAYS = 30;
       <!-- KPI cards -->
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div class="surface rounded-xl p-5">
-          <div class="text-xs font-mono uppercase tracking-wider text-slate-500 mb-2">Date</div>
-          <div id="kpi-date" class="text-2xl font-bold text-white font-mono tabular-nums">-</div>
+          <div class="text-xs uppercase tracking-wider text-[var(--muted-label)] mb-2">Date</div>
+          <div id="kpi-date" class="text-2xl font-bold text-[var(--ink)] tabular-nums">-</div>
         </div>
         <div class="surface rounded-xl p-5">
-          <div class="text-xs font-mono uppercase tracking-wider text-slate-500 mb-2">Daily Active Users</div>
-          <div id="kpi-dau" class="text-3xl font-bold text-[#d97757] tabular-nums">-</div>
+          <div class="text-xs uppercase tracking-wider text-[var(--muted-label)] mb-2">Daily Active Users</div>
+          <div id="kpi-dau" class="text-3xl font-bold text-[var(--coral)] tabular-nums">-</div>
         </div>
         <div class="surface rounded-xl p-5">
-          <div class="text-xs font-mono uppercase tracking-wider text-slate-500 mb-2">Heartbeats Today</div>
-          <div id="kpi-hb" class="text-3xl font-bold text-white tabular-nums">-</div>
+          <div class="text-xs uppercase tracking-wider text-[var(--muted-label)] mb-2">Heartbeats Today</div>
+          <div id="kpi-hb" class="text-3xl font-bold text-[var(--ink)] tabular-nums">-</div>
         </div>
         <div class="surface rounded-xl p-5">
-          <div class="text-xs font-mono uppercase tracking-wider text-slate-500 mb-2">Update Checks Today</div>
-          <div id="kpi-uc" class="text-3xl font-bold text-white tabular-nums">-</div>
+          <div class="text-xs uppercase tracking-wider text-[var(--muted-label)] mb-2">Update Checks Today</div>
+          <div id="kpi-uc" class="text-3xl font-bold text-[var(--ink)] tabular-nums">-</div>
         </div>
       </div>
 
       <!-- Total installs banner -->
       <div class="surface rounded-xl p-5 mb-8 flex items-center justify-between flex-wrap gap-4">
         <div>
-          <div class="text-xs font-mono uppercase tracking-wider text-slate-500 mb-1">Total Installations</div>
-          <div id="kpi-installs" class="text-4xl font-bold text-white tabular-nums">-</div>
+          <div class="text-xs uppercase tracking-wider text-[var(--muted-label)] mb-1">Total Installations</div>
+          <div id="kpi-installs" class="text-4xl font-bold text-[var(--ink)] tabular-nums">-</div>
         </div>
         <div class="text-right">
-          <div class="text-xs font-mono uppercase tracking-wider text-slate-500 mb-1">Last Refreshed</div>
-          <div id="last-updated" class="text-sm font-mono text-slate-300">-</div>
+          <div class="text-xs uppercase tracking-wider text-[var(--muted-label)] mb-1">Last Refreshed</div>
+          <div id="last-updated" class="text-sm text-[var(--muted-body)]">-</div>
         </div>
       </div>
 
@@ -105,12 +105,12 @@ const HISTORY_DAYS = 30;
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
         <section class="surface rounded-xl p-5">
           <div class="flex items-center justify-between mb-1">
-            <h2 class="text-sm font-mono uppercase tracking-wider text-slate-400">DAU · last 30 days</h2>
-            <span id="chart-dau-peak" class="text-xs font-mono text-slate-600">peak -</span>
+            <h2 class="text-sm uppercase tracking-wider text-[var(--muted-body)]">DAU · last 30 days</h2>
+            <span id="chart-dau-peak" class="text-xs text-[var(--muted-label)]">peak -</span>
           </div>
-          <p class="text-xs text-slate-500 mb-3">Unique installations sending a heartbeat per UTC day.</p>
+          <p class="text-xs text-[var(--muted-label)] mb-3">Unique installations sending a heartbeat per UTC day.</p>
           <svg id="chart-dau" viewBox="0 0 1000 200" preserveAspectRatio="none" class="w-full h-32 block"></svg>
-          <div class="flex items-center justify-between text-[10px] font-mono text-slate-600 mt-2">
+          <div class="flex items-center justify-between text-[10px] text-[var(--muted-label)] mt-2">
             <span id="chart-dau-from">-</span>
             <span id="chart-dau-to">-</span>
           </div>
@@ -118,12 +118,12 @@ const HISTORY_DAYS = 30;
 
         <section class="surface rounded-xl p-5">
           <div class="flex items-center justify-between mb-1">
-            <h2 class="text-sm font-mono uppercase tracking-wider text-slate-400">Heartbeats · last 30 days</h2>
-            <span id="chart-hb-peak" class="text-xs font-mono text-slate-600">peak -</span>
+            <h2 class="text-sm uppercase tracking-wider text-[var(--muted-body)]">Heartbeats · last 30 days</h2>
+            <span id="chart-hb-peak" class="text-xs text-[var(--muted-label)]">peak -</span>
           </div>
-          <p class="text-xs text-slate-500 mb-3">Total heartbeat pings ingested per UTC day.</p>
+          <p class="text-xs text-[var(--muted-label)] mb-3">Total heartbeat pings ingested per UTC day.</p>
           <svg id="chart-hb" viewBox="0 0 1000 200" preserveAspectRatio="none" class="w-full h-32 block"></svg>
-          <div class="flex items-center justify-between text-[10px] font-mono text-slate-600 mt-2">
+          <div class="flex items-center justify-between text-[10px] text-[var(--muted-label)] mt-2">
             <span id="chart-hb-from">-</span>
             <span id="chart-hb-to">-</span>
           </div>
@@ -133,41 +133,41 @@ const HISTORY_DAYS = 30;
       <!-- Version adoption stacked area -->
       <section class="surface rounded-xl p-5 mb-8">
         <div class="flex items-center justify-between mb-1">
-          <h2 class="text-sm font-mono uppercase tracking-wider text-slate-400">Version adoption · last 30 days</h2>
-          <span id="chart-version-buckets" class="text-xs font-mono text-slate-600">0 versions</span>
+          <h2 class="text-sm uppercase tracking-wider text-[var(--muted-body)]">Version adoption · last 30 days</h2>
+          <span id="chart-version-buckets" class="text-xs text-[var(--muted-label)]">0 versions</span>
         </div>
-        <p class="text-xs text-slate-500 mb-3">Stacked share of heartbeats by app version per day. Newer versions appear at the bottom of the stack.</p>
+        <p class="text-xs text-[var(--muted-label)] mb-3">Stacked share of heartbeats by app version per day. Newer versions appear at the bottom of the stack.</p>
         <svg id="chart-versions" viewBox="0 0 1000 220" preserveAspectRatio="none" class="w-full h-40 block"></svg>
-        <div id="chart-versions-legend" class="flex flex-wrap gap-x-4 gap-y-1.5 text-xs font-mono mt-3"></div>
-        <div class="flex items-center justify-between text-[10px] font-mono text-slate-600 mt-2">
+        <div id="chart-versions-legend" class="flex flex-wrap gap-x-4 gap-y-1.5 text-xs mt-3"></div>
+        <div class="flex items-center justify-between text-[10px] text-[var(--muted-label)] mt-2">
           <span id="chart-versions-from">-</span>
           <span id="chart-versions-to">-</span>
         </div>
       </section>
 
       <!-- Today's distributions -->
-      <h2 class="text-sm font-mono uppercase tracking-wider text-slate-400 mb-4">Today's distributions</h2>
+      <h2 class="text-sm uppercase tracking-wider text-[var(--muted-body)] mb-4">Today's distributions</h2>
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <section class="surface rounded-xl p-5">
           <div class="flex items-center justify-between mb-4">
-            <h3 class="text-sm font-mono uppercase tracking-wider text-slate-400">Versions</h3>
-            <span id="count-versions" class="text-xs font-mono text-slate-600">0</span>
+            <h3 class="text-sm uppercase tracking-wider text-[var(--muted-body)]">Versions</h3>
+            <span id="count-versions" class="text-xs text-[var(--muted-label)]">0</span>
           </div>
           <div id="dist-versions" class="space-y-2.5"></div>
         </section>
 
         <section class="surface rounded-xl p-5">
           <div class="flex items-center justify-between mb-4">
-            <h3 class="text-sm font-mono uppercase tracking-wider text-slate-400">Operating Systems</h3>
-            <span id="count-os" class="text-xs font-mono text-slate-600">0</span>
+            <h3 class="text-sm uppercase tracking-wider text-[var(--muted-body)]">Operating Systems</h3>
+            <span id="count-os" class="text-xs text-[var(--muted-label)]">0</span>
           </div>
           <div id="dist-os" class="space-y-2.5"></div>
         </section>
 
         <section class="surface rounded-xl p-5">
           <div class="flex items-center justify-between mb-4">
-            <h3 class="text-sm font-mono uppercase tracking-wider text-slate-400">Countries</h3>
-            <span id="count-countries" class="text-xs font-mono text-slate-600">0</span>
+            <h3 class="text-sm uppercase tracking-wider text-[var(--muted-body)]">Countries</h3>
+            <span id="count-countries" class="text-xs text-[var(--muted-label)]">0</span>
           </div>
           <div id="dist-countries" class="space-y-2.5"></div>
         </section>
@@ -175,11 +175,11 @@ const HISTORY_DAYS = 30;
 
       <!-- Raw payload (debug) -->
       <details class="mt-8 surface rounded-xl p-4">
-        <summary class="text-xs font-mono uppercase tracking-wider text-slate-500 cursor-pointer select-none hover:text-slate-300">Raw payload</summary>
-        <pre id="raw-payload" class="mt-3 text-xs text-slate-400 font-mono overflow-x-auto whitespace-pre-wrap break-words">-</pre>
+        <summary class="text-xs uppercase tracking-wider text-[var(--muted-label)] cursor-pointer select-none hover:text-[var(--muted-body)]">Raw payload</summary>
+        <pre id="raw-payload" class="mt-3 text-xs text-[var(--muted-body)] overflow-x-auto whitespace-pre-wrap break-words">-</pre>
       </details>
 
-      <p class="mt-8 text-center text-xs text-slate-600 font-mono">
+      <p class="mt-8 text-center text-xs text-[var(--muted-label)]">
         live data refreshes every 15s · history refreshes every 5 min
       </p>
     </div>
@@ -194,7 +194,7 @@ const HISTORY_DAYS = 30;
   // newest/biggest series; subsequent slots cover up to ~6 versions before
   // wrapping. Order matters - newest version sorts to the bottom of the stack
   // (rendered first, painted underneath the older ones above it).
-  const SERIES_COLORS = ['#d97757', '#60a5fa', '#f472b6', '#fbbf24', '#a78bfa', '#34d399'];
+  const SERIES_COLORS = ['#c86a4a', '#252525', '#6b7280', '#a3a09a', '#8b6f5e', '#4a4a4a'];
 
   // ISO 3166-1 alpha-2 → display name (partial; falls back to the code itself).
   const COUNTRY_NAMES = {
@@ -270,7 +270,7 @@ const HISTORY_DAYS = 30;
     const svg = $(svgId);
     if (!svg) return;
     if (!Array.isArray(series) || series.length === 0) {
-      svg.innerHTML = '<text x="500" y="100" text-anchor="middle" fill="#475569" font-family="monospace" font-size="14">No data yet</text>';
+      svg.innerHTML = '<text x="500" y="100" text-anchor="middle" fill="#e8e7e1" font-size="14">No data yet</text>';
       if (peakElId) $(peakElId).textContent = 'peak -';
       return;
     }
@@ -288,7 +288,7 @@ const HISTORY_DAYS = 30;
       .map((p) => `<circle cx="${p.x.toFixed(2)}" cy="${p.y.toFixed(2)}" r="2.5" fill="${color}" opacity="0.9"><title>${p.date}: ${formatNumber(p.value)}</title></circle>`)
       .join('');
     svg.innerHTML = `
-      <path d="${areaPath}" fill="${color}" fill-opacity="0.12" />
+      <path d="${areaPath}" fill="rgba(200,106,74,0.12)" />
       <path d="${linePath}" fill="none" stroke="${color}" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round" />
       ${dots}
     `;
@@ -303,7 +303,7 @@ const HISTORY_DAYS = 30;
     if (!svg) return;
 
     if (!Array.isArray(series) || series.length === 0) {
-      svg.innerHTML = '<text x="500" y="110" text-anchor="middle" fill="#475569" font-family="monospace" font-size="14">No data yet</text>';
+      svg.innerHTML = '<text x="500" y="110" text-anchor="middle" fill="#e8e7e1" font-size="14">No data yet</text>';
       if (legend) legend.innerHTML = '';
       if (bucketsCountElId) $(bucketsCountElId).textContent = '0 versions';
       return;
@@ -350,7 +350,7 @@ const HISTORY_DAYS = 30;
       legend.innerHTML = buckets
         .map((b, i) => {
           const color = SERIES_COLORS[i % SERIES_COLORS.length];
-          return `<span class="inline-flex items-center gap-1.5"><span class="inline-block w-2.5 h-2.5 rounded-sm" style="background:${color}"></span><span class="text-slate-300">v${escapeHtml(b)}</span><span class="text-slate-600">${formatNumber(totalsByBucket[b])}</span></span>`;
+          return `<span class="inline-flex items-center gap-1.5"><span class="inline-block w-2.5 h-2.5 rounded-sm" style="background:${color}"></span><span style="color:var(--muted-body)">v${escapeHtml(b)}</span><span style="color:var(--muted-label)">${formatNumber(totalsByBucket[b])}</span></span>`;
         })
         .join('');
     }
@@ -363,14 +363,15 @@ const HISTORY_DAYS = 30;
 
   function emptyState(message) {
     const el = document.createElement('div');
-    el.className = 'text-sm text-slate-500 italic py-4 text-center';
+    el.className = 'text-sm italic py-4 text-center';
+    el.style.color = 'var(--muted-label)';
     el.textContent = message;
     return el;
   }
 
   function errorState(message) {
     const el = document.createElement('div');
-    el.className = 'text-sm text-red-400 py-4 text-center font-mono';
+    el.className = 'text-sm text-red-400 py-4 text-center';
     el.textContent = message;
     return el;
   }
@@ -383,11 +384,11 @@ const HISTORY_DAYS = 30;
     row.className = 'group';
     row.innerHTML = `
       <div class="flex items-baseline justify-between gap-2 mb-1">
-        <span class="text-sm text-slate-200 truncate">${label}${subLabel ? `<span class="text-slate-600 ml-1.5 text-xs font-mono">${subLabel}</span>` : ''}</span>
-        <span class="text-xs font-mono text-slate-400 tabular-nums flex-shrink-0">${formatNumber(value)} <span class="text-slate-600">(${pct.toFixed(1)}%)</span></span>
+        <span class="text-sm truncate" style="color:var(--muted-body)">${label}${subLabel ? `<span class="ml-1.5 text-xs" style="color:var(--muted-label)">${subLabel}</span>` : ''}</span>
+        <span class="text-xs tabular-nums flex-shrink-0" style="color:var(--muted-body)">${formatNumber(value)} <span style="color:var(--muted-label)">(${pct.toFixed(1)}%)</span></span>
       </div>
-      <div class="h-2 rounded-full bg-slate-800/60 overflow-hidden">
-        <div class="h-full rounded-full bg-[#d97757] transition-all duration-500" style="width: ${widthPct}%"></div>
+      <div class="h-2 rounded-full overflow-hidden" style="background:rgba(200,106,74,0.12)">
+        <div class="h-full rounded-full transition-all duration-500" style="width: ${widthPct}%; background:var(--coral)"></div>
       </div>
     `;
     return row;
@@ -477,7 +478,7 @@ const HISTORY_DAYS = 30;
     $('last-updated').textContent = new Date().toLocaleString();
 
     renderDistribution('dist-versions', 'count-versions', data.version_distribution, (v) => ({
-      label: `<span class="font-mono">v${escapeHtml(v)}</span>`,
+      label: `v${escapeHtml(v)}`,
       sub: '',
     }));
     renderDistribution('dist-os', 'count-os', data.os_distribution, (os) => ({
@@ -520,8 +521,8 @@ const HISTORY_DAYS = 30;
       ]);
       const [dau, hb, ver] = await Promise.all([dauRes.json(), hbRes.json(), verRes.json()]);
 
-      renderLineArea('chart-dau', dau.series ?? [], '#d97757', 'chart-dau-peak', 'chart-dau-from', 'chart-dau-to');
-      renderLineArea('chart-hb', hb.series ?? [], '#60a5fa', 'chart-hb-peak', 'chart-hb-from', 'chart-hb-to');
+      renderLineArea('chart-dau', dau.series ?? [], '#c86a4a', 'chart-dau-peak', 'chart-dau-from', 'chart-dau-to');
+      renderLineArea('chart-hb', hb.series ?? [], '#252525', 'chart-hb-peak', 'chart-hb-from', 'chart-hb-to');
       renderStackedArea('chart-versions', 'chart-versions-legend', 'chart-version-buckets', 'chart-versions-from', 'chart-versions-to', ver.series ?? []);
     } catch (err) {
       // Silent fail for history; live data continues to update. The empty-state
