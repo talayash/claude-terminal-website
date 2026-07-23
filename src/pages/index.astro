@@ -2,19 +2,13 @@
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Hero from '../components/Hero.astro';
-import Trust from '../components/Trust.astro';
-import Parallel from '../components/Parallel.astro';
 import Features from '../components/Features.astro';
 import Screenshots from '../components/Screenshots.astro';
 import Download from '../components/Download.astro';
-import Compare from '../components/Compare.astro';
-import ChangelogPreview from '../components/ChangelogPreview.astro';
-import CallToAction from '../components/CallToAction.astro';
-import TechStack from '../components/TechStack.astro';
 import Footer from '../components/Footer.astro';
 
 // Fetch latest version + star count from GitHub at build time.
-let version = '1.26.0'; // fallback - keep in sync with latest release
+let version = '1.26.0'; // fallback, keep in sync with latest release
 let stars: number | undefined;
 try {
   const [relRes, repoRes] = await Promise.all([
@@ -29,28 +23,22 @@ try {
     const data = await relRes.json();
     version = data.tag_name?.replace(/^v/, '') || version;
   } else {
-    console.warn(`GitHub releases API returned ${relRes.status} - using fallback version ${version}`);
+    console.warn(`GitHub releases API returned ${relRes.status}, using fallback version ${version}`);
   }
   if (repoRes.ok) {
     const repo = await repoRes.json();
     if (typeof repo.stargazers_count === 'number') stars = repo.stargazers_count;
   }
 } catch (e) {
-  console.warn(`Failed to fetch GitHub metadata: ${e} - using fallback version ${version}`);
+  console.warn(`Failed to fetch GitHub metadata: ${e}, using fallback version ${version}`);
 }
 ---
 
-<Layout title="ClaudeTerminal - run a grid of Claude Code agents">
+<Layout title="Claude Terminal - run Claude Code in parallel">
   <Navbar version={version} />
   <Hero version={version} stars={stars} />
-  <Trust version={version} stars={stars} />
-  <Parallel />
   <Features />
   <Screenshots />
   <Download version={version} />
-  <Compare />
-  <ChangelogPreview />
-  <CallToAction version={version} />
-  <TechStack />
-  <Footer />
+  <Footer version={version} />
 </Layout>
