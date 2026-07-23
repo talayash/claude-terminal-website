@@ -1,49 +1,70 @@
 ---
-const shots = [
-  { src: '/screenshots/new-terminal.png', file: 'new-terminal', cls: 'wide',
-    cap: 'Launch a session: pick a profile, set a nickname, working directory, and Claude arguments.' },
-  { src: '/screenshots/settings.png', file: 'settings', cls: '',
-    cap: 'Deep settings - appearance, behavior, and per-feature control.' },
-  { src: '/screenshots/welcome.png', file: 'welcome', cls: '',
-    cap: 'Guided first-run wizard gets you from install to running in minutes.' },
-];
+// Editorial spread: 1 large left + 2 small stacked right. Native aspect ratios preserved.
+const screenshots = {
+  main: { file: 'main-view.png', alt: 'ClaudeTerminal main view with active sessions', caption: 'Main view' },
+  grid: { file: 'grid-view.png', alt: 'Grid layout of up to 8 terminals', caption: 'Grid layout' },
+  settings: { file: 'settings.png', alt: 'Settings panel', caption: 'Settings' },
+};
 ---
 
-<section id="tour" class="tour">
-  <div class="wrap">
-    <div class="head reveal">
-      <div class="gutter-label">[ 03 ] / tour</div>
-      <h2 class="display tour-h2">A closer look.</h2>
+<section id="screenshots" class="section screenshots">
+  <div class="container-wide">
+    <p class="label screenshots-label">
+      <span class="coral-dot" aria-hidden="true"></span>The app
+    </p>
+    <h2 class="h2 screenshots-h2">A quick look.</h2>
+
+    <div class="spread">
+      <figure class="frame frame-big">
+        <img src={`/screenshots/${screenshots.main.file}`} alt={screenshots.main.alt} loading="lazy" decoding="async" />
+      </figure>
+      <figure class="frame frame-small">
+        <img src={`/screenshots/${screenshots.grid.file}`} alt={screenshots.grid.alt} loading="lazy" decoding="async" />
+      </figure>
+      <figure class="frame frame-small">
+        <img src={`/screenshots/${screenshots.settings.file}`} alt={screenshots.settings.alt} loading="lazy" decoding="async" />
+      </figure>
     </div>
 
-    <div class="tour-grid">
-      {shots.map(s => (
-        <figure class={`win ${s.cls} reveal`}>
-          <div class="win-bar">
-            <span class="win-dots"><span></span><span></span><span></span></span>
-            <span>{s.file}.png</span>
-          </div>
-          <img src={s.src} alt={s.cap} loading="lazy" decoding="async" class="block w-full" />
-          <figcaption>// {s.cap}</figcaption>
-        </figure>
-      ))}
-    </div>
+    <p class="meta screenshots-cap">
+      {screenshots.main.caption}, {screenshots.grid.caption}, {screenshots.settings.caption}.
+    </p>
   </div>
 </section>
 
 <style>
-  .tour { padding: 80px 16px; }
-  .wrap { max-width: 1120px; margin: 0 auto; }
-  .head { margin-bottom: 34px; }
-  .gutter-label { margin-bottom: 16px; }
-  .tour-h2 { font-size: clamp(26px, 4.5vw, 40px); margin: 0; }
+  .screenshots-label { margin-bottom: 12px; display: inline-flex; align-items: center; }
+  .screenshots-h2 { margin-bottom: 40px; }
 
-  .tour-grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
-  .win img { display: block; }
-  .win figcaption { padding: 12px 14px; font-size: 11px; color: #8a8a96; line-height: 1.55; border-top: 1px solid rgba(255,255,255,0.06); }
+  .spread {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  @media (min-width: 768px) {
+    .spread {
+      grid-template-columns: 1.6fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 20px;
+    }
+    .frame-big { grid-row: 1 / 3; }
+  }
 
-  @media (min-width: 820px) {
-    .tour-grid { grid-template-columns: 1fr 1fr; }
-    .win.wide { grid-column: span 2; }
+  .frame {
+    margin: 0;
+    border: 1px solid var(--frame);
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--paper);
+  }
+  .frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .screenshots-cap {
+    margin-top: 16px;
+    text-align: right;
+  }
+
+  @media (max-width: 767px) {
+    .frame img { object-fit: contain; }
   }
 </style>
