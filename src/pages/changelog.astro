@@ -2,89 +2,110 @@
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
-import changelog from '../data/changelog.json';
+import changelogJson from '../data/changelog.json';
 
-function fakeHash(version: string): string {
-  let h = 0;
-  for (const c of version) h = (h * 31 + c.charCodeAt(0)) | 0;
-  return Math.abs(h).toString(16).padStart(7, '0').slice(0, 7);
+type Feature = { title: string; description: string };
+type Release = { version: string; date: string; features: Feature[] };
+const releases = changelogJson as Release[];
+
+// Format ISO date like "2026-07-23" into "23 Jul 2026" for display.
+function formatDate(iso: string): string {
+  try {
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return iso;
+    return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  } catch {
+    return iso;
+  }
 }
-
-const totalEntries = changelog.reduce((acc, r) => acc + r.features.length, 0);
-const latest = changelog[0];
-
-// Normalize glyphs that JetBrains Mono can't render (e.g. ⇕ U+21D5 → ↕ U+2195).
-const GLYPH_FIX: Record<string, string> = { '⇕': '↕', '⇔': '↔' };
-const clean = (s: string | undefined) =>
-  s ? s.replace(/[⇔⇕]/g, (c) => GLYPH_FIX[c] ?? c) : s;
 ---
 
-<Layout title="Changelog - ClaudeTerminal" description="Release history and changelog for ClaudeTerminal.">
-  <Navbar version={latest.version} />
+<Layout title="Changelog - Claude Terminal" description="Release history for Claude Terminal.">
+  <Navbar />
+  <main class="changelog section">
+    <div class="container-text">
+      <p class="label changelog-label">
+        <span class="coral-dot" aria-hidden="true"></span>Changelog
+      </p>
+      <h1 class="h2 changelog-h1">Release history.</h1>
 
-  <main class="cl-main">
-    <div class="wrap">
-      <div class="cl-head">
-        <div class="eyebrow">▶ git log --oneline</div>
-        <h1 class="display cl-h1">Changelog</h1>
-        <p class="cl-sub">
-          <span class="acc">{changelog.length}</span> releases · <span class="acc">{totalEntries}</span> entries ·
-          latest <span class="acc">v{latest.version}</span> ({latest.date})
-        </p>
-      </div>
-
-      <div class="cl-list">
-        {changelog.map((release, ri) => (
-          <article class="cl-release glass">
-            <div class="cl-row">
-              <span class="cl-star">{ri === 0 ? '◆' : '◇'}</span>
-              <span class="cl-ver">v{release.version}</span>
-              <span class="cl-hash">{fakeHash(release.version)}</span>
-              <span class="cl-date">{release.date}</span>
-              {ri === 0 && <span class="cl-latest">latest</span>}
+      <ol class="release-list">
+        {releases.map(r => (
+          <li class="release">
+            <div class="release-head">
+              <span class="release-version coral-num">v{r.version}</span>
+              <span class="release-date">{formatDate(r.date)}</span>
             </div>
-            <ul class="cl-features">
-              {release.features.map(f => (
-                <li>
-                  <span class="bullet">●</span>
-                  <span class="cl-detail">
-                    <span class="cl-title">{clean(f.title)}</span>
-                    {f.description && <span class="cl-desc">{clean(f.description)}</span>}
-                  </span>
+            <ul class="release-features">
+              {(r.features ?? []).map(f => (
+                <li class="release-feature">
+                  <span class="feature-title-inline">{f.title}.</span>
+                  <span class="feature-desc-inline"> {f.description}</span>
                 </li>
               ))}
             </ul>
-          </article>
+          </li>
         ))}
-      </div>
+      </ol>
     </div>
   </main>
-
   <Footer />
 </Layout>
 
 <style>
-  .cl-main { min-height: 100vh; }
-  .wrap { max-width: 820px; margin: 0 auto; padding: 150px 16px 40px; }
-  .cl-head { margin-bottom: 40px; }
-  .eyebrow { margin-bottom: 18px; }
-  .cl-h1 { font-size: clamp(34px, 6vw, 56px); margin: 0 0 12px; }
-  .cl-sub { font-size: 12.5px; color: #9a9aa8; letter-spacing: 0.5px; }
+  .changelog-label { margin-bottom: 12px; display: inline-flex; align-items: center; }
+  .changelog-h1 { margin-bottom: 40px; }
 
-  .cl-list { display: flex; flex-direction: column; gap: 16px; }
-  .cl-release { border-radius: 14px; padding: 22px; }
-  .cl-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
-  .cl-star { color: #d97757; }
-  .cl-ver { color: #fff; font-weight: 800; font-size: 15px; }
-  .cl-hash { color: #6f6f7b; font-size: 11px; }
-  .cl-date { color: #8a8a96; font-size: 11px; letter-spacing: 1px; }
-  .cl-latest { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: #1a0d07;
-    background: #d97757; border-radius: 20px; padding: 2px 9px; font-weight: 700; }
+  .release-list {
+    border-top: 1px solid var(--hairline);
+  }
+  .release {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .release-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .release-version {
+    font-size: 15px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+  .release-date {
+    font-size: 12px;
+    color: var(--muted-label);
+  }
 
-  .cl-features { list-style: none; padding: 0; margin: 0; }
-  .cl-features li { display: grid; grid-template-columns: 16px 1fr; gap: 10px; padding: 7px 0; align-items: start; }
-  .cl-features .bullet { color: #d97757; font-size: 8px; padding-top: 5px; }
-  .cl-detail { display: block; }
-  .cl-title { color: #e9e9f0; font-size: 13px; font-weight: 600; }
-  .cl-desc { display: block; color: #8a8a96; font-size: 12px; line-height: 1.6; margin-top: 4px; }
+  .release-features {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .release-feature {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--muted-body);
+    padding-left: 18px;
+    position: relative;
+  }
+  .release-feature::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 10px;
+    width: 4px;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--muted-label);
+  }
+  .feature-title-inline {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .feature-desc-inline {
+    color: var(--muted-body);
+  }
 </style>
