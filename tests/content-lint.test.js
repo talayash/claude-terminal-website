@@ -59,6 +59,14 @@ describe('Palette discipline', () => {
       expect(css, `global.css contains banned token matching ${pattern}`).not.toMatch(pattern);
     }
   });
+
+  it('global.css defines the .surface utility used by /stat', async () => {
+    // /stat still relies on `.surface` for its card treatment. If this
+    // rule disappears, every KPI/chart card renders as flat with no
+    // border and no background.
+    const css = await readFile(join(ROOT, 'src/styles/global.css'), 'utf8');
+    expect(css).toMatch(/\.surface\s*\{[^}]*(background|border)/);
+  });
 });
 
 describe('Homepage IA', () => {
@@ -107,5 +115,54 @@ describe('Coral signature', () => {
   it('coral-dot is NOT used in Footer (spec [03] - footer is a quiet coda)', async () => {
     const content = await readFile(join(ROOT, 'src/components/Footer.astro'), 'utf8');
     expect(content).not.toMatch(/coral-dot/);
+  });
+});
+
+describe('Feature titles', () => {
+  it('are sentence case (spec [05])', async () => {
+    // Sentence case = first word capitalized, subsequent words lowercase
+    // (except proper nouns). This is a heuristic: we reject titles that
+    // contain more than one capitalized word past the first, unless the
+    // extra caps are known proper nouns.
+    const features = JSON.parse(
+      await readFile(join(ROOT, 'src/data/features.json'), 'utf8')
+    );
+    const properNouns = new Set(['Claude', 'GitHub', 'Windows', 'macOS', 'CLI', 'F1', 'F2']);
+    const offenders = [];
+    for (const f of features) {
+      // Skip the first word; check words 2+. A word starting with an
+      // uppercase letter that isn't in properNouns and isn't part of a
+      // hyphenated compound (Multi-Terminal) is a violation.
+      const words = f.title.split(/\s+/).slice(1);
+      for (const w of words) {
+        // Ignore parenthetical annotations like "(F1)".
+        const stripped = w.replace(/^[\(\-]|[\)\.,;:]$/g, '');
+        if (/^[A-Z]/.test(stripped) && !properNouns.has(stripped)) {
+          offenders.push(`"${f.title}" contains capitalized word "${stripped}"`);
+        }
+      }
+    }
+    expect(offenders, offenders.join('\n')).toEqual([]);
+  });
+});
+
+describe('Layout head', () => {
+  it('Layout.astro exposes a <slot name="head" /> for per-page meta', async () => {
+    // Required so /stat can inject its noindex robots meta. Without this,
+    // the /stat page becomes indexable.
+    const src = await readFile(join(ROOT, 'src/layouts/Layout.astro'), 'utf8');
+    expect(src).toMatch(/<slot\s+name=["']head["']\s*\/?>/);
+  });
+
+  it('Layout.astro declares social preview meta tags', async () => {
+    const src = await readFile(join(ROOT, 'src/layouts/Layout.astro'), 'utf8');
+    expect(src).toMatch(/property=["']og:image["']/);
+    expect(src).toMatch(/name=["']twitter:card["']/);
+    expect(src).toMatch(/name=["']twitter:image["']/);
+  });
+
+  it('Layout.astro declares a favicon', async () => {
+    const src = await readFile(join(ROOT, 'src/layouts/Layout.astro'), 'utf8');
+    expect(src).toMatch(/rel=["']icon["'][^>]+href=/);
   });
 });
