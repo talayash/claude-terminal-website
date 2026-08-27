@@ -1,8 +1,13 @@
-# ClaudeTerminal Website
+# Agentrium Website
 
-Official website for [ClaudeTerminal](https://github.com/talayash/claude-terminal) - a modern multi-instance terminal manager for Claude Code.
+Official website for [Agentrium](https://github.com/talayash/agentrium) - a native desktop app that runs Claude Code, Codex, Cursor, and Gemini side by side.
 
 **Live:** [https://claude-terminal.dev](https://claude-terminal.dev)
+
+> The app was renamed **ClaudeTerminal -> Agentrium** (repo `talayash/agentrium`, default branch `master`)
+> when it went multi-agent, and release assets are now named `Agentrium_<version>_*`. This repo, the
+> `claude-terminal.dev` domain, and the `ct-analytics.claude-terminal.workers.dev` analytics host keep the
+> old name on purpose.
 
 ## Tech Stack
 
@@ -24,7 +29,7 @@ npm run test:run  # Run the content-lint + build-smoke suite
 
 ## How It Stays Updated
 
-- **Version number** is fetched from the [GitHub Releases API](https://api.github.com/repos/talayash/claude-terminal/releases/latest) at build time
+- **Version number** is fetched from the [GitHub Releases API](https://api.github.com/repos/talayash/agentrium/releases/latest) at build time
 - **Download links** are dynamically constructed from the latest version
 - **Changelog** is sourced from `src/data/changelog.json`, synced from the main repo via the `sync-release.yml` workflow
 - A **repository dispatch** from the main repo's release workflow triggers a rebuild on each new release

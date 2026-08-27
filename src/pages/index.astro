@@ -8,9 +8,9 @@ import Download from '../components/Download.astro';
 import Footer from '../components/Footer.astro';
 
 // Fetch the latest version from GitHub Releases at build time.
-let version = '1.29.0'; // fallback; kept close to the current published release
+let version = '1.32.0'; // fallback; kept close to the current published release
 try {
-  const res = await fetch('https://api.github.com/repos/talayash/claude-terminal/releases/latest', {
+  const res = await fetch('https://api.github.com/repos/talayash/agentrium/releases/latest', {
     headers: { Accept: 'application/vnd.github.v3+json' },
   });
   if (res.ok) {
@@ -24,7 +24,7 @@ try {
 }
 ---
 
-<Layout title="Claude Terminal - run Claude Code in parallel">
+<Layout title="Agentrium - run coding agents in parallel">
   <Navbar version={version} />
   <Hero version={version} />
   <Features />

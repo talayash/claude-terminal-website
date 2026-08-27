@@ -2,16 +2,16 @@
 interface Props { version: string }
 const { version } = Astro.props;
 
-const releaseBase = 'https://github.com/talayash/claude-terminal/releases/latest/download';
+const releaseBase = 'https://github.com/talayash/agentrium/releases/latest/download';
 
 const artifacts = {
   macos: [
-    { label: 'Apple Silicon', file: `ClaudeTerminal_${version}_aarch64.dmg` },
-    { label: 'Intel',         file: `ClaudeTerminal_${version}_x64.dmg` },
+    { label: 'Apple Silicon', file: `Agentrium_${version}_aarch64.dmg` },
+    { label: 'Intel',         file: `Agentrium_${version}_x64.dmg` },
   ],
   windows: [
-    { label: 'NSIS (recommended)', file: `ClaudeTerminal_${version}_x64-setup.exe` },
-    { label: 'MSI',                file: `ClaudeTerminal_${version}_x64_en-US.msi` },
+    { label: 'NSIS (recommended)', file: `Agentrium_${version}_x64-setup.exe` },
+    { label: 'MSI',                file: `Agentrium_${version}_x64_en-US.msi` },
   ],
 } as const;
 ---
@@ -24,7 +24,7 @@ const artifacts = {
     <h2 class="h2 download-h2">Universal binaries, direct from GitHub Releases.</h2>
 
     <div class="prereq">
-      <p class="meta prereq-line">Requires Node.js 18+ and Claude Code installed globally.</p>
+      <p class="meta prereq-line">Requires Node.js 22+ and at least one agent CLI installed globally. Claude Code is the quickest start; Codex, Cursor, and Gemini are auto-detected once on your PATH.</p>
       <div class="prereq-cmd">
         <code>npm i -g @anthropic-ai/claude-code</code>
         <button
@@ -65,7 +65,7 @@ const artifacts = {
 
     <p class="download-note body-sm">
       Builds are not code-signed yet. On macOS, right-click the app then choose Open
-      (or run <code>xattr -dr com.apple.quarantine /Applications/ClaudeTerminal.app</code>).
+      (or run <code>xattr -dr com.apple.quarantine /Applications/Agentrium.app</code>).
       On Windows, SmartScreen shows a warning - click More info then Run anyway. The source is on GitHub.
     </p>
   </div>

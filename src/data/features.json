@@ -1,18 +1,23 @@
 [
   {
+    "icon": "agents",
+    "title": "Four agents, one window",
+    "description": "Pick Claude Code, Codex, Cursor, or Gemini per terminal and mix them freely across tabs and the grid. A brand icon on every tab and grid cell shows what is running; agents are auto-detected once installed."
+  },
+  {
     "icon": "terminal",
     "title": "Multi-terminal management",
-    "description": "Create, manage, and monitor multiple Claude Code instances simultaneously with tab-based interface and drag-and-drop reordering."
+    "description": "Create, manage, and monitor multiple agent sessions simultaneously with a tab-based interface and drag-and-drop reordering."
   },
   {
     "icon": "grid",
     "title": "Smart grid view",
-    "description": "View up to 8 terminals simultaneously with intelligent auto-layout. Navigate with keyboard arrows and context menus."
+    "description": "View up to 8 sessions simultaneously with intelligent auto-layout, and mix agents per cell. Navigate with keyboard arrows and context menus."
   },
   {
     "icon": "settings",
     "title": "Configuration profiles",
-    "description": "Save and load custom terminal configurations with pre-configured CLI flags, environment variables, and working directories."
+    "description": "Save and load terminal configurations with pre-configured CLI flags, environment variables, and working directories. Profiles are agent-agnostic: Claude-only flags are stripped when launching Codex, Cursor, or Gemini."
   },
   {
     "icon": "refresh",

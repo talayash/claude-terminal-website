@@ -1,6 +1,6 @@
 name: Sync Release Data
 
-# This workflow can be triggered from the main claude-terminal repo
+# This workflow can be triggered from the main agentrium repo
 # Add this step to your release.yml:
 #
 #   - name: Trigger website rebuild
@@ -27,7 +27,7 @@ jobs:
 
       - name: Fetch latest changelog from main repo
         run: |
-          curl -sL https://raw.githubusercontent.com/talayash/claude-terminal/master/src/changelog.json \
+          curl -sL https://raw.githubusercontent.com/talayash/agentrium/master/src/changelog.json \
             -o src/data/changelog.json
 
       - name: Check for changes
