@@ -11,7 +11,10 @@ const buildDate = new Date().toLocaleDateString('en-GB', {
 <footer class="footer">
   <div class="container-wide footer-inner">
     <div class="footer-brand">
-      <p class="footer-wordmark">Agentrium</p>
+      <p class="footer-wordmark">
+        <img class="footer-mark" src="/icons/mark.png" alt="" width="23" height="16" decoding="async" loading="lazy" />
+        <span>Agentrium</span>
+      </p>
       <p class="footer-tagline">A terminal manager for Claude Code, Codex, Cursor, and Gemini.</p>
     </div>
 
@@ -59,6 +62,15 @@ const buildDate = new Date().toLocaleDateString('en-GB', {
     font-weight: 500;
     color: var(--ink);
     margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .footer-mark {
+    width: 23px;
+    height: 16px;
+    display: block;
+    flex: none;
   }
   .footer-tagline {
     font-size: 12px;
