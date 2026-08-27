@@ -22,6 +22,13 @@ try {
 } catch (e) {
   console.warn(`Failed to fetch GitHub release: ${e}, using fallback version ${version}`);
 }
+
+// Workaround for a Node 24 + Windows teardown race, not a functional step.
+// If the build finishes too soon after this fetch resolves, Node aborts in
+// libuv teardown (assertion in win/async.c) and `npm run build` exits 127
+// even though the build succeeded. The old repo URL masked this by spending
+// an extra round trip on a 301 redirect. Linux (CI and Vercel) is unaffected.
+await new Promise((resolve) => setTimeout(resolve, 500));
 ---
 
 <Layout title="Agentrium - run coding agents in parallel">
