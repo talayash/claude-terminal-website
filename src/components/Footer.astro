@@ -2,96 +2,78 @@
 interface Props { version?: string }
 const { version } = Astro.props;
 
-// Build date at build time. Format: "23 Jul 2026"
+// Build date at build time. Format: "30 Aug 2026"
 const buildDate = new Date().toLocaleDateString('en-GB', {
   day: '2-digit', month: 'short', year: 'numeric',
 });
 ---
 
-<footer class="footer">
+<footer class="footer night-band">
   <div class="container-wide footer-inner">
     <div class="footer-brand">
       <p class="footer-wordmark">
         <img class="footer-mark" src="/icons/mark.png" alt="" width="23" height="16" decoding="async" loading="lazy" />
         <span>Agentrium</span>
       </p>
-      <p class="footer-tagline">A terminal manager for Claude Code, Codex, Cursor, and Gemini.</p>
+      <p class="footer-tagline on-night-3">The native desktop home for coding agents.</p>
     </div>
 
     <nav class="footer-links" aria-label="Footer">
-      <a href="#features" class="footer-link underline-link">Features</a>
-      <a href="#download" class="footer-link underline-link">Download</a>
-      <a href="/changelog" class="footer-link underline-link">Changelog</a>
-      <a href="https://github.com/talayash/agentrium" target="_blank" rel="noopener noreferrer" class="footer-link underline-link">
-        GitHub <span aria-hidden="true">&nearr;</span>
-      </a>
-      <a href="https://github.com/talayash/agentrium/blob/master/LICENSE" target="_blank" rel="noopener noreferrer" class="footer-link underline-link">
-        MIT <span aria-hidden="true">&nearr;</span>
-      </a>
+      <a href="/#agents">Agents</a>
+      <a href="/#features">Features</a>
+      <a href="/#download">Download</a>
+      <a href="/changelog">Changelog</a>
+      <a href="https://github.com/talayash/agentrium" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://github.com/talayash/agentrium/blob/master/LICENSE" target="_blank" rel="noopener noreferrer">MIT License</a>
     </nav>
 
-    <div class="footer-meta">
-      {version && <span>v{version}</span>}
-      {version && <span aria-hidden="true"> · </span>}
-      <span>built {buildDate}</span>
-    </div>
+    <p class="footer-meta on-night-3">
+      {version && <span>v{version} &middot; </span>}built {buildDate}
+    </p>
   </div>
 </footer>
 
 <style>
   .footer {
-    border-top: 1px solid var(--hairline);
-    padding: 40px 0;
-    background: var(--paper);
+    padding: 56px 0 48px;
+    border-top: 1px solid var(--night-seam);
   }
+
   .footer-inner {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-  @media (min-width: 768px) {
-    .footer-inner {
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      gap: 40px;
-    }
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 28px;
   }
 
   .footer-wordmark {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--ink);
-    margin-bottom: 4px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 7px;
+    gap: 8px;
+    margin: 0 0 6px;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--night-text);
   }
-  .footer-mark {
-    width: 23px;
-    height: 16px;
-    display: block;
-    flex: none;
-  }
-  .footer-tagline {
-    font-size: 12px;
-    color: var(--muted-label);
-  }
+  .footer-tagline { font-size: 12.5px; margin: 0; }
 
   .footer-links {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px;
-    justify-content: flex-start;
+    gap: 4px 22px;
   }
-  @media (min-width: 768px) { .footer-links { justify-content: center; } }
-  .footer-link {
+  .footer-links a {
     font-size: 13px;
-    color: var(--muted-body);
+    color: var(--night-text-2);
+    text-decoration: none;
+    transition: color 150ms ease-out;
   }
+  .footer-links a:hover { color: var(--night-text); }
 
   .footer-meta {
     font-size: 12px;
-    color: var(--muted-label);
+    margin: 0;
+    font-variant-numeric: tabular-nums;
   }
-  @media (min-width: 768px) { .footer-meta { text-align: right; } }
 </style>

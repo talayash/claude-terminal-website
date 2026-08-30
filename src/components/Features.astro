@@ -1,71 +1,216 @@
 ---
 import featuresJson from '../data/features.json';
-type Feature = { title: string; description: string; icon?: string };
+type Feature = { title: string; description: string; icon: string };
 const features = featuresJson as Feature[];
+
+// Bento spans: first two cards are heroes, the rest tile underneath.
+const span = (i: number) => (i < 2 ? 'span-3' : 'span-2');
 ---
 
 <section id="features" class="section features">
-  <div class="container-text">
-    <p class="label features-label">
-      <span class="coral-dot" aria-hidden="true"></span>Features
-    </p>
-    <h2 class="h2 features-h2">What the app does.</h2>
+  <div class="container-wide">
+    <p class="kicker reveal">Features</p>
+    <h2 class="h2 features-h2 reveal" style="--d: 60ms">Built for parallel work.</h2>
 
-    <ol class="feature-list">
-      {features.map((feature, i) => (
-        <li class="feature-row">
-          <span class="feature-num coral-num">{String(i + 1).padStart(2, '0')}</span>
-          <div class="feature-body">
-            <h3 class="feature-title">{feature.title}</h3>
-            <p class="feature-desc">{feature.description}</p>
+    <div class="bento">
+      {features.map((f, i) => (
+        <article class={`bento-card ${span(i)} reveal`} style={`--d: ${(i % 3) * 80}ms`}>
+          <div class={`bento-visual visual-${f.icon}`} aria-hidden="true">
+            {f.icon === 'sessions' && (
+              <div class="v-sessions">
+                <div class="v-row active"><i style="background:#D97757"></i><b></b></div>
+                <div class="v-row"><i style="background:#19C37D"></i><b></b></div>
+                <div class="v-row"><i style="background:#4285F4"></i><b></b></div>
+              </div>
+            )}
+            {f.icon === 'grid' && (
+              <div class="v-grid">
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+              </div>
+            )}
+            {f.icon === 'worktree' && (
+              <svg viewBox="0 0 120 56" fill="none">
+                <path d="M8 28 H44 C56 28 56 12 68 12 H112" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" />
+                <path d="M8 28 H44 C56 28 56 44 68 44 H92 C100 44 104 36 112 30" stroke="rgba(0,0,0,0.22)" stroke-width="2.5" stroke-linecap="round" />
+                <circle cx="8" cy="28" r="4" fill="var(--accent)" />
+                <circle cx="112" cy="12" r="4" fill="var(--accent)" />
+                <circle cx="112" cy="30" r="4" fill="rgba(0,0,0,0.3)" />
+              </svg>
+            )}
+            {f.icon === 'review' && (
+              <div class="v-diff">
+                <span class="d-add">+ derive unread from output stream</span>
+                <span class="d-add">+ drop unreadTerminalIds set</span>
+                <span class="d-del">- manual unread bookkeeping</span>
+              </div>
+            )}
+            {f.icon === 'profiles' && (
+              <div class="v-profile">
+                <span class="p-chip">~/work/api</span>
+                <span class="p-chip">--model opus</span>
+                <span class="p-chip">ENV=staging</span>
+              </div>
+            )}
+            {f.icon === 'restore' && (
+              <div class="v-restore">
+                <span class="r-box"></span>
+                <svg width="22" height="12" viewBox="0 0 22 12" fill="none"><path d="M1 6 H19 M14 1 L20 6 L14 11" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span class="r-box lit"></span>
+              </div>
+            )}
+            {f.icon === 'palette' && (
+              <div class="v-palette">
+                <kbd>F1</kbd><kbd>F2</kbd><kbd>&#8984;G</kbd>
+              </div>
+            )}
+            {f.icon === 'native' && (
+              <div class="v-native">
+                <span class="n-stat"><b>~12 MB</b>installer</span>
+                <span class="n-stat"><b>0</b>Chromium</span>
+              </div>
+            )}
           </div>
-        </li>
+          <h3 class="h3 bento-title">{f.title}</h3>
+          <p class="body-sm bento-desc">{f.description}</p>
+        </article>
       ))}
-    </ol>
+    </div>
   </div>
 </section>
 
 <style>
-  .features-label { margin-bottom: 12px; display: inline-flex; align-items: center; }
-  .features-h2 { margin-bottom: 40px; }
+  .features { background: var(--page-alt); }
 
-  .feature-list {
-    border-top: 1px solid var(--hairline);
-    border-bottom: 1px solid var(--hairline);
-  }
-  .feature-row {
+  .features-h2 { margin-bottom: 52px; }
+
+  .bento {
     display: grid;
-    grid-template-columns: 40px 1fr;
-    gap: 16px;
-    padding: 22px 0;
-    border-top: 1px solid var(--hairline);
-    align-items: baseline;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 18px;
   }
-  .feature-row:first-child { border-top: none; }
+  .span-3 { grid-column: span 3; }
+  .span-2 { grid-column: span 2; }
+  @media (max-width: 1023px) {
+    .span-3, .span-2 { grid-column: span 3; }
+  }
+  @media (max-width: 639px) {
+    .span-3, .span-2 { grid-column: span 6; }
+  }
 
-  .feature-num {
-    font-size: 13px;
-    font-weight: 500;
-    line-height: 1.4;
-    padding-top: 2px;
+  .bento-card {
+    background: #fff;
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-card);
+    padding: 26px 24px 28px;
+    box-shadow: var(--shadow-float-sm);
+    transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 240ms ease-out;
   }
-  .feature-title {
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--ink);
-    line-height: 1.35;
-    margin-bottom: 6px;
+  .bento-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-float-md);
   }
-  .feature-desc {
-    font-size: 14px;
-    line-height: 1.55;
+
+  .bento-title { margin-bottom: 8px; }
+  .bento-desc { margin: 0; }
+
+  .bento-visual {
+    height: 96px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    background: var(--page-alt);
+    overflow: hidden;
+  }
+
+  /* sessions */
+  .v-sessions { display: flex; flex-direction: column; gap: 7px; width: 70%; }
+  .v-row {
+    display: flex; align-items: center; gap: 8px;
+    background: #fff; border: 1px solid var(--hairline);
+    border-radius: 8px; padding: 7px 10px;
+  }
+  .v-row.active { border-color: rgba(10, 132, 255, 0.5); box-shadow: 0 0 0 1px rgba(10, 132, 255, 0.25); }
+  .v-row i { width: 7px; height: 7px; border-radius: 50%; }
+  .v-row b { height: 5px; border-radius: 3px; background: rgba(0, 0, 0, 0.12); flex: 1; }
+  .v-row.active b { background: rgba(10, 132, 255, 0.35); }
+
+  /* grid */
+  .v-grid {
+    display: grid; grid-template-columns: repeat(3, 26px);
+    grid-auto-rows: 20px; gap: 5px;
+  }
+  .v-grid span {
+    border-radius: 5px;
+    background: rgba(10, 132, 255, 0.18);
+    border: 1px solid rgba(10, 132, 255, 0.28);
+    animation: v-grid-pulse 2.6s ease-in-out infinite;
+  }
+  .v-grid span:nth-child(2) { animation-delay: 0.3s; }
+  .v-grid span:nth-child(3) { animation-delay: 0.6s; }
+  .v-grid span:nth-child(4) { animation-delay: 0.9s; }
+  .v-grid span:nth-child(5) { animation-delay: 1.2s; }
+  .v-grid span:nth-child(6) { animation-delay: 1.5s; }
+  @keyframes v-grid-pulse {
+    0%, 100% { background: rgba(10, 132, 255, 0.14); }
+    50% { background: rgba(10, 132, 255, 0.38); }
+  }
+
+  /* worktree */
+  .visual-worktree svg { width: 76%; height: auto; }
+
+  /* diff */
+  .v-diff {
+    display: flex; flex-direction: column; gap: 5px;
+    font-family: var(--font-mono); font-size: 10.5px;
+    width: 82%;
+  }
+  .d-add { color: #1E8E3E; background: rgba(40, 200, 64, 0.10); border-radius: 4px; padding: 2px 8px; }
+  .d-del { color: #C5221F; background: rgba(255, 107, 107, 0.10); border-radius: 4px; padding: 2px 8px; text-decoration: line-through; }
+
+  /* profiles */
+  .v-profile { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; width: 86%; }
+  .p-chip {
+    font-family: var(--font-mono); font-size: 10.5px;
     color: var(--muted-body);
-    max-width: 56ch;
+    background: #fff; border: 1px solid var(--hairline);
+    border-radius: 999px; padding: 4px 11px;
   }
 
-  @media (max-width: 480px) {
-    .feature-row { grid-template-columns: 32px 1fr; gap: 12px; padding: 18px 0; }
-    .feature-num { font-size: 12px; }
-    .feature-title { font-size: 15px; }
+  /* restore */
+  .v-restore { display: flex; align-items: center; gap: 12px; }
+  .r-box {
+    width: 44px; height: 32px; border-radius: 7px;
+    border: 1.5px solid rgba(0, 0, 0, 0.25);
+  }
+  .r-box.lit {
+    border-color: var(--accent);
+    background: rgba(10, 132, 255, 0.10);
+    box-shadow: 0 0 16px rgba(10, 132, 255, 0.35);
+  }
+
+  /* palette */
+  .v-palette { display: flex; gap: 9px; }
+  .v-palette kbd {
+    font-family: var(--font-ui); font-size: 12px; font-weight: 600;
+    color: var(--ink);
+    background: #fff;
+    border: 1px solid var(--hairline);
+    border-bottom-width: 2.5px;
+    border-radius: 8px;
+    padding: 7px 12px;
+  }
+
+  /* native */
+  .v-native { display: flex; gap: 26px; }
+  .n-stat {
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    font-size: 10.5px; color: var(--muted-label);
+  }
+  .n-stat b {
+    font-size: 19px; font-weight: 700; letter-spacing: -0.02em;
+    color: var(--ink);
   }
 </style>

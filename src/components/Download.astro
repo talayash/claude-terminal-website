@@ -16,46 +16,49 @@ const artifacts = {
 } as const;
 ---
 
-<section id="download" class="section download">
-  <div class="container-text">
-    <p class="label download-label">
-      <span class="coral-dot" aria-hidden="true"></span>Download
-    </p>
-    <h2 class="h2 download-h2">Universal binaries, direct from GitHub Releases.</h2>
+<section id="download" class="section download night-band">
+  <div class="night-glow"></div>
+  <div class="container-wide download-inner">
+    <p class="kicker download-kicker reveal">Download</p>
+    <h2 class="h2 download-h2 on-night reveal" style="--d: 60ms">Free. Open source.<br />Direct from GitHub.</h2>
 
-    <div class="prereq">
-      <p class="meta prereq-line">Requires Node.js 22+ and at least one agent CLI installed globally. Claude Code is the quickest start; Codex, Cursor, and Gemini are auto-detected once on your PATH.</p>
+    <div class="prereq glass-night reveal" style="--d: 120ms">
+      <p class="prereq-line on-night-2">
+        Requires Node.js 22+ and at least one agent CLI installed globally.
+        Claude Code is the quickest start; Codex, Cursor, and Antigravity are
+        auto-detected once on your PATH.
+      </p>
       <div class="prereq-cmd">
         <code>npm i -g @anthropic-ai/claude-code</code>
         <button
           class="prereq-copy"
           data-copy="npm i -g @anthropic-ai/claude-code"
           aria-label="Copy install command"
-        >copy</button>
+        >Copy</button>
       </div>
     </div>
 
     <div class="os-blocks">
-      <div class="os-block">
-        <h3 class="h3 os-name">macOS</h3>
-        <p class="meta os-req">macOS 11+</p>
+      <div class="os-block glass-night reveal" style="--d: 180ms">
+        <h3 class="h3 os-name on-night">macOS</h3>
+        <p class="os-req on-night-3">macOS 11 or later</p>
         <div class="artifacts">
           {artifacts.macos.map(a => (
-            <a class="btn-outline artifact" href={`${releaseBase}/${a.file}`}>
-              <span>{a.file}</span>
+            <a class="artifact" href={`${releaseBase}/${a.file}`}>
+              <span class="artifact-file">{a.file}</span>
               <span class="artifact-tag">{a.label}</span>
             </a>
           ))}
         </div>
       </div>
 
-      <div class="os-block">
-        <h3 class="h3 os-name">Windows</h3>
-        <p class="meta os-req">Windows 10+</p>
+      <div class="os-block glass-night reveal" style="--d: 260ms">
+        <h3 class="h3 os-name on-night">Windows</h3>
+        <p class="os-req on-night-3">Windows 10 or later</p>
         <div class="artifacts">
           {artifacts.windows.map(a => (
-            <a class="btn-outline artifact" href={`${releaseBase}/${a.file}`}>
-              <span>{a.file}</span>
+            <a class="artifact" href={`${releaseBase}/${a.file}`}>
+              <span class="artifact-file">{a.file}</span>
               <span class="artifact-tag">{a.label}</span>
             </a>
           ))}
@@ -63,64 +66,73 @@ const artifacts = {
       </div>
     </div>
 
-    <p class="download-note body-sm">
+    <p class="download-note on-night-3 reveal">
       Builds are not code-signed yet. On macOS, right-click the app then choose Open
       (or run <code>xattr -dr com.apple.quarantine /Applications/Agentrium.app</code>).
-      On Windows, SmartScreen shows a warning - click More info then Run anyway. The source is on GitHub.
+      On Windows, SmartScreen shows a warning: click More info, then Run anyway.
+      The source is on GitHub.
     </p>
   </div>
 </section>
 
 <style>
-  .download-label { margin-bottom: 12px; display: inline-flex; align-items: center; }
-  .download-h2 { margin-bottom: 32px; }
+  .download { text-align: left; }
+  .download-inner { position: relative; z-index: 1; max-width: 880px; }
+
+  .download-kicker { color: #6FB4FF; }
+  .download-h2 { margin: 14px 0 40px; }
 
   .prereq {
-    padding: 20px;
-    border: 1px solid var(--hairline);
-    border-radius: 8px;
-    background: transparent;
-    margin-bottom: 40px;
+    border-radius: var(--radius-card);
+    padding: 22px 24px;
+    margin-bottom: 26px;
   }
-  .prereq-line { margin-bottom: 12px; }
+  .prereq-line { font-size: 14px; line-height: 1.6; margin: 0 0 14px; }
   .prereq-cmd {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--night-seam);
+    border-radius: 10px;
+    padding: 10px 14px;
   }
   .prereq-cmd code {
-    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-family: var(--font-mono);
     font-size: 13px;
-    color: var(--ink);
-    background: transparent;
-    padding: 0;
+    color: var(--night-text);
   }
   .prereq-copy {
     font-family: inherit;
     font-size: 12px;
-    color: var(--muted-label);
-    background: transparent;
-    border: 1px solid var(--hairline);
-    border-radius: 4px;
-    padding: 4px 10px;
+    font-weight: 600;
+    color: var(--night-text-2);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--night-seam-strong);
+    border-radius: 999px;
+    padding: 5px 14px;
     cursor: pointer;
-    transition: color 150ms ease-out, border-color 150ms ease-out;
+    transition: color 150ms ease-out, background 150ms ease-out;
   }
-  .prereq-copy:hover { color: var(--coral); border-color: var(--coral); }
-  .prereq-copy.done { color: var(--coral); border-color: var(--coral); }
+  .prereq-copy:hover { color: #fff; background: rgba(255, 255, 255, 0.16); }
+  .prereq-copy.done { color: #fff; background: var(--accent); border-color: transparent; }
 
   .os-blocks {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 22px;
   }
   @media (min-width: 640px) {
-    .os-blocks { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .os-blocks { grid-template-columns: 1fr 1fr; }
   }
 
-  .os-name { margin-bottom: 4px; }
-  .os-req { margin-bottom: 16px; }
+  .os-block {
+    border-radius: var(--radius-card);
+    padding: 24px;
+  }
+  .os-name { margin-bottom: 2px; }
+  .os-req { font-size: 12px; margin: 0 0 18px; }
 
   .artifacts {
     display: flex;
@@ -133,29 +145,39 @@ const artifacts = {
     justify-content: space-between;
     gap: 12px;
     padding: 12px 14px;
-    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    border-radius: 10px;
+    border: 1px solid var(--night-seam-strong);
+    background: rgba(255, 255, 255, 0.04);
+    text-decoration: none;
+    transition: background 160ms ease-out, border-color 160ms ease-out, transform 160ms ease-out;
+  }
+  .artifact:hover {
+    background: rgba(10, 132, 255, 0.14);
+    border-color: rgba(10, 132, 255, 0.45);
+    transform: translateY(-1px);
+  }
+  .artifact-file {
+    font-family: var(--font-mono);
     font-size: 12px;
-    line-height: 1.4;
+    color: var(--night-text);
+    word-break: break-all;
   }
   .artifact-tag {
-    font-family: 'Inter Variable', 'Inter', sans-serif;
     font-size: 11px;
-    color: var(--muted-label);
+    color: var(--night-text-3);
     white-space: nowrap;
   }
 
   .download-note {
-    margin-top: 32px;
+    margin: 32px 0 0;
     font-size: 12px;
-    color: var(--muted-label);
-    line-height: 1.6;
+    line-height: 1.7;
+    max-width: 70ch;
   }
   .download-note code {
-    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-family: var(--font-mono);
     font-size: 11.5px;
-    color: var(--ink);
-    background: transparent;
-    padding: 0 2px;
+    color: var(--night-text-2);
   }
 </style>
 
@@ -166,7 +188,7 @@ const artifacts = {
       try {
         await navigator.clipboard.writeText(text);
         const prev = btn.textContent;
-        btn.textContent = 'copied';
+        btn.textContent = 'Copied';
         btn.classList.add('done');
         setTimeout(() => { btn.textContent = prev; btn.classList.remove('done'); }, 1400);
       } catch { /* clipboard blocked, no-op */ }
