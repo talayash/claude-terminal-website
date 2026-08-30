@@ -37,42 +37,42 @@ describe('Copy conventions', () => {
   });
 });
 
-describe('Palette discipline', () => {
-  it('global.css declares the paper/ink/coral tokens', async () => {
+describe('Palette discipline (Midnight Glass)', () => {
+  it('global.css declares the Midnight ramp and Apple-blue accent', async () => {
     const css = await readFile(join(ROOT, 'src/styles/global.css'), 'utf8');
-    expect(css).toMatch(/--paper:\s*#faf9f5/);
-    expect(css).toMatch(/--ink:\s*#252525/);
-    expect(css).toMatch(/--coral:\s*#c86a4a/);
+    expect(css).toMatch(/--night-canvas:\s*#080A12/i);
+    expect(css).toMatch(/--night-0:\s*#0F1320/i);
+    expect(css).toMatch(/--accent:\s*#0A84FF/i);
+    expect(css).toMatch(/--ink:\s*#1D1D1F/i);
   });
 
-  it('global.css does not use banned aesthetic tokens', async () => {
+  it('global.css keeps the legacy aliases /stat depends on', async () => {
+    // /stat styles itself with var(--coral), var(--ink), var(--muted-label),
+    // var(--muted-body) and the .surface card class. The aliases may point at
+    // the new palette, but they must exist.
     const css = await readFile(join(ROOT, 'src/styles/global.css'), 'utf8');
-    const banned = [
-      /a3e635/i,
-      /ec4899/i,
-      /06b6d4/i,
-      /\baurora\b/i,
-      /\bglass\b/i,
-      /\bscan-?line\b/i,
-    ];
-    for (const pattern of banned) {
-      expect(css, `global.css contains banned token matching ${pattern}`).not.toMatch(pattern);
+    for (const token of ['--coral:', '--paper:', '--muted-label:', '--muted-body:', '--hairline:']) {
+      expect(css, `global.css must keep declaring ${token}`).toContain(token);
+    }
+  });
+
+  it('global.css does not reintroduce the retired coral-era palette', async () => {
+    const css = await readFile(join(ROOT, 'src/styles/global.css'), 'utf8');
+    for (const pattern of [/c86a4a/i, /faf9f5/i, /a3e635/i, /ec4899/i]) {
+      expect(css, `global.css contains retired color ${pattern}`).not.toMatch(pattern);
     }
   });
 
   it('global.css defines the .surface utility used by /stat', async () => {
-    // /stat still relies on `.surface` for its card treatment. If this
-    // rule disappears, every KPI/chart card renders as flat with no
-    // border and no background.
     const css = await readFile(join(ROOT, 'src/styles/global.css'), 'utf8');
     expect(css).toMatch(/\.surface\s*\{[^}]*(background|border)/);
   });
 });
 
 describe('Homepage IA', () => {
-  it('index.astro imports exactly the 5 target components + Layout + Nav + Footer', async () => {
+  it('index.astro composes the Midnight Glass sections in order', async () => {
     const src = await readFile(join(ROOT, 'src/pages/index.astro'), 'utf8');
-    const expectedImports = ['Layout', 'Navbar', 'Hero', 'Features', 'Screenshots', 'Download', 'Footer'];
+    const expectedImports = ['Layout', 'Intro', 'Navbar', 'Hero', 'Agents', 'Features', 'Screenshots', 'Download', 'Footer'];
     for (const name of expectedImports) {
       expect(src, `index.astro missing import: ${name}`).toMatch(new RegExp(`import\\s+${name}\\s+from`));
     }
@@ -81,68 +81,49 @@ describe('Homepage IA', () => {
       expect(src, `index.astro still imports removed component: ${name}`).not.toMatch(new RegExp(`import\\s+${name}\\s+from`));
     }
   });
+});
 
-  it('the six cut components no longer exist on disk', async () => {
-    const gone = ['Trust', 'Parallel', 'Compare', 'ChangelogPreview', 'CallToAction', 'TechStack'];
-    for (const name of gone) {
-      const path = join(ROOT, `src/components/${name}.astro`);
-      let exists = false;
-      try {
-        await readFile(path, 'utf8');
-        exists = true;
-      } catch {
-        exists = false;
-      }
-      expect(exists, `${name}.astro should have been deleted in Task 14`).toBe(false);
+describe('Load-bearing behavior', () => {
+  it('Hero keeps the platform-aware download CTA contract', async () => {
+    const src = await readFile(join(ROOT, 'src/components/Hero.astro'), 'utf8');
+    expect(src).toMatch(/id="hero-primary-dl"/);
+    expect(src).toMatch(/data-win=/);
+    expect(src).toMatch(/data-mac=/);
+  });
+
+  it('index.astro still fetches the release version from GitHub', async () => {
+    const src = await readFile(join(ROOT, 'src/pages/index.astro'), 'utf8');
+    expect(src).toMatch(/api\.github\.com\/repos\/talayash\/agentrium\/releases\/latest/);
+    // The Node 24 + Windows teardown workaround must survive too.
+    expect(src).toMatch(/setTimeout\(resolve,\s*500\)/);
+  });
+
+  it('Download links point at the GitHub release artifacts', async () => {
+    const src = await readFile(join(ROOT, 'src/components/Download.astro'), 'utf8');
+    expect(src).toMatch(/releases\/latest\/download/);
+    for (const artifact of ['aarch64.dmg', 'x64.dmg', 'x64-setup.exe', 'x64_en-US.msi']) {
+      expect(src, `Download.astro missing artifact ${artifact}`).toContain(artifact);
     }
   });
 });
 
-describe('Coral signature', () => {
-  it('coral-dot class is used in Nav, Features, Screenshots, Download', async () => {
-    const files = [
-      'src/components/Navbar.astro',
-      'src/components/Features.astro',
-      'src/components/Screenshots.astro',
-      'src/components/Download.astro',
-    ];
-    for (const rel of files) {
-      const content = await readFile(join(ROOT, rel), 'utf8');
-      expect(content, `${rel} should include a coral-dot signature`).toMatch(/coral-dot/);
-    }
+describe('Intro splash', () => {
+  it('is session-gated and honors reduced motion', async () => {
+    const src = await readFile(join(ROOT, 'src/components/Intro.astro'), 'utf8');
+    expect(src).toMatch(/sessionStorage/);
+    expect(src).toMatch(/prefers-reduced-motion/);
   });
 
-  it('coral-dot is NOT used in Footer (spec [03] - footer is a quiet coda)', async () => {
-    const content = await readFile(join(ROOT, 'src/components/Footer.astro'), 'utf8');
-    expect(content).not.toMatch(/coral-dot/);
+  it('is hidden by default so no-JS visitors never see an overlay', async () => {
+    const src = await readFile(join(ROOT, 'src/components/Intro.astro'), 'utf8');
+    expect(src).toMatch(/#agr-intro\s*\{[^}]*display:\s*none/);
   });
 });
 
-describe('Feature titles', () => {
-  it('are sentence case (spec [05])', async () => {
-    // Sentence case = first word capitalized, subsequent words lowercase
-    // (except proper nouns). This is a heuristic: we reject titles that
-    // contain more than one capitalized word past the first, unless the
-    // extra caps are known proper nouns.
-    const features = JSON.parse(
-      await readFile(join(ROOT, 'src/data/features.json'), 'utf8')
-    );
-    const properNouns = new Set(['Claude', 'GitHub', 'Windows', 'macOS', 'CLI', 'F1', 'F2']);
-    const offenders = [];
-    for (const f of features) {
-      // Skip the first word; check words 2+. A word starting with an
-      // uppercase letter that isn't in properNouns and isn't part of a
-      // hyphenated compound (Multi-Terminal) is a violation.
-      const words = f.title.split(/\s+/).slice(1);
-      for (const w of words) {
-        // Ignore parenthetical annotations like "(F1)".
-        const stripped = w.replace(/^[\(\-]|[\)\.,;:]$/g, '');
-        if (/^[A-Z]/.test(stripped) && !properNouns.has(stripped)) {
-          offenders.push(`"${f.title}" contains capitalized word "${stripped}"`);
-        }
-      }
-    }
-    expect(offenders, offenders.join('\n')).toEqual([]);
+describe('Motion discipline', () => {
+  it('global.css disables reveal animations under prefers-reduced-motion', async () => {
+    const css = await readFile(join(ROOT, 'src/styles/global.css'), 'utf8');
+    expect(css).toMatch(/prefers-reduced-motion/);
   });
 });
 

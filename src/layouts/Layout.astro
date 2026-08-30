@@ -8,8 +8,8 @@ interface Props {
   description?: string;
 }
 const {
-  title = 'Agentrium - a terminal manager for coding agents',
-  description = 'Run Claude Code, Codex, Cursor, and Gemini side by side. A terminal manager for developers who spawn many agent sessions at once.',
+  title = 'Agentrium - every agent, one window',
+  description = 'Run Claude Code, Codex, Cursor, and Antigravity side by side. The native desktop home for developers who spawn many agent sessions at once.',
 } = Astro.props;
 ---
 
@@ -19,7 +19,7 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#faf9f5" />
+    <meta name="theme-color" content="#080A12" />
 
     <link rel="icon" type="image/png" href="/icons/icon.png" />
     <link rel="apple-touch-icon" href="/icons/icon.png" />
@@ -45,5 +45,27 @@ const {
     <slot />
     <Analytics />
     <SpeedInsights />
+
+    <script>
+      // Scroll reveal: .reveal elements slide in when they enter the
+      // viewport. With reduced motion the CSS already shows everything.
+      const els = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window && els.length) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                e.target.classList.add('in');
+                io.unobserve(e.target);
+              }
+            }
+          },
+          { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+        );
+        els.forEach((el) => io.observe(el));
+      } else {
+        els.forEach((el) => el.classList.add('in'));
+      }
+    </script>
   </body>
 </html>

@@ -1,37 +1,42 @@
 [
   {
-    "icon": "agents",
-    "title": "Four agents, one window",
-    "description": "Pick Claude Code, Codex, Cursor, or Gemini per terminal and mix them freely across tabs and the grid. A brand icon on every tab and grid cell shows what is running; agents are auto-detected once installed."
-  },
-  {
-    "icon": "terminal",
-    "title": "Multi-terminal management",
-    "description": "Create, manage, and monitor multiple agent sessions simultaneously with a tab-based interface and drag-and-drop reordering."
+    "icon": "sessions",
+    "title": "One sidebar, every session",
+    "description": "Session cards are the single switcher: drag to reorder, pin, duplicate, split into the grid, or tear off into a new window. An unread dot tells you the moment an agent needs you."
   },
   {
     "icon": "grid",
-    "title": "Smart grid view",
-    "description": "View up to 8 sessions simultaneously with intelligent auto-layout, and mix agents per cell. Navigate with keyboard arrows and context menus."
+    "title": "Up to 8 sessions on screen",
+    "description": "A smart grid with selectable layouts and mixable agents per cell. Your manual layout pick sticks until the grid is actually full; arrow keys move focus."
   },
   {
-    "icon": "settings",
-    "title": "Configuration profiles",
-    "description": "Save and load terminal configurations with pre-configured CLI flags, environment variables, and working directories. Profiles are agent-agnostic: Claude-only flags are stripped when launching Codex, Cursor, or Gemini."
+    "icon": "worktree",
+    "title": "A worktree per session",
+    "description": "Spin up a git worktree from the new-session dialog, and choose merge, squash, or discard when the session closes. The branch chip always shows where you are."
   },
   {
-    "icon": "refresh",
-    "title": "Auto-updates",
-    "description": "Automatic update checks on startup with background downloads and one-click installation. Never miss a release."
+    "icon": "review",
+    "title": "Review work hunk by hunk",
+    "description": "A verified review cockpit for agent output: stage individual hunks, accept or reject at diff level, and group related changes into changelists."
   },
   {
-    "icon": "keyboard",
-    "title": "Keyboard shortcuts",
-    "description": "Comprehensive keyboard shortcuts for power users. Command palette (F1), session history (F2), and more."
+    "icon": "profiles",
+    "title": "Setups you save once",
+    "description": "Profiles carry a working directory, per-agent arguments, and env vars. They are agent-agnostic: Claude-only flags are stripped automatically when another agent launches."
   },
   {
-    "icon": "users",
-    "title": "Agent teams panel",
-    "description": "Monitor Claude Code multi-agent team sessions with real-time team structure, member details, and task tracking."
+    "icon": "restore",
+    "title": "Close the app, keep the conversation",
+    "description": "Sessions are re-attached by id on restart, so a Claude Code conversation survives a reboot. Save a named workspace to restore a whole layout at once."
+  },
+  {
+    "icon": "palette",
+    "title": "F1 for everything",
+    "description": "A command palette for actions, F2 for session history, and a full keyboard map underneath. Built for people who never touch the mouse."
+  },
+  {
+    "icon": "native",
+    "title": "Native by construction",
+    "description": "Tauri and Rust, not Electron. A small signed binary with real PTYs, SQLite storage, desktop notifications, and auto-updates from GitHub releases."
   }
 ]

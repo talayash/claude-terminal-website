@@ -1,70 +1,71 @@
 ---
-// Editorial spread: 1 large left + 2 small stacked right. Native aspect ratios preserved.
+// Editorial spread: 1 large left + 2 small stacked right, framed like
+// floating windows. Images come from the shipping release.
 const screenshots = {
-  main: { file: 'main-view.png', alt: 'Agentrium main view with active sessions', caption: 'Main view' },
-  grid: { file: 'grid-view.png', alt: 'Grid layout of up to 8 terminals', caption: 'Grid layout' },
-  settings: { file: 'settings.png', alt: 'Settings panel', caption: 'Settings' },
+  main: { file: 'grid-view.png', alt: 'Grid view running Claude Code, Codex, Cursor, and Antigravity in parallel', caption: 'Grid view: four agents working in parallel' },
+  grid: { file: 'main-view.png', alt: 'Welcome screen with the agent picker on the Midnight canvas', caption: 'Welcome' },
+  settings: { file: 'new-terminal.png', alt: 'New Session dialog with agent, profile, and model pickers', caption: 'New Session' },
 };
 ---
 
 <section id="screenshots" class="section screenshots">
   <div class="container-wide">
-    <p class="label screenshots-label">
-      <span class="coral-dot" aria-hidden="true"></span>The app
-    </p>
-    <h2 class="h2 screenshots-h2">A quick look.</h2>
+    <p class="kicker reveal">Screenshots</p>
+    <h2 class="h2 screenshots-h2 reveal" style="--d: 60ms">In the wild.</h2>
+    <p class="meta screenshots-note reveal" style="--d: 100ms">From the current shipping release.</p>
 
-    <div class="spread">
-      <figure class="frame frame-big">
+    <div class="shot-grid">
+      <figure class="shot shot-main reveal" style="--d: 120ms">
         <img src={`/screenshots/${screenshots.main.file}`} alt={screenshots.main.alt} loading="lazy" decoding="async" />
+        <figcaption class="label">{screenshots.main.caption}</figcaption>
       </figure>
-      <figure class="frame frame-small">
-        <img src={`/screenshots/${screenshots.grid.file}`} alt={screenshots.grid.alt} loading="lazy" decoding="async" />
-      </figure>
-      <figure class="frame frame-small">
-        <img src={`/screenshots/${screenshots.settings.file}`} alt={screenshots.settings.alt} loading="lazy" decoding="async" />
-      </figure>
+      <div class="shot-stack">
+        <figure class="shot reveal" style="--d: 220ms">
+          <img src={`/screenshots/${screenshots.grid.file}`} alt={screenshots.grid.alt} loading="lazy" decoding="async" />
+          <figcaption class="label">{screenshots.grid.caption}</figcaption>
+        </figure>
+        <figure class="shot reveal" style="--d: 320ms">
+          <img src={`/screenshots/${screenshots.settings.file}`} alt={screenshots.settings.alt} loading="lazy" decoding="async" />
+          <figcaption class="label">{screenshots.settings.caption}</figcaption>
+        </figure>
+      </div>
     </div>
-
-    <p class="meta screenshots-cap">
-      {screenshots.main.caption}, {screenshots.grid.caption}, {screenshots.settings.caption}.
-    </p>
   </div>
 </section>
 
 <style>
-  .screenshots-label { margin-bottom: 12px; display: inline-flex; align-items: center; }
-  .screenshots-h2 { margin-bottom: 40px; }
+  .screenshots { background: var(--page); }
 
-  .spread {
+  .screenshots-h2 { margin-bottom: 10px; }
+  .screenshots-note { margin-bottom: 48px; }
+
+  .shot-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 22px;
+    align-items: start;
   }
-  @media (min-width: 768px) {
-    .spread {
-      grid-template-columns: 1.6fr 1fr;
-      grid-template-rows: 1fr 1fr;
-      gap: 20px;
-    }
-    .frame-big { grid-row: 1 / 3; }
-  }
-
-  .frame {
-    margin: 0;
-    border: 1px solid var(--frame);
-    border-radius: 4px;
-    overflow: hidden;
-    background: var(--paper);
-  }
-  .frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-  .screenshots-cap {
-    margin-top: 16px;
-    text-align: right;
-  }
-
   @media (max-width: 767px) {
-    .frame img { object-fit: contain; }
+    .shot-grid { grid-template-columns: 1fr; }
   }
+
+  .shot-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .shot { margin: 0; }
+  .shot img {
+    width: 100%;
+    border-radius: 14px;
+    border: 1px solid var(--frame);
+    box-shadow: var(--shadow-float-md);
+    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 300ms ease-out;
+  }
+  .shot img:hover {
+    transform: translateY(-4px) scale(1.006);
+    box-shadow: var(--shadow-float-lg);
+  }
+  .shot figcaption { margin-top: 10px; }
 </style>

@@ -1,7 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Intro from '../components/Intro.astro';
 import Navbar from '../components/Navbar.astro';
 import Hero from '../components/Hero.astro';
+import Agents from '../components/Agents.astro';
 import Features from '../components/Features.astro';
 import Screenshots from '../components/Screenshots.astro';
 import Download from '../components/Download.astro';
@@ -31,9 +33,11 @@ try {
 await new Promise((resolve) => setTimeout(resolve, 500));
 ---
 
-<Layout title="Agentrium - run coding agents in parallel">
+<Layout title="Agentrium - every agent, one window">
+  <Intro />
   <Navbar version={version} />
   <Hero version={version} />
+  <Agents />
   <Features />
   <Screenshots />
   <Download version={version} />

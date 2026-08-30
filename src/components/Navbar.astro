@@ -5,150 +5,149 @@ interface Props {
 const { version } = Astro.props;
 ---
 
-<nav class="nav">
-  <div class="nav-inner">
-    <a href="/" class="wordmark">
-      <img class="wordmark-mark" src="/icons/mark.png" alt="" width="26" height="18" decoding="async" />
-      <span>Agentrium</span>
+<header class="nav-wrap">
+  <nav class="nav glass-night" aria-label="Main">
+    <a class="nav-brand" href="/">
+      <img src="/icons/mark.png" alt="" width="22" height="22" class="nav-mark" decoding="async" />
+      <span class="nav-name">Agentrium</span>
+      {version && <span class="nav-version">v{version}</span>}
     </a>
 
-    <div class="nav-links" id="nav-links">
-      <a href="#features" class="underline-link nav-link">Features</a>
-      <a href="#download" class="underline-link nav-link">Download</a>
-      <a href="/changelog" class="underline-link nav-link">Changelog</a>
-      <a href="https://github.com/talayash/agentrium" target="_blank" rel="noopener noreferrer" class="underline-link nav-link">
-        GitHub <span aria-hidden="true">&nearr;</span>
-      </a>
-      {version && (
-        <span class="nav-version">
-          <span class="coral-dot" aria-hidden="true"></span>v{version}
-        </span>
-      )}
-    </div>
-
-    <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle navigation" aria-expanded="false">
-      <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+    <button class="nav-burger" id="nav-burger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span>
     </button>
-  </div>
-</nav>
+
+    <div class="nav-links" id="nav-links">
+      <a href="/#agents">Agents</a>
+      <a href="/#features">Features</a>
+      <a href="/#screenshots">Screenshots</a>
+      <a href="/changelog">Changelog</a>
+      <a href="https://github.com/talayash/agentrium" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="/#download" class="nav-cta">Download</a>
+    </div>
+  </nav>
+</header>
 
 <style>
-  .nav {
-    position: sticky;
-    top: 0;
-    z-index: 40;
-    background: var(--paper);
-    border-bottom: 1px solid var(--hairline);
+  .nav-wrap {
+    position: fixed;
+    top: 14px;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    padding: 0 16px;
+    pointer-events: none;
   }
-  .nav-inner {
-    max-width: 1080px;
-    margin: 0 auto;
-    padding: 0 20px;
-    height: 56px;
+
+  .nav {
+    pointer-events: auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
-  }
-  @media (min-width: 768px) {
-    .nav-inner { padding: 0 32px; }
+    gap: 20px;
+    width: 100%;
+    max-width: 880px;
+    padding: 9px 10px 9px 18px;
+    border-radius: 999px;
   }
 
-  .wordmark {
-    color: var(--ink);
-    font-size: 15px;
-    font-weight: 500;
-    letter-spacing: -0.1px;
+  .nav-brand {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 9px;
+    text-decoration: none;
+    color: var(--night-text);
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: -0.01em;
   }
-  /* The app mark, lifted from the icon artwork and inked to match the
-     wordmark. The full icon badge is kept for the favicon; at nav scale its
-     dark plate swallows the glyph, so the glyph alone carries the identity. */
-  .wordmark-mark {
-    width: 26px;
-    height: 18px;
-    display: block;
-    flex: none;
+  .nav-version {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--night-text-3);
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--night-seam-strong);
+    font-variant-numeric: tabular-nums;
   }
 
   .nav-links {
     display: flex;
     align-items: center;
-    gap: 22px;
+    gap: 4px;
   }
-  .nav-link {
-    color: var(--muted-body);
-    font-size: 13px;
-    font-weight: 400;
-  }
-  .nav-version {
-    color: var(--muted-label);
-    font-size: 12px;
+  .nav-links a {
+    color: var(--night-text-2);
+    text-decoration: none;
+    font-size: 13.5px;
     font-weight: 500;
-    display: inline-flex;
-    align-items: center;
+    padding: 7px 12px;
+    border-radius: 999px;
+    transition: color 160ms ease-out, background 160ms ease-out;
   }
+  .nav-links a:hover {
+    color: var(--night-text);
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .nav-links a.nav-cta {
+    color: #fff;
+    background: var(--accent);
+    font-weight: 600;
+    padding: 7px 16px;
+    margin-left: 4px;
+  }
+  .nav-links a.nav-cta:hover { background: #2492FF; }
 
-  .nav-hamburger {
+  .nav-burger {
     display: none;
+    flex-direction: column;
+    gap: 5px;
     background: transparent;
     border: none;
-    padding: 8px;
+    padding: 10px;
     cursor: pointer;
   }
-  .nav-hamburger span {
+  .nav-burger span {
     display: block;
     width: 18px;
-    height: 1.5px;
-    background: var(--ink);
-    margin: 4px 0;
-    transition: transform 150ms ease-out, opacity 150ms ease-out;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--night-text);
+    transition: transform 200ms ease-out, opacity 200ms ease-out;
   }
+  .nav-burger[aria-expanded="true"] span:first-child { transform: translateY(3.5px) rotate(45deg); }
+  .nav-burger[aria-expanded="true"] span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
 
   @media (max-width: 767px) {
-    .nav-hamburger { display: block; }
+    .nav { border-radius: 22px; flex-wrap: wrap; }
+    .nav-burger { display: flex; }
     .nav-links {
       display: none;
-      position: absolute;
-      top: 56px;
-      left: 0;
-      right: 0;
-      background: var(--paper);
-      border-bottom: 1px solid var(--hairline);
+      width: 100%;
       flex-direction: column;
-      align-items: flex-start;
-      gap: 0;
-      padding: 8px 20px 16px;
+      align-items: stretch;
+      padding: 8px 4px 10px;
     }
     .nav-links.open { display: flex; }
-    .nav-links .nav-link,
-    .nav-links .nav-version {
-      padding: 10px 0;
-      width: 100%;
-    }
+    .nav-links a { padding: 11px 14px; border-radius: 12px; font-size: 15px; }
+    .nav-links a.nav-cta { margin-left: 0; text-align: center; }
   }
 </style>
 
 <script>
-  const hamburger = document.getElementById('nav-hamburger');
+  const burger = document.getElementById('nav-burger');
   const links = document.getElementById('nav-links');
-
-  function setOpen(open: boolean) {
-    if (!links || !hamburger) return;
-    links.classList.toggle('open', open);
-    hamburger.setAttribute('aria-expanded', String(open));
-  }
-
-  hamburger?.addEventListener('click', () => {
-    const nowOpen = !(links?.classList.contains('open') ?? false);
-    setOpen(nowOpen);
+  burger?.addEventListener('click', () => {
+    const open = links?.classList.toggle('open');
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
   });
-
-  // Close the drawer when any link inside it is tapped, so the user isn't
-  // left staring at an open sheet after navigating to #features.
-  links?.querySelectorAll('a').forEach((a) => {
-    a.addEventListener('click', () => setOpen(false));
-  });
+  // Collapse the mobile menu after navigating to an anchor.
+  links?.querySelectorAll('a').forEach((a) =>
+    a.addEventListener('click', () => {
+      links.classList.remove('open');
+      burger?.setAttribute('aria-expanded', 'false');
+    })
+  );
 </script>
