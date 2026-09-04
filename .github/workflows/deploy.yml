@@ -37,5 +37,5 @@ jobs:
             curl -s -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}"
             echo "Vercel deployment triggered via deploy hook"
           else
-            echo "::warning::VERCEL_DEPLOY_HOOK secret not set — relying on Vercel GitHub integration"
+            echo "::warning::VERCEL_DEPLOY_HOOK secret not set - relying on Vercel GitHub integration"
           fi
